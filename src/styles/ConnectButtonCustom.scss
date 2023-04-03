@@ -1,0 +1,122 @@
+button {
+  cursor: pointer;
+  transition: all 0.2s linear;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+}
+button.connect-wallet {
+  padding: 10px 20px;
+  font-family: "HammersmithOne-Regular";
+  font-size: 1rem;
+  background: linear-gradient(-45deg, #9982ed 0%, #f879b6 100%);
+  color: #ffffff;
+  // color: black;
+  border: none;
+  font-weight: 500;
+  border-radius: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1000;
+  // &:hover {
+  //   background-color: #f14c2c;
+  //   border: 1px solid #f14c2c;
+  //   color: #ffffff;
+  // }
+}
+button.chain-button {
+  margin: auto 10px;
+  font-family: "HammersmithOne-Regular";
+  padding: 5px;
+  font-size: 0.865rem;
+  background: linear-gradient(-45deg, #9982ed 0%, #f879b6 100%);
+  color: white;
+  font-weight: 500;
+  // border: 1px solid #f14c2c;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  letter-spacing: 1.5px;
+}
+button.address-balance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0px;
+  padding: 2px;
+  padding-left: 5px;
+  font-size: 0.865rem;
+  // background-color: #0914d9;
+  background-color: #ffffff;
+  color: #0914d9;
+  // border: 1px solid #0914d9;
+  border: 1px solid #ffffff;
+  font-weight: 500;
+  border-radius: 10px;
+  // letter-spacing: 1.5px;
+
+  // &:hover {
+  //   background-color: #f14c2c;
+  //   border: 1px solid #f14c2c;
+  //   color: #ffffff;
+  // }
+}
+
+span.account-balance {
+  background: linear-gradient(-45deg, #9982ed 0%, #f879b6 100%);
+  // padding: 5px;
+  font-family: "HammersmithOne-Regular";
+  color: #ffffff;
+  margin-left: 5px;
+  border-radius: 10px;
+  padding: 4px 5px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+button.wrong-network {
+  display: flex;
+  font-family: "HammersmithOne-Regular";
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  // border: 1px solid #dbff73;
+  padding: 10px 20px;
+  background: linear-gradient(-45deg, #9982ed 0%, #f879b6 100%);
+  color: white;
+  font-weight: 500;
+  letter-spacing: 3px;
+}
+
+@media only screen and (max-width: 1200px) {
+  button.connect-wallet {
+    padding: 10px 10px;
+    font-size: 0.865rem;
+    letter-spacing: normal;
+  }
+  button.chain-button {
+    padding: 10px 10px;
+    font-size: 0.865rem;
+    letter-spacing: normal;
+  }
+  span.disable-mobile {
+    display: none;
+  }
+  span.account-balance {
+    background-color: #ffffff;
+    color: black;
+    font-size: 0.865rem;
+    padding: 0;
+    svg {
+      fill: black;
+    }
+  }
+  button.address-balance {
+    content: "";
+    padding: 1px;
+  }
+}

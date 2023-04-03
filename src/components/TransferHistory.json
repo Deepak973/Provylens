@@ -1,0 +1,14 @@
+{
+  "historydata": [
+    { "tid": "1", "pid": "1", "did": "1" },
+    { "tid": "2", "pid": "2", "did": "2" }
+  ],
+
+  "Product": "Product Details",
+  "Manufacturer": "Manufacturer details",
+  "quality": "quality",
+  "name": "XYZ",
+  "address": "0xeB05322B3C154121AA9114C570e393033074E1E2",
+  "price": "400rs",
+  "totalQuality": "500kg"
+}

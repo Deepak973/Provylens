@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "Carme-Regular";
+  src: url(../public/Carme-Regular.ttf);
+}
+.Carme-Regular {
+  font-family: "Carme-Regular";
+}
+@font-face {
+  font-family: "HammersmithOne-Regular";
+  src: url(../public/HammersmithOne-Regular.ttf);
+}
+.HammersmithOne-Regular {
+  font-family: "HammersmithOne-Regular";
+}

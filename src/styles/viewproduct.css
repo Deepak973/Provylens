@@ -1,0 +1,101 @@
+.viewproduct-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.css-1nslmh4-MuiTableCell-root.MuiTableCell-head {
+  background-color: #1a1156 !important;
+  font-family: "Carme-Regular";
+}
+.css-1wvnaxz-MuiTableCell-root.MuiTableCell-head {
+  background-color: #1a1156 !important;
+  font-family: "Carme-Regular";
+}
+.css-1bhpkcd-MuiTableCell-root.MuiTableCell-body {
+  font-family: "HammersmithOne-Regular" !important;
+}
+.css-132a6sb-MuiTableCell-root.MuiTableCell-body {
+  font-family: "HammersmithOne-Regular" !important;
+}
+.view-More {
+  text-align: center;
+  background: none !important;
+  font-size: 13px !important;
+  color: #ffffff;
+  box-shadow: none !important;
+  color: blue !important;
+}
+.view-more-btn {
+  text-align: center;
+  padding: 16px;
+}
+.product-des {
+  font-family: "HammersmithOne-Regular" !important;
+  font-size: 15px !important;
+  text-align: justify;
+}
+.first-row-product {
+  padding: 10px;
+}
+.availabel-proposal-main-div .shape1 {
+  position: absolute;
+  top: -25%;
+  left: 0;
+  z-index: -1;
+}
+
+.availabel-proposal-main-div .bubble3 {
+  top: 40%;
+  left: 11%;
+  position: absolute;
+}
+.availabel-proposal-main-div .bubble4 {
+  top: 15%;
+  right: 11%;
+  position: absolute;
+}
+.verify-hero-section {
+  padding: 40px;
+  width: 35%;
+  margin: 5% auto;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 8px, rgb(0 0 0 / 23%) 0px 0px 3px -2px,
+    rgb(0 0 0 / 17%) 0px 0px 25px;
+
+  background: #1a1156;
+  border-radius: 10px;
+  display: flex;
+}
+.verify-btn {
+  background: linear-gradient(to bottom, #9982ed 0%, #f879b6 100%);
+  color: #ffffff;
+  border: none;
+  width: 40%;
+  text-transform: uppercase;
+  border-radius: 10px;
+  padding: 15px 10px;
+  margin-top: 50px;
+  font-family: "HammersmithOne-Regular";
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 3px;
+}
+.css-sofy6n.MuiTableCell-head {
+  background-color: #271e5f !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.css-1bqy5f7.MuiTableCell-head {
+  background-color: #1a1156 !important;
+  color: white !important;
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.css-1bqy5f7 {
+  font-family: "Carme-Regular" !important;
+}
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  color: white !important;
+}

@@ -1,0 +1,192 @@
+.dashboard-main {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: row;
+
+  .left-db {
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border-right: 1px solid #f6f6f6;
+    padding-top: 50px;
+    margin: 20px 10px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    // background-color: rgb(21, 22, 25);
+    color: rgb(255, 255, 255);
+    transition: box-shadow 300ms cubic-bezier(0.55, 0, 0.1, 1) 0ms;
+    box-shadow: none;
+    border: 1px solid rgb(45, 45, 45);
+    background: #0e044d;
+    letter-spacing: 1px;
+
+    ul {
+      list-style-type: none;
+
+      li {
+        display: flex;
+        // border: 1px solid black;
+        align-items: center;
+        margin: 20px 0px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 10px;
+        color: white;
+
+        &:hover {
+          background-color: rgba(200, 200, 200, 0.1);
+          color: #ffffffa7;
+        }
+
+        svg {
+          margin-right: 10px;
+          fill: #ffffffa7;
+        }
+      }
+      li.active {
+        background: linear-gradient(-45deg, #9982ed 0%, #f879b6 100%);
+        color: #ffffff;
+        font-family: "HammersmithOne-Regular";
+        font-weight: 500;
+
+        svg {
+          fill: #ffffff;
+        }
+      }
+    }
+  }
+  .right-db {
+    width: 100%;
+    padding: 0px 24px;
+    margin: 20px 10px;
+    border-radius: 20px;
+    padding-top: 20px;
+    // background-color: rgb(21, 22, 25);
+    // color: rgb(255, 255, 255);
+    transition: box-shadow 300ms cubic-bezier(0.55, 0, 0.1, 1) 0ms;
+    box-shadow: none;
+    border: 1px solid rgb(45, 45, 45);
+
+    #right-db-inside {
+      width: 100%;
+      margin: 3% auto;
+
+      .templates-div {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        width: 100%;
+
+        padding: 20px 0px;
+
+        .card {
+          background-color: rgb(21, 22, 25);
+          color: rgb(255, 255, 255);
+          transition: box-shadow 300ms cubic-bezier(0.55, 0, 0.1, 1) 0ms;
+          box-shadow: none;
+          border: 1px solid rgb(45, 45, 45);
+          background-image: linear-gradient(
+            rgba(255, 255, 255, 0.03) 0%,
+            rgba(255, 255, 255, 0.03) 100%
+          );
+          border-radius: 20px;
+        }
+      }
+    }
+    .product-details-main {
+      width: 40%;
+      margin: 0 auto;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+        rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+      background: #1a1156;
+      border-radius: 20px;
+    }
+    .css-1az66r7 {
+      padding: 30px;
+    }
+    .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+      border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+    .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+    .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+      color: #ffffff !important;
+    }
+    .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .avilabletest-front-buttons {
+      padding: 10px;
+      width: 50%;
+    }
+  }
+  #product-btn {
+    padding: 10px 25px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: none;
+    color: black;
+    font-family: "HammersmithOne-Regular";
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: capitalize;
+  }
+  #product-btn.active {
+    background: linear-gradient(-45deg, #9982ed 0%, #f879b6 100%);
+    color: #ffffff;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  #chain-btn {
+    padding: 10px 25px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: black;
+    font-family: "HammersmithOne-Regular";
+    border: none;
+    text-transform: capitalize;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+  }
+  #chain-btn.active {
+    background: linear-gradient(-45deg, #9982ed 0%, #f879b6 100%);
+    color: #ffffff;
+    border-left: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    display: -webkit-inline-box !important;
+    width: 80% !important;
+  }
+  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+  }
+}
+
+#product-dec {
+  height: 3.4375em !important;
+}
+.product-btn {
+  background: linear-gradient(to bottom, #9982ed 0%, #f879b6 100%);
+  color: #ffffff;
+  width: 30%;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  padding: 10px 10px !important;
+  border-radius: 10px !important;
+  font-family: "HammersmithOne-Regular" !important;
+  letter-spacing: 3px !important;
+}
+.left-product {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}

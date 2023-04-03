@@ -1,0 +1,202 @@
+.availabel-proposal-main-div {
+  width: 100%;
+  width: 100%;
+  max-width: 1240px;
+  margin: 10% auto;
+}
+.availabel-proposal-section1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 20px 0px;
+}
+.availabel-proposal {
+  margin: 0 auto;
+}
+.A-proposal-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.A-proposal-title2 {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+.availabel-proposal-section2 {
+  display: flex;
+  padding: 10px 0px;
+  justify-content: flex-start;
+  align-items: center;
+}
+#select-label-status {
+  color: #fffffa77;
+  font-size: 1rem;
+  font-family: "HammersmithOne-Regular";
+}
+svg.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+  fill: #fffffa77;
+}
+/* div.select-parent {
+  color: #fffffa77;
+  border-radius: 5px;
+  border: 1.5px solid;
+
+  transition: box-shadow 300ms cubic-bezier(0.55, 0, 0.1, 1) 0ms;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+    rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+} */
+.availabel-proposal-section3 {
+  width: 100%;
+  display: grid;
+  margin-top: 20px;
+}
+.proposal-grid-title {
+  margin: 0;
+}
+#dropdown-formcontrol {
+  min-width: 120px;
+}
+/* .css-14lo706 > span {
+  padding-left: 30px !important;
+  width: 50% !important;
+  content: "" !important;
+} */
+
+.create-proposal-parent {
+  background-color: rgb(21, 22, 25);
+  color: rgb(255, 255, 255);
+  transition: box-shadow 300ms cubic-bezier(0.55, 0, 0.1, 1) 0ms;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+    rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+}
+
+button.create-proposal-btn {
+  background-color: #4c2ffd;
+  border: 1px solid #4c2ffd;
+  font-weight: 700;
+  color: #fefcfc;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: 100%;
+}
+button.create-proposal-btn-popup {
+  background-color: #f14c2c;
+  border: 1px solid #f14c2c;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fefcfc;
+  padding: 10px 30px;
+  border-radius: 10px;
+  width: 100%;
+}
+.proposal-details table {
+  border-radius: 10px;
+
+  border: none;
+  background-color: rgb(21, 22, 25);
+  color: rgb(255, 255, 255);
+  transition: box-shadow 300ms cubic-bezier(0.55, 0, 0.1, 1) 0ms;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+    rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+}
+.vote-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.proposal-details table thead {
+  /* background-color: #0914d9; */
+  border-radius: 10px;
+  padding: 0px 20px;
+
+  /* background-color: #4c2ffd; */
+  background-color: transparent;
+  color: #fefcfc;
+}
+
+.proposal-details table thead th {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 10px;
+  border-bottom: 1px solid #fefcfc;
+}
+.proposal-details table td {
+  padding: 10px 20px;
+}
+.delete-product-main-div {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+    rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+  background: #1a1156;
+  border-radius: 20px;
+  height: 25vh;
+  padding: 20px;
+}
+.delete-btn {
+  background: linear-gradient(to bottom, #9982ed 0%, #f879b6 100%);
+  color: #ffffff;
+  width: 30%;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  padding: 10px !important;
+  border-radius: 10px !important;
+  font-family: "HammersmithOne-Regular" !important;
+  letter-spacing: 3px !important;
+}
+
+.chain {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2rem;
+  background-color: #1a1156;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.chain-item {
+  width: 300px;
+  margin: 1rem;
+  background-color: #f5f5f5;
+  padding: 1rem;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+}
+
+.chain-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.chain-item p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  color: #666;
+}
+
+.css-p0rm37 {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.css-1v4ccyo:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+.css-1v4ccyo:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+.css-1ald77x {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.css-1ald77x.Mui.focused {
+  color: rgba(255, 255, 255, 0.5) !important;
+}

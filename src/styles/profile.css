@@ -1,0 +1,150 @@
+.profile-main-div {
+  width: 100%;
+  text-align: center;
+}
+.profile-hero-section {
+  padding: 40px;
+  width: 35%;
+
+  margin: 5% auto;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 8px, rgb(0 0 0 / 23%) 0px 0px 3px -2px,
+    rgb(0 0 0 / 17%) 0px 0px 25px;
+
+  background: #1a1156;
+  border-radius: 10px;
+}
+
+.profile-img {
+  width: 65px;
+  height: 50px;
+  border-radius: 34%;
+  object-fit: cover;
+  object-position: center;
+  padding: 10px;
+}
+.user-profile-div {
+  /* margin-right: 20px; */
+  background-color: #ffffff;
+  border-radius: 100px;
+  width: max-content;
+  margin: 0 auto;
+}
+.profile-form-main {
+  padding-bottom: 30px;
+}
+.div-btn-main {
+  background-color: #00566a;
+  color: white;
+  width: 27%;
+  padding: 7px;
+  /* font-size: 1.2rem; */
+  border-radius: 10px;
+
+  margin-top: 30px;
+}
+.div-profile-info {
+  color: #ffffff;
+  font-weight: 500;
+  font-family: "HammersmithOne-Regular";
+  margin-top: 20px;
+}
+.div-role-main {
+  font-size: 15px;
+  letter-spacing: 2px;
+  padding-bottom: 10px;
+  font-family: "HammersmithOne-Regular";
+}
+
+.edit-profile {
+  background-color: #00566a;
+  color: white;
+  width: 35%;
+  padding: 7px;
+  /* font-size: 1.2rem; */
+  border-radius: 10px;
+
+  margin-top: 30px;
+}
+.button-flex {
+  display: flex;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 20px;
+}
+.profile-main-div .shape1 {
+  position: absolute;
+  top: -25%;
+  left: 0;
+  z-index: -1;
+}
+
+.profile-main-div .bubble3 {
+  top: 40%;
+  left: 11%;
+  position: absolute;
+}
+.profile-main-div .bubble4 {
+  top: 15%;
+  right: 11%;
+  position: absolute;
+}
+.profile-btn {
+  background: linear-gradient(to bottom, #9982ed 0%, #f879b6 100%);
+  color: #ffffff;
+  border: none;
+  width: 100%;
+  text-transform: uppercase;
+  border-radius: 10px;
+  padding: 15px 10px;
+  margin-top: 20px;
+  font-family: "HammersmithOne-Regular";
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 3px;
+}
+/* ...........res.................. */
+@media screen and (max-width: 1024px) {
+  .profile-form-main {
+    width: 100%;
+  }
+  .profile-hero-section {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 15%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .profile-form-main {
+    width: 100%;
+  }
+  .profile-hero-section {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 15%;
+  }
+}
+@media only screen and (max-width: 497px) {
+  .edit-profile {
+    width: 40%;
+  }
+  .profile-hero-section {
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 15%;
+  }
+  .div-email-main {
+    font-size: 0.8rem;
+  }
+  .div-wallet-main {
+    font-size: 0.8rem;
+  }
+  .button-flex {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    /* margin-top: 20px; */
+    font-size: 0.8rem;
+  }
+}

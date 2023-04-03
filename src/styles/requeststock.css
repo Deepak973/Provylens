@@ -1,0 +1,175 @@
+.datadao-details-main-div {
+  width: 30%;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 1240px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 35vh;
+  justify-content: space-around;
+  margin: 10% auto;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+    rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+  background: #1a1156;
+  border-radius: 20px;
+}
+.datadao-details-div {
+  /* width: 50%; */
+  margin: 0 auto;
+}
+.padding-div {
+  padding: 10px;
+}
+.request-btn {
+  background: linear-gradient(to bottom, #9982ed 0%, #f879b6 100%);
+  color: #ffffff;
+  width: 40%;
+  padding: 10px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+
+  border-radius: 10px !important;
+  font-family: "HammersmithOne-Regular" !important;
+  letter-spacing: 3px !important;
+}
+
+.datadao-details-button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.datadao-details-button button {
+  margin: 0px 20px;
+  width: max-content;
+}
+.datadao-details-section1 {
+  border-bottom: 1px solid black;
+  padding: 20px;
+}
+.dataset-main-flex {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.datadao-rightbar-flex {
+  width: 40%;
+}
+.datadao-leftbar-flex {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.datadao-details-btn {
+  width: 100%;
+}
+.datadao-details-section2 {
+  /* border-bottom: 1px solid black; */
+  padding: 20px;
+}
+.button-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.datadao-width-btn {
+  width: 20%;
+}
+.width-peragraph {
+  width: 80%;
+}
+.datadao-details-btn-padding {
+  padding-bottom: 15px;
+}
+.dataset-main-flex {
+  margin-top: 30px;
+}
+.daodetails-proposal-name {
+  padding-left: 10px;
+}
+
+button.datadao-details-btn-close {
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: #4c2ffd;
+  color: #fefcfc;
+  font-weight: 700;
+  border: 1px solid #4c2ffd;
+}
+
+table.dao-details-table {
+  width: 60%;
+  margin: 20px 0px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid rgb(45, 45, 45);
+}
+
+table.dao-details-table thead {
+  background-color: transparent;
+  color: #fefcfc;
+  font-weight: 700;
+  border-radius: 10px;
+  border-bottom: 1px solid rgb(45, 45, 45);
+}
+
+table.dao-details-table thead th {
+  padding: 10px 20px;
+  border-right: 1px solid rgb(45, 45, 45);
+  border-bottom: 1px solid rgb(45, 45, 45);
+}
+table.dao-details-table tbody td {
+  padding: 10px;
+}
+table.dao-details-table tbody td:first-of-type {
+  border-right: 1px solid rgb(45, 45, 45);
+}
+
+table.dataset-main-table {
+  background-color: rgb(21, 22, 25);
+  color: rgb(255, 255, 255);
+  transition: box-shadow 300ms cubic-bezier(0.55, 0, 0.1, 1) 0ms;
+  box-shadow: none;
+  border: 1px solid rgb(45, 45, 45);
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+}
+
+table.dataset-main-table thead {
+  background-color: transparent;
+  border-bottom: 1px solid rgb(45, 45, 45);
+  font-size: 1.2rem;
+}
+
+table.dataset-main-table thead th {
+  padding: 10px;
+  color: #fefcfc;
+}
+table.dataset-main-table td {
+  padding: 10px;
+}
+button.datadao-details-extra-btn {
+  width: max-content;
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: #4c2ffd;
+  color: #fefcfc;
+  font-weight: 700;
+  border: 1px solid #4c2ffd;
+}
+
+div.Toastify__toast-icon svg {
+  fill: #4c2ffd;
+}
+
+div.Toastify__progress-bar--success {
+  background: #4c2ffd;
+}
+.dashboard-main .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  display: -webkit-inline-flex !important;
+}
