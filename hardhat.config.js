@@ -8,7 +8,7 @@ module.exports = {
     artifacts: "./src/artifacts",
   },
   networks: {
-    mumbai: {
+    bttc: {
       url: process.env.API_KEY_URL, //Your RPC URL
       accounts: [process.env.PRIVATE_KEY], //Your private key
     },

@@ -22,9 +22,33 @@ import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { Chat } from "@pushprotocol/uiweb";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 function App() {
   const [address, setAddress] = useState();
+
+  const BTTChain = {
+    id: 1029,
+    name: "BitTorrent Chain Donau",
+    network: "BitTorrent Chain Donau",
+    iconUrl: "https://testscan.bt.io/static/media/BTT.e13a6c4e.svg",
+    iconBackground: "#fff",
+    nativeCurrency: {
+      decimals: 18,
+      name: "BitTorrent Chain Donau",
+      symbol: "BTT",
+    },
+    rpcUrls: {
+      default: "https://pre-rpc.bittorrentchain.io/",
+    },
+    blockExplorers: {
+      default: {
+        name: "BitTorrent Chain Donau",
+        url: "https://testscan.bt.io",
+      },
+    },
+    testnet: true,
+  };
   async function getAddressFromMetaMask() {
     // Check if MetaMask is installed
     if (!window.ethereum) {
@@ -44,10 +68,13 @@ function App() {
     return address;
   }
   const { chains, provider } = configureChains(
-    [polygonMumbai],
+    [BTTChain, polygonMumbai],
     [
+      jsonRpcProvider({
+        rpc: (chain) => ({ http: "https://pre-rpc.bittorrentchain.io/" }),
+      }),
       alchemyProvider({ apiKey: "O5NYvtwLMNG0LjAXPQEk0YJT2l3UxTAY" }),
-      publicProvider(),
+      // publicProvider(),
     ]
   );
 
