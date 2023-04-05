@@ -71,6 +71,11 @@ function ViewProduct() {
     );
     console.log(allProductsData);
 
+    const allActiveProductsData =
+      await connectedContract.getAllActiveProductsOfSupplier(address);
+    console.log("all active data with their IDs");
+    console.log(allActiveProductsData);
+
     const filteredData = allProductsData.map((product) => {
       return {
         spId: product["_spid"],
