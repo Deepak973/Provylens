@@ -42,7 +42,7 @@ function ConnectButtonCustom() {
                     type="button"
                     className="connect-wallet"
                   >
-                    Connect Wallet
+                    Connect
                   </button>
                 );
               }

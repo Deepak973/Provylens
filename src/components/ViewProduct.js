@@ -9,6 +9,10 @@ import "../styles/viewproduct.css";
 import { createClient } from "urql";
 import hexToString from "./HexToStringConverter";
 import { useAccount, useSigner } from "wagmi";
+import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
+import supplierProduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { getContract } from "@wagmi/core";
+import { getProvider } from "@wagmi/core";
 
 // ................
 import Button from "@mui/material/Button";
@@ -18,6 +22,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { ethers } from "ethers";
 
 // ..............
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -40,23 +45,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(id, name, unit, price) {
-  return { id, name, unit, price };
-}
-
-const rows = [
-  createData("1", "Apollo", 500, 1000),
-  createData("1", "Apollo", 500, 1000),
-];
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
 function ViewProduct() {
   const { address, isConnected } = useAccount();
   const [productData, setProductData] = useState();
@@ -68,8 +56,36 @@ function ViewProduct() {
     setModal(!modal);
   };
 
+  //---------------------------contract instance
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const connectedContract = getContract({
+    address: SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
+    abi: supplierProduct.abi,
+    signerOrProvider: signer,
+  });
+
   const getData = async () => {
-    const data_ = `query MyQuery {
+    const allProductsData = await connectedContract.getAllProductsOfSupplier(
+      address
+    );
+    console.log(allProductsData);
+
+    const filteredData = allProductsData.map((product) => {
+      return {
+        spId: product["_spid"],
+        name: hexToString(product["sp_name"]),
+        unit: parseInt(product["sp_unit"]),
+        price: parseInt(product["sp_price"]),
+        date: new Date(product["sp_date"]).toDateString(),
+        expiryDate: new Date(product["sp_expiryDate"]).toDateString(),
+        description: hexToString(product["sp_description"]),
+      };
+    });
+    console.log(filteredData);
+    setProductData(filteredData);
+
+    /* const data_ = `query MyQuery {
       eventAddSupplierProducts(
         where: {_address: "${address.toLowerCase()}"}
       ) {
@@ -109,7 +125,7 @@ function ViewProduct() {
     );
 
     setProductData(filteredData);
-    console.log(filteredData);
+    console.log(filteredData); */
   };
 
   useEffect(() => {

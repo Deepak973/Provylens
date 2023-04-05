@@ -16,7 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import feature1 from "../assets/feature-1.png";
 import bubble4 from "../assets/fixed4.png";
-import { USERDETAILS_CONTRACT_ADDRESS_MUMBAI } from "../config";
+import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
 import userdetails from "../artifacts/contracts/userDetails.sol/userDetails.json";
 import { useAccount } from "wagmi";
 
@@ -85,7 +85,7 @@ function Register() {
       const signer = provider.getSigner();
 
       const registerUser = new ethers.Contract(
-        USERDETAILS_CONTRACT_ADDRESS_MUMBAI,
+        USERDETAILS_CONTRACT_ADDRESS_BTTC,
         userdetails.abi,
         signer
       );
@@ -142,7 +142,8 @@ function Register() {
             <Select
               labelId="demo-select-small"
               id="demo-select-small"
-              // value={age}
+              // defaultValue={""}
+              value={userData.userType}
               label="Status"
               // onChange={handleChange}
               onChange={(e) => {
@@ -253,14 +254,14 @@ function Register() {
           />
         </div>
         <span className="shape1 header-shape">
-          <img src={feature1} className="register-bgimg"></img>
+          <img src={feature1} className="register-bgimg" alt=""></img>
         </span>
 
         <span className="bubble3 header-shape">
-          <img src={bubble4}></img>
+          <img src={bubble4} alt=""></img>
         </span>
         <span className="bubble4 header-shape">
-          <img src={bubble4}></img>
+          <img src={bubble4} alt=""></img>
         </span>
       </div>
     </>

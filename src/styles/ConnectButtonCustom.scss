@@ -20,11 +20,12 @@ button.connect-wallet {
   text-transform: uppercase;
   position: relative;
   z-index: 1000;
-  // &:hover {
-  //   background-color: #f14c2c;
-  //   border: 1px solid #f14c2c;
-  //   color: #ffffff;
-  // }
+  &:hover {
+    // background-color: #f14c2c;
+    // border: 1px solid #f14c2c;
+    // color: #ffffff;
+    color: black;
+  }
 }
 button.chain-button {
   margin: auto 10px;
@@ -34,8 +35,9 @@ button.chain-button {
   background: linear-gradient(-45deg, #9982ed 0%, #f879b6 100%);
   color: white;
   font-weight: 500;
-  // border: 1px solid #f14c2c;
-  border: 1px solid #ffffff;
+  border: 0px;
+  // border: 1px solid #0914d9;
+  // border: 1px solid #000000;
   border-radius: 10px;
   letter-spacing: 1.5px;
 }
@@ -50,8 +52,8 @@ button.address-balance {
   // background-color: #0914d9;
   background-color: #ffffff;
   color: #0914d9;
-  // border: 1px solid #0914d9;
-  border: 1px solid #ffffff;
+  border: 0px;
+  // border: 1px solid #ffffff;
   font-weight: 500;
   border-radius: 10px;
   // letter-spacing: 1.5px;

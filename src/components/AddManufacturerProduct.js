@@ -6,10 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 import Button from "@mui/material/Button";
 import { ethers } from "ethers";
 import "../styles/addproduct.css";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
-import addproduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
+import addproduct from "../artifacts/contracts/manufacturerProduct.sol/manufacturerProduct.json";
 
-function AddProduct() {
+function AddManufacturerProduct() {
   const [productDetails, setProductDetails] = useState({
     productName: "",
     productDescription: "",
@@ -51,19 +51,20 @@ function AddProduct() {
       progress: undefined,
       theme: "light",
     });
+
   const handleSubmit = async () => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
       const registerUser = new ethers.Contract(
-        SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
+        MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC,
         addproduct.abi,
         signer
       );
 
       const encoder = new TextEncoder();
-      const tx = await registerUser.addSupplierProduct(
+      const tx = await registerUser.addManufacturerProduct(
         encoder.encode(productDetails.productName),
         encoder.encode(productDetails.productDescription),
         productDetails.productUnit,
@@ -159,4 +160,4 @@ function AddProduct() {
   );
 }
 
-export default AddProduct;
+export default AddManufacturerProduct;

@@ -22,7 +22,7 @@ contract userDetails is IUserDetails{
         // eventDeleteUser
         
     /// @notice function to add the user
-    function addUser(userType _type, bytes calldata _name, bytes calldata _physicalAddress,bytes memory _image)public{
+    function addUser(userType _type, bytes calldata _name, bytes calldata _physicalAddress,bytes memory _image)public override {
         require((userDetailsMapping[msg.sender].userName).length == 0, "User already registered");
         userDetailsMapping[msg.sender] = userDetails(_type,_name,_physicalAddress,_image, true);
         users.push(msg.sender);
@@ -33,20 +33,20 @@ contract userDetails is IUserDetails{
     }
 
     /// @notice Function to delete the user
-    function deleteUser()public{
+    function deleteUser()public override {
         userDetailsMapping[msg.sender].userStatus = false;
         emit eventDeleteUser(msg.sender);
     }
 
     /// @notice function to edit the name of the user
-    function editName(bytes memory _name)public{
+    function editName(bytes memory _name)public override {
         userDetailsMapping[msg.sender].userName = _name;
         userDetails memory u = userDetailsMapping[msg.sender];
         emit eventUserData(msg.sender,u.userType,_name,u.userPhysicalAddress,u.userImage,block.timestamp);
     }
 
     /// @notice function to edit the physical address of the user
-    function editPhysicalAddress(bytes memory _physicalAddress)public{
+    function editPhysicalAddress(bytes memory _physicalAddress)public override{
         userDetailsMapping[msg.sender].userPhysicalAddress = _physicalAddress;
         userDetails memory u = userDetailsMapping[msg.sender];
         emit eventUserData(msg.sender,u.userType,u.userName,_physicalAddress,u.userImage,block.timestamp);
@@ -54,7 +54,7 @@ contract userDetails is IUserDetails{
     }
 
     /// @notice function to edit the Image of the user
-    function editImage(bytes memory _image)public{
+    function editImage(bytes memory _image)public override {
         userDetailsMapping[msg.sender].userImage = _image;
         userDetails memory u = userDetailsMapping[msg.sender];
         emit eventUserData(msg.sender,u.userType,u.userName,u.userImage,_image,block.timestamp);

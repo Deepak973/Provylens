@@ -1,5 +1,5 @@
 import userdetails from "../artifacts/contracts/userDetails.sol/userDetails.json";
-import { USERDETAILS_CONTRACT_ADDRESS_MUMBAI } from "../config";
+import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
 import { ethers } from "ethers";
 
 export const checkRegistration = async (add) => {
@@ -8,7 +8,7 @@ export const checkRegistration = async (add) => {
     const signer = provider.getSigner();
 
     const registerUser = new ethers.Contract(
-      USERDETAILS_CONTRACT_ADDRESS_MUMBAI,
+      USERDETAILS_CONTRACT_ADDRESS_BTTC,
       userdetails.abi,
       signer
     );

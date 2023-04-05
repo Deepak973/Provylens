@@ -5,13 +5,45 @@ import bubble4 from "../assets/fixed4.png";
 import { createClient } from "urql";
 import { useAccount, useSigner } from "wagmi";
 import hexToString from "./HexToStringConverter";
+//wagmi
+import { getContract } from "@wagmi/core";
+import { getProvider } from "@wagmi/core";
+
+import userDetails from "../artifacts/contracts/userDetails.sol/userDetails.json";
+import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
+
+import ConnectButtonCustom from "./ConnectButtonCustom";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const navigate = useNavigate();
+  const provider = getProvider();
   const { address, isConnected } = useAccount();
   const [profileData, setProfileData] = useState();
 
+  //---------------------------contract instance
+  const connectedContract = getContract({
+    address: USERDETAILS_CONTRACT_ADDRESS_BTTC,
+    abi: userDetails.abi,
+    signerOrProvider: provider,
+  });
+
   const getData = async () => {
-    const data_ = `query MyQuery {
+    const user = await connectedContract.getSingleUser(address);
+    console.log(user);
+    /* console.log(user.userImage);
+    console.log(user.userName);
+    console.log(user.userPhysicalAddress);
+    console.log(user.userStatus);
+    console.log(user.userType); */
+
+    setProfileData({
+      name: hexToString(user.userName),
+      type: user.userType,
+      phy_add: hexToString(user.userPhysicalAddress),
+      image: hexToString(user.userImage),
+    });
+    /* const data_ = `query MyQuery {
       eventUserDatas(where: {_address: "${address.toLowerCase()}"}) {
         _image
         _name
@@ -45,7 +77,7 @@ function Profile() {
       id: hexToString(result1.data.eventUserDatas[0]["id"]),
     });
 
-    console.log(result1.data.eventUserDatas[0]);
+    console.log(result1.data.eventUserDatas[0]); */
   };
 
   useEffect(() => {
@@ -56,43 +88,79 @@ function Profile() {
     <div className="profile-main-div">
       <div className="profile-hero-section">
         <div className="profile-form-main">
-          {profileData ? (
-            <>
-              <div className="user-profile-div">
-                <img src={profileData.image} alt="" className="profile-img" />
-              </div>
+          {isConnected ? (
+            profileData ? (
+              <>
+                {profileData.name !== "" ? (
+                  <>
+                    <div className="user-profile-div">
+                      <img
+                        src={profileData.image}
+                        alt=""
+                        className="profile-img"
+                      />
+                    </div>
 
-              <div className="div-profile-info">
-                <>
-                  <div className="div-role-main">
-                    <h3>Role : {profileData.type}</h3>
-                  </div>
-                  <div className="div-role-main">
-                    <h3>Name : {profileData.name}</h3>
-                  </div>
-                  <div className="div-role-main">
-                    <h3>address : {profileData.phy_add}</h3>
-                  </div>
-                </>
+                    <div className="div-profile-info">
+                      <>
+                        <div className="div-role-main">
+                          <h3>Role : {profileData.type}</h3>
+                        </div>
+                        <div className="div-role-main">
+                          <h3>Name : {profileData.name}</h3>
+                        </div>
+                        <div className="div-role-main">
+                          <h3>address : {profileData.phy_add}</h3>
+                        </div>
+                      </>
 
-                <div className="button-flex">
-                  <div>
-                    <button className="profile-btn">EDIT PICTURE</button>
-                    <input
-                      className="input-edit-profile"
-                      type="file"
-                      hidden
-                      // defaultValue={nameOfUser}
-                    />
-                  </div>
-                  <div>
-                    <button className="profile-btn">Save</button>
-                  </div>
+                      <div className="button-flex">
+                        <div>
+                          <button className="profile-btn">EDIT PICTURE</button>
+                          <input
+                            className="input-edit-profile"
+                            type="file"
+                            hidden
+                            // defaultValue={nameOfUser}
+                          />
+                        </div>
+                        <div>
+                          <button className="profile-btn">Save</button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="div-profile-info">
+                      User not registered
+                      <button
+                        className="profile-btn"
+                        onClick={() => navigate("/register")}
+                      >
+                        sign up
+                      </button>
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
                 </div>
+              </>
+            )
+          ) : (
+            <>
+              <div className="div-role-main">
+                <h3>Connect Wallet first</h3>
+                <ConnectButtonCustom />
               </div>
             </>
-          ) : (
-            ""
           )}
         </div>
       </div>

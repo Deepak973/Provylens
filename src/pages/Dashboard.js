@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/register.scss";
 import { Button, CardActions } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -21,10 +21,15 @@ import HistoryDetails from "../components/HistoryDetails";
 import { useAccount } from "wagmi";
 import AddProduct from "../components/AddProduct";
 // ...........
+import hexToString from "../components/HexToStringConverter";
+import userDetails from "../artifacts/contracts/userDetails.sol/userDetails.json";
+import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
+import { getContract } from "@wagmi/core";
+import { getProvider } from "@wagmi/core";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const { isConnected } = useAccount();
+  const dataFetchedRef = useRef(false);
   const [addProduct, setAddProduct] = useState(true);
   const [viewProduct, setViewProduct] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(false);
@@ -34,6 +39,34 @@ function Dashboard() {
   const [product, setProduct] = useState(true);
   const [chain, setChain] = useState();
   const [transferHistoryDetails, setTransferHistoryDetails] = useState(false);
+  const provider = getProvider();
+  const { address, isConnected } = useAccount();
+
+  const [profileData, setProfileData] = useState();
+  const connectedContract = getContract({
+    address: USERDETAILS_CONTRACT_ADDRESS_BTTC,
+    abi: userDetails.abi,
+    signerOrProvider: provider,
+  });
+
+  const getData = async () => {
+    const user = await connectedContract.getSingleUser(address);
+    console.log(user);
+
+    if (user.userType === 0) {
+      setProfileData("Supplier");
+    } else if (user.userType === 1) {
+      setProfileData("Manufacturer");
+    } else if (user.userType === 2) {
+      setProfileData("Distributor");
+    }
+  };
+
+  useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    getData();
+  }, []);
 
   const dashboardLinks = (a) => {
     if (a === "AddProduct") {
@@ -99,6 +132,7 @@ function Dashboard() {
     <>
       <div className="dashboard-main">
         <div className="left-db">
+          <div className="heading-main">{profileData} Dashboard</div>
           <ul>
             {product === true ? (
               <>
