@@ -76,11 +76,8 @@ function LandingPage() {
             </div>
             <div className="hero-img-overlay"></div>
             <div>
-              <h1>Welcome to the ProvyLens</h1>
-              <p>
-                Transparency at every step: ProvyLens - your lens into the
-                supply chain
-              </p>
+              <h1>Transparency at every step</h1>
+              <p>ProvyLens - your lens into the supply chain</p>
               <div className="hero-btns">
                 <button className="create-dao-btn" onClick={() => checkReg()}>
                   Get Started

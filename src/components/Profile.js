@@ -15,6 +15,8 @@ import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
 import ConnectButtonCustom from "./ConnectButtonCustom";
 import { useNavigate } from "react-router-dom";
 
+import { checkRegistration } from "./CheckRegistration";
+
 function Profile() {
   const navigate = useNavigate();
   const provider = getProvider();
@@ -29,17 +31,28 @@ function Profile() {
   });
 
   const getData = async () => {
-    const user = await connectedContract.getSingleUser(address);
-    console.log(user);
+    // const user = await connectedContract.getSingleUser(address);
+    // console.log(user);
+
+    const user = await checkRegistration(address);
+
     /* console.log(user.userImage);
     console.log(user.userName);
     console.log(user.userPhysicalAddress);
     console.log(user.userStatus);
     console.log(user.userType); */
 
+    var role = "";
+    if (user.userType === 0) {
+      role = "Supplier";
+    } else if (user.userType === 1) {
+      role = "Manufacturer";
+    } else if (user.userType === 2) {
+      role = "Distributor";
+    }
     setProfileData({
       name: hexToString(user.userName),
-      type: user.userType,
+      type: role,
       phy_add: hexToString(user.userPhysicalAddress),
       image: hexToString(user.userImage),
     });
@@ -80,6 +93,8 @@ function Profile() {
     console.log(result1.data.eventUserDatas[0]); */
   };
 
+  console.log(profileData);
+
   useEffect(() => {
     getData();
   }, []);
@@ -91,7 +106,7 @@ function Profile() {
           {isConnected ? (
             profileData ? (
               <>
-                {profileData.name !== "" ? (
+                {profileData.name !== "0x" ? (
                   <>
                     <div className="user-profile-div">
                       <img
