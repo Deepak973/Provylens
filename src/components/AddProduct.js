@@ -10,6 +10,7 @@ import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
 import addproduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 
 function AddProduct() {
+  const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState({
     productName: "",
     productDescription: "",
@@ -56,6 +57,7 @@ function AddProduct() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
+      setLoading(true);
       const registerUser = new ethers.Contract(
         SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
         addproduct.abi,
@@ -71,9 +73,13 @@ function AddProduct() {
         Math.trunc(new Date().getTime() / 1000),
         Math.trunc(new Date(productDetails.endDate).getTime() / 1000)
       );
-      await tx.wait();
+      const receipt = await tx.wait();
+      if (receipt) {
+        setLoading(false);
+      }
       toastInfo();
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
     // TODO: Handle form submission
@@ -140,7 +146,7 @@ function AddProduct() {
             className="product-btn"
             onClick={handleSubmit}
           >
-            Add
+            {loading ? <div>loading..</div> : <div>Add</div>}
           </Button>
           <ToastContainer
             position="bottom-right"
