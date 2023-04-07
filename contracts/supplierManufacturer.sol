@@ -8,6 +8,7 @@ pragma solidity >=0.8.0 <=0.8.19;
 
 contract supplierManufacturer is ISupplierManufacturer{
     uint public smId = 1;
+    uint public reqId =1;
 
     // struct
         //   uint sp_id;
@@ -22,6 +23,10 @@ contract supplierManufacturer is ISupplierManufacturer{
 
     /// @notice mapping smId index with supplierManufacturer
     mapping(uint => supplierManufacturer) public smIdToStructMapping;
+    mapping(uint => requestDetails) public reqIdToDetailsMapping;
+    mapping(address => uint[]) public supplierToRequestMapping;
+    mapping(address => uint[]) public manufacturerToRequestMapping;
+
 
     /// @notice mapping address with all the created smIds
     mapping(address => uint[]) public manufacturerTosmIdMapping;
@@ -40,10 +45,48 @@ contract supplierManufacturer is ISupplierManufacturer{
         emit eventArrivalTime(uint32(block.timestamp));
     } 
 
-    /// @notice function to get all transfer information
+    /// @notice function to get single product transfer information
     function getProduct(uint _smId) public view returns(supplierManufacturer memory){
         return smIdToStructMapping[_smId];
     }
+
+
+    /// @notice function to request product from supplier
+
+    function requestproduct(uint _spId,address _supplierAddress,uint _quantity) public
+    {
+        reqIdToDetailsMapping[reqId] =requestDetails(_spId,_supplierAddress,msg.sender,_quantity);
+        supplierToRequestMapping[_supplierAddress].push(reqId);
+        manufacturerToRequestMapping[msg.sender].push(reqId);
+        reqId++;
+    }
+
+
+    /// @notice funtion to get all request from a manufacturer
+
+    function getSupplierRequests(address _supplierAddress) public view returns(requestDetails[] memory)
+    {
+        requestDetails[] memory allRequestDetails = new requestDetails[](reqId);
+        uint[] memory reqIds = supplierToRequestMapping[_supplierAddress];
+        for(uint i=0;i<reqIds.length;i++)
+        {
+            allRequestDetails[i] = reqIdToDetailsMapping[reqIds[i]];
+        }
+        return allRequestDetails;
+    }
+
+    function getManufacturerRequests(address _manufacturerAddress) public view returns(requestDetails[] memory)
+    {
+        requestDetails[] memory allRequestDetails = new requestDetails[](reqId);
+        uint[] memory reqIds = manufacturerToRequestMapping[_manufacturerAddress];
+        for(uint i=0;i<reqIds.length;i++)
+        {
+            allRequestDetails[i] = reqIdToDetailsMapping[reqIds[i]];
+        }
+        return allRequestDetails;
+    }
+
+    
 
     /// @notice function to get all trasnfers manufacturer has received
     function getAllSmIdForManufacturer(address _manufacturerAddress) public view returns(supplierManufacturer[] memory){

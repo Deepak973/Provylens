@@ -4,10 +4,10 @@ async function main() {
   // const userDetailsFactory = await hre.ethers.getContractFactory("userDetails");
   // const userDetails = await userDetailsFactory.deploy();
 
-  const supplierProductFactory = await hre.ethers.getContractFactory(
-    "supplierProduct"
-  );
-  const supplierProduct = await supplierProductFactory.deploy();
+  // const supplierProductFactory = await hre.ethers.getContractFactory(
+  //   "supplierProduct"
+  // );
+  // const supplierProduct = await supplierProductFactory.deploy();
 
   // const manufacturerProductFactory = await hre.ethers.getContractFactory(
   //   "manufacturerProduct"
@@ -19,10 +19,10 @@ async function main() {
   // );
   // const distributorProduct = await distributorProductFactory.deploy();
 
-  // const supplierManufacturerFactory = await hre.ethers.getContractFactory(
-  //   "supplierManufacturer"
-  // );
-  // const supplierManufacturer = await supplierManufacturerFactory.deploy();
+  const supplierManufacturerFactory = await hre.ethers.getContractFactory(
+    "supplierManufacturer"
+  );
+  const supplierManufacturer = await supplierManufacturerFactory.deploy();
 
   // const manufacturerDistributorFactory = await hre.ethers.getContractFactory(
   //   "manufacturerDistributor"
@@ -30,14 +30,14 @@ async function main() {
   // const manufacturerDistributor = await manufacturerDistributorFactory.deploy();
 
   // await userDetails.deployed();
-  await supplierProduct.deployed();
+  // await supplierProduct.deployed();
   // await manufacturerProduct.deployed();
   // await distributorProduct.deployed();
-  // await supplierManufacturer.deployed();
+  await supplierManufacturer.deployed();
   // await manufacturerDistributor.deployed();
 
   // console.log("Contract userDetails deployed to:", userDetails.address);
-  console.log("Contract supplierProduct deployed to:", supplierProduct.address);
+  // console.log("Contract supplierProduct deployed to:", supplierProduct.address);
   // console.log(
   //   "Contract manufacturerProduct deployed to:",
   //   manufacturerProduct.address
@@ -46,10 +46,10 @@ async function main() {
   //   "Contract distributorProduct deployed to:",
   //   distributorProduct.address
   // );
-  // console.log(
-  //   "Contract supplierManufacturer deployed to:",
-  //   supplierManufacturer.address
-  // );
+  console.log(
+    "Contract supplierManufacturer deployed to:",
+    supplierManufacturer.address
+  );
   // console.log(
   //   "Contract manufacturerDistributor deployed to:",
   //   manufacturerDistributor.address
