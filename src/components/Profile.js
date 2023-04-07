@@ -4,7 +4,7 @@ import feature1 from "../assets/feature-1.png";
 import bubble4 from "../assets/fixed4.png";
 import { createClient } from "urql";
 import { useAccount, useSigner } from "wagmi";
-import hexToString from "./HexToStringConverter";
+import hexToString from "../helper/HexToStringConverter";
 //wagmi
 import { getContract } from "@wagmi/core";
 import { getProvider } from "@wagmi/core";
@@ -15,7 +15,7 @@ import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
 import ConnectButtonCustom from "./ConnectButtonCustom";
 import { useNavigate } from "react-router-dom";
 
-import { checkRegistration } from "./CheckRegistration";
+import { checkRegistration } from "../helper/CheckRegistration";
 
 function Profile() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../styles/deleteproduct.css";
+import "../../styles/deleteproduct.css";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,10 +10,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 import { getContract } from "@wagmi/core";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
-import supplierProduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
-import hexToString from "./HexToStringConverter";
-import { getSpDetails } from "../helper/GetSpDetails";
+import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
+import supplierProduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import hexToString from "../../helper/HexToStringConverter";
+import { getSpDetails } from "../../helper/GetSpDetails";
 
 function DeleteProduct() {
   const { address, isConnected } = useAccount();

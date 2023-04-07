@@ -20,7 +20,7 @@ import Particles from "../components/Particles";
 import Loader from "../components/Loader";
 import { Chat } from "@pushprotocol/uiweb";
 
-import { checkRegistration } from "../components/CheckRegistration";
+import { checkRegistration } from "../helper/CheckRegistration";
 
 function LandingPage() {
   const { address, isConnected } = useAccount();
@@ -43,14 +43,14 @@ function LandingPage() {
           if (ans[1] === "0x") {
             navigate("register");
           } else {
-            navigate("/open-existing-dashboard");
+            navigate("/supplier-dashboard");
           }
         }
         if (ans[0] === 1) {
-          navigate("/open-existing-dashboard");
+          navigate("/manufacturer-dashboard");
         }
         if (ans[0] === 2) {
-          navigate("/open-existing-dashboard");
+          navigate("/distributor-dashboard");
         }
       }
     } else {

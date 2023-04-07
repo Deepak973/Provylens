@@ -1,19 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../styles/deleteproduct.css";
-import productData from "./ViewProduct.json";
+import "../../styles/deleteproduct.css";
+// import productData from "././ViewProduct.json";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import "../styles/viewproduct.css";
+import "../../styles/viewproduct.css";
 import { createClient } from "urql";
-import hexToString from "./HexToStringConverter";
+import hexToString from "../../helper/HexToStringConverter";
 import { useAccount, useSigner } from "wagmi";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
-import supplierProduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
+import supplierProduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 import { getContract } from "@wagmi/core";
 import { getProvider } from "@wagmi/core";
-import { getSpDetails } from "../helper/GetSpDetails";
+import { getSpDetails } from "../../helper/GetSpDetails";
 
 // ................
 import Button from "@mui/material/Button";

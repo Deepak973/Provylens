@@ -5,11 +5,12 @@ import TextField from "@mui/material/TextField";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "@mui/material/Button";
 import { ethers } from "ethers";
-import "../styles/addproduct.css";
-import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
-import addproduct from "../artifacts/contracts/manufacturerProduct.sol/manufacturerProduct.json";
+import "../../styles/addproduct.css";
+import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
+import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 
-function AddManufacturerProduct() {
+function AddProduct() {
+  const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState({
     productName: "",
     productDescription: "",
@@ -51,20 +52,20 @@ function AddManufacturerProduct() {
       progress: undefined,
       theme: "light",
     });
-
   const handleSubmit = async () => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
+      setLoading(true);
       const registerUser = new ethers.Contract(
-        MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC,
+        SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
         addproduct.abi,
         signer
       );
 
       const encoder = new TextEncoder();
-      const tx = await registerUser.addManufacturerProduct(
+      const tx = await registerUser.addSupplierProduct(
         encoder.encode(productDetails.productName),
         encoder.encode(productDetails.productDescription),
         productDetails.productUnit,
@@ -72,9 +73,13 @@ function AddManufacturerProduct() {
         Math.trunc(new Date().getTime() / 1000),
         Math.trunc(new Date(productDetails.endDate).getTime() / 1000)
       );
-      await tx.wait();
+      const receipt = await tx.wait();
+      if (receipt) {
+        setLoading(false);
+      }
       toastInfo();
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
     // TODO: Handle form submission
@@ -141,7 +146,18 @@ function AddManufacturerProduct() {
             className="product-btn"
             onClick={handleSubmit}
           >
-            Add
+            {loading ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <div>Add</div>
+            )}
           </Button>
           <ToastContainer
             position="bottom-right"
@@ -160,4 +176,4 @@ function AddManufacturerProduct() {
   );
 }
 
-export default AddManufacturerProduct;
+export default AddProduct;

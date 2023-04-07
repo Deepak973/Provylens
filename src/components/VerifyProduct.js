@@ -13,7 +13,7 @@ import { createClient } from "urql";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import hexToString from "./HexToStringConverter";
+import hexToString from "../helper/HexToStringConverter";
 
 function VerifyProduct() {
   const [age, setAge] = useState("");

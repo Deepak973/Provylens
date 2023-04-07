@@ -5,9 +5,9 @@ import TextField from "@mui/material/TextField";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "@mui/material/Button";
 import { ethers } from "ethers";
-import "../styles/addproduct.css";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
-import addproduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import "../../styles/addproduct.css";
+import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
+import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 
 function AddProduct() {
   const [loading, setLoading] = useState(false);

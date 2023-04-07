@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/transfer.css";
+import "../../styles/transfer.css";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
@@ -9,14 +9,14 @@ import MenuItem from "@mui/material/MenuItem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createClient } from "urql";
-import hexToString from "./HexToStringConverter";
+import hexToString from "../../helper/HexToStringConverter";
 import { useAccount, useSigner } from "wagmi";
 import { TextField } from "@mui/material";
 import { ethers } from "ethers";
-import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../config";
-import supplierManufacturer from "../artifacts/contracts/supplierManufacturer.sol/supplierManufacturer.json";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../config";
-import addproduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../../config";
+import supplierManufacturer from "../../artifacts/contracts/supplierManufacturer.sol/supplierManufacturer.json";
+import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../../config";
+import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 
 function Transfer() {
   const [allDataDaos, setDataDaos] = useState([]);

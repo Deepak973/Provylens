@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "../styles/transfer.css";
+import "../../styles/transfer.css";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import "../styles/Modal.css";
-import history from "./TransferHistory.json";
+import "../../styles/Modal.css";
+import history from "../TransferHistory.json";
 import { createClient } from "urql";
 import { useAccount, useSigner } from "wagmi";
 

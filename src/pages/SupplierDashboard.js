@@ -3,12 +3,12 @@ import "../styles/register.scss";
 import { Button, CardActions } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../styles/Dashboard.scss";
-import Transfer from "../components/Transfer";
-import DeleteProduct from "../components/DeleteProduct";
-import TransferHistory from "../components/TransferHistory";
-import RequestStock from "../components/RequestStock";
+import Transfer from "../components/Supplier/Transfer";
+import DeleteProduct from "../components/Supplier/DeleteProduct";
+import TransferHistory from "../components/Supplier/TransferHistory";
+import RequestStock from "../components/Supplier/RequestStock";
 import { ToastContainer, toast } from "react-toastify";
-import ViewProduct from "../components/ViewProduct";
+import ViewProduct from "../components/Supplier/ViewProduct";
 import "react-toastify/dist/ReactToastify.css";
 
 // ..............
@@ -17,11 +17,11 @@ import Navbar from "../components/Navbar";
 import addProduct from "../assets/add.png";
 // import Particles from "react-particles";
 import Particles from "../components/Particles";
-import HistoryDetails from "../components/HistoryDetails";
+import HistoryDetails from "../components/Supplier/HistoryDetails";
 import { useAccount } from "wagmi";
-import AddProduct from "../components/AddProduct";
+import AddProduct from "../components/Supplier/AddProduct";
 // ...........
-import hexToString from "../components/HexToStringConverter";
+import hexToString from "../helper/HexToStringConverter";
 import userDetails from "../artifacts/contracts/userDetails.sol/userDetails.json";
 import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
 import { getContract } from "@wagmi/core";

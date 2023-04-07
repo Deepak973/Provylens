@@ -14,7 +14,9 @@ import { publicProvider } from "wagmi/providers/public";
 import LandingPage from "./pages/LandingPage";
 import Navbar from "./components/Navbar";
 import Register from "./components/Register";
-import Dashboard from "./pages/Dashboard";
+import SupplierDashboard from "./pages/SupplierDashboard";
+import ManufacturerDashboard from "./pages/ManufacturerDashboard";
+import DistributorDashboard from "./pages/DistributorDashboard";
 import Particles from "./components/Particles";
 import VerifyProduct from "./components/VerifyProduct";
 import Profile from "./components/Profile";
@@ -101,7 +103,18 @@ function App() {
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="register" element={<Register />} />
-              <Route path="/open-existing-dashboard" element={<Dashboard />} />
+              <Route
+                path="/supplier-dashboard"
+                element={<SupplierDashboard />}
+              />
+              <Route
+                path="/manufacturer-dashboard"
+                element={<ManufacturerDashboard />}
+              />
+              <Route
+                path="/distributor-dashboard"
+                element={<DistributorDashboard />}
+              />
               <Route path="/profile" element={<Profile />}></Route>
               <Route path="/verify-product" element={<VerifyProduct />} />
             </Routes>
