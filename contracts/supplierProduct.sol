@@ -56,7 +56,7 @@ contract supplierProduct is ISupplierProduct{
     }
 
     /// @notice function to get all supplier products that it created on the platform
-    function getAllProductsOfSupplier(address _supplierAddress) public view returns(supplierProduct[] memory)
+    function getAllProductsOfSupplier(address _supplierAddress) public view returns(supplierProduct[] memory, uint[] memory _productIds)
     {
         uint[] memory productIds= supplierAddressToproductsIdMapping[_supplierAddress];
         supplierProduct[] memory supplierP = new supplierProduct[](productIds.length);
@@ -64,32 +64,8 @@ contract supplierProduct is ISupplierProduct{
         {
             supplierP[i] =supplierProductsIdToStructMapping[productIds[i]];
         }
-        return supplierP;
+        return (supplierP,productIds);
     }
-
-    /// @notice function to get all supplier products that it created on the platform(which are currently active)
-    function getAllActiveProductsOfSupplier(address _supplierAddress) public view returns (supplierProduct[] memory, uint[] memory)
-    {
-        uint[] memory productIds = supplierAddressToproductsIdMapping[_supplierAddress];
-        uint[] memory activeProductsIds = new uint[](productIds.length);
-        supplierProduct[] memory supplierProducts = new supplierProduct[](productIds.length);
-        uint activeCount = 0;
-        for (uint i = 0; i < productIds.length; i++) {
-            uint productId = productIds[i];
-            if (supplierProductsIdToStructMapping[productId].sp_status) {
-                supplierProducts[activeCount] = supplierProductsIdToStructMapping[productId];
-                activeProductsIds[activeCount] = productId;
-                activeCount++;
-            }
-        }
-        uint[] memory activeIds = new uint[](activeCount);
-        for (uint i = 0; i < activeCount; i++) {
-            activeIds[i] = activeProductsIds[i];
-        }
-        return (supplierProducts, activeIds);
-    }
-
-
 
     /// @notice function to delete supplier product (making the product Inactive)
     function deleteSupplierProduct(uint _spId)public override {

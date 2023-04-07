@@ -70,23 +70,38 @@ function ViewProduct() {
       address
     );
     console.log(allProductsData);
+    console.log(parseInt(allProductsData[1][0]["_hex"]));
 
-    const allActiveProductsData =
-      await connectedContract.getAllActiveProductsOfSupplier(address);
-    console.log("all active data with their IDs");
-    console.log(allActiveProductsData);
+    // const allActiveProductsData =
+    //   await connectedContract.getAllActiveProductsOfSupplier(address);
+    // console.log("all active data with their IDs");
+    // console.log(allActiveProductsData);
+    // console.log(parseInt(allActiveProductsData[1][0]["_hex"]));
+    // console.log(allActiveProductsData[0]);
+    // console.log(allActiveProductsData[1]);
 
-    const filteredData = allProductsData.map((product) => {
-      return {
-        spId: product["_spid"],
-        name: hexToString(product["sp_name"]),
-        unit: parseInt(product["sp_unit"]),
-        price: parseInt(product["sp_price"]),
-        date: new Date(product["sp_date"]).toDateString(),
-        expiryDate: new Date(product["sp_expiryDate"]).toDateString(),
-        description: hexToString(product["sp_description"]),
-      };
-    });
+    // for(let i=0;i<allActiveProductsData[1].length;i++)
+    // {
+    //   allActiveProductsData = ({...allActiveProductsData[1],allActiveProductsData[0]});
+    // }
+
+    const filteredData = allProductsData[0]
+      .map((product, index) => {
+        if (product["sp_status"]) {
+          return {
+            spId: parseInt(allProductsData[1][index]["_hex"]),
+            name: hexToString(product["sp_name"]),
+            unit: parseInt(product["sp_unit"]),
+            price: parseInt(product["sp_price"]),
+            date: new Date(product["sp_date"]).toDateString(),
+            expiryDate: new Date(product["sp_expiryDate"]).toDateString(),
+            description: hexToString(product["sp_description"]),
+          };
+        } else {
+          return null;
+        }
+      })
+      .filter((product) => product !== null);
     console.log(filteredData);
     setProductData(filteredData);
 

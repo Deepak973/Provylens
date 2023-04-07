@@ -1,59 +1,59 @@
 const hre = require("hardhat");
 
 async function main() {
-  const userDetailsFactory = await hre.ethers.getContractFactory("userDetails");
-  const userDetails = await userDetailsFactory.deploy();
+  // const userDetailsFactory = await hre.ethers.getContractFactory("userDetails");
+  // const userDetails = await userDetailsFactory.deploy();
 
   const supplierProductFactory = await hre.ethers.getContractFactory(
     "supplierProduct"
   );
   const supplierProduct = await supplierProductFactory.deploy();
 
-  const manufacturerProductFactory = await hre.ethers.getContractFactory(
-    "manufacturerProduct"
-  );
-  const manufacturerProduct = await manufacturerProductFactory.deploy();
+  // const manufacturerProductFactory = await hre.ethers.getContractFactory(
+  //   "manufacturerProduct"
+  // );
+  // const manufacturerProduct = await manufacturerProductFactory.deploy();
 
-  const distributorProductFactory = await hre.ethers.getContractFactory(
-    "distributorProduct"
-  );
-  const distributorProduct = await distributorProductFactory.deploy();
+  // const distributorProductFactory = await hre.ethers.getContractFactory(
+  //   "distributorProduct"
+  // );
+  // const distributorProduct = await distributorProductFactory.deploy();
 
-  const supplierManufacturerFactory = await hre.ethers.getContractFactory(
-    "supplierManufacturer"
-  );
-  const supplierManufacturer = await supplierManufacturerFactory.deploy();
+  // const supplierManufacturerFactory = await hre.ethers.getContractFactory(
+  //   "supplierManufacturer"
+  // );
+  // const supplierManufacturer = await supplierManufacturerFactory.deploy();
 
-  const manufacturerDistributorFactory = await hre.ethers.getContractFactory(
-    "manufacturerDistributor"
-  );
-  const manufacturerDistributor = await manufacturerDistributorFactory.deploy();
+  // const manufacturerDistributorFactory = await hre.ethers.getContractFactory(
+  //   "manufacturerDistributor"
+  // );
+  // const manufacturerDistributor = await manufacturerDistributorFactory.deploy();
 
-  await userDetails.deployed();
+  // await userDetails.deployed();
   await supplierProduct.deployed();
-  await manufacturerProduct.deployed();
-  await distributorProduct.deployed();
-  await supplierManufacturer.deployed();
-  await manufacturerDistributor.deployed();
+  // await manufacturerProduct.deployed();
+  // await distributorProduct.deployed();
+  // await supplierManufacturer.deployed();
+  // await manufacturerDistributor.deployed();
 
-  console.log("Contract userDetails deployed to:", userDetails.address);
+  // console.log("Contract userDetails deployed to:", userDetails.address);
   console.log("Contract supplierProduct deployed to:", supplierProduct.address);
-  console.log(
-    "Contract manufacturerProduct deployed to:",
-    manufacturerProduct.address
-  );
-  console.log(
-    "Contract distributorProduct deployed to:",
-    distributorProduct.address
-  );
-  console.log(
-    "Contract supplierManufacturer deployed to:",
-    supplierManufacturer.address
-  );
-  console.log(
-    "Contract manufacturerDistributor deployed to:",
-    manufacturerDistributor.address
-  );
+  // console.log(
+  //   "Contract manufacturerProduct deployed to:",
+  //   manufacturerProduct.address
+  // );
+  // console.log(
+  //   "Contract distributorProduct deployed to:",
+  //   distributorProduct.address
+  // );
+  // console.log(
+  //   "Contract supplierManufacturer deployed to:",
+  //   supplierManufacturer.address
+  // );
+  // console.log(
+  //   "Contract manufacturerDistributor deployed to:",
+  //   manufacturerDistributor.address
+  // );
 }
 
 // Contract userDetails deployed to: 0xc74799946f5aedFd6A0DaFb1B475606542A5A497  //verified

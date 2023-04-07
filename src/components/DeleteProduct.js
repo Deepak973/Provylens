@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/deleteproduct.css";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
@@ -7,13 +7,70 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAccount, useSigner } from "wagmi";
+import { ethers } from "ethers";
+import { getContract } from "@wagmi/core";
+import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
+import supplierProduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import hexToString from "./HexToStringConverter";
 
 function DeleteProduct() {
-  const [age, setAge] = useState("");
+  const { address, isConnected } = useAccount();
+  const [productData, setProductData] = useState();
+  const [selectedId, setSelectedId] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const connectedContract = getContract({
+    address: SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
+    abi: supplierProduct.abi,
+    signerOrProvider: signer,
+  });
+
+  const getData = async () => {
+    const allProductsData = await connectedContract.getAllProductsOfSupplier(
+      address
+    );
+    console.log(allProductsData);
+
+    const filteredData = allProductsData[0]
+      .map((product, index) => {
+        if (product["sp_status"]) {
+          return {
+            spId: parseInt(allProductsData[1][index]["_hex"]),
+          };
+        } else {
+          return null;
+        }
+      })
+      .filter((product) => product !== null);
+    console.log(filteredData);
+    setProductData(filteredData);
   };
+
+  const deleteProduct = async () => {
+    try {
+      setLoading(true);
+      const deleteTx = await connectedContract.deleteSupplierProduct(
+        selectedId
+      );
+      console.log(deleteTx);
+      const receipt = await deleteTx.wait();
+      if (receipt) {
+        setLoading(false);
+      }
+      toastInfo();
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   const toastInfo = () =>
     toast.success("Product Deleted", {
       position: "bottom-right",
@@ -40,25 +97,28 @@ function DeleteProduct() {
             <Select
               labelId="demo-select-small"
               id="demo-select-small"
-              // value={age}
+              // value={selectedId}
               label="Product-Id"
-              // onChange={handleChange}
+              onChange={(e) => {
+                setSelectedId(e.target.value);
+              }}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>1 </MenuItem>
-              <MenuItem value={20}>2 </MenuItem>
-              <MenuItem value={30}>3</MenuItem>
+              {productData &&
+                productData.map((product) => (
+                  <MenuItem value={product.spId}>
+                    <div>{product.spId}</div>
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
+
           <Button
-            onClick={toastInfo}
+            onClick={() => deleteProduct()}
             variant="contained"
             size="large"
             className="delete-btn"
           >
-            Delete
+            {loading ? <div>loading..</div> : <div>Delete</div>}
           </Button>
 
           <ToastContainer
