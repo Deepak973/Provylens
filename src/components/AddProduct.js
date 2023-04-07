@@ -146,7 +146,18 @@ function AddProduct() {
             className="product-btn"
             onClick={handleSubmit}
           >
-            {loading ? <div>loading..</div> : <div>Add</div>}
+            {loading ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <div>Add</div>
+            )}
           </Button>
           <ToastContainer
             position="bottom-right"

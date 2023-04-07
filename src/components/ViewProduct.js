@@ -13,6 +13,7 @@ import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
 import supplierProduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 import { getContract } from "@wagmi/core";
 import { getProvider } from "@wagmi/core";
+import { getSpDetails } from "../helper/GetSpDetails";
 
 // ................
 import Button from "@mui/material/Button";
@@ -49,6 +50,7 @@ function ViewProduct() {
   const { address, isConnected } = useAccount();
   const [productData, setProductData] = useState();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [modal, setModal] = useState(false);
 
@@ -66,24 +68,10 @@ function ViewProduct() {
   });
 
   const getData = async () => {
-    const allProductsData = await connectedContract.getAllProductsOfSupplier(
-      address
-    );
+    setLoading(true);
+    const allProductsData = await getSpDetails(address);
     console.log(allProductsData);
     console.log(parseInt(allProductsData[1][0]["_hex"]));
-
-    // const allActiveProductsData =
-    //   await connectedContract.getAllActiveProductsOfSupplier(address);
-    // console.log("all active data with their IDs");
-    // console.log(allActiveProductsData);
-    // console.log(parseInt(allActiveProductsData[1][0]["_hex"]));
-    // console.log(allActiveProductsData[0]);
-    // console.log(allActiveProductsData[1]);
-
-    // for(let i=0;i<allActiveProductsData[1].length;i++)
-    // {
-    //   allActiveProductsData = ({...allActiveProductsData[1],allActiveProductsData[0]});
-    // }
 
     const filteredData = allProductsData[0]
       .map((product, index) => {
@@ -104,6 +92,8 @@ function ViewProduct() {
       .filter((product) => product !== null);
     console.log(filteredData);
     setProductData(filteredData);
+    setTimeout(() => setLoading(false), 1000);
+    // setLoading(false);
 
     /* const data_ = `query MyQuery {
       eventAddSupplierProducts(
@@ -186,41 +176,52 @@ function ViewProduct() {
                 <StyledTableCell align="right"></StyledTableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {productData &&
-                productData.map((product) => (
-                  <StyledTableRow key={product.spId}>
-                    <StyledTableCell component="th" scope="row">
-                      {product.spId}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product.unit}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product.price}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product.expiryDate}
-                    </StyledTableCell>
-                    <div className="view-more-btn">
-                      <Button
-                        variant="contained"
-                        size="large"
-                        className="view-More"
-                        onClick={() => {
-                          setSelectedProduct(product);
-                          toggleModal();
-                        }}
-                      >
-                        View More
-                      </Button>
-                    </div>
-                  </StyledTableRow>
-                ))}
-            </TableBody>
+            {loading ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <TableBody>
+                {productData &&
+                  productData.map((product) => (
+                    <StyledTableRow key={product.spId}>
+                      <StyledTableCell component="th" scope="row">
+                        {product.spId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {product.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {product.unit}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {product.price}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {product.expiryDate}
+                      </StyledTableCell>
+                      <div className="view-more-btn">
+                        <Button
+                          variant="contained"
+                          size="large"
+                          className="view-More"
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            toggleModal();
+                          }}
+                        >
+                          View More
+                        </Button>
+                      </div>
+                    </StyledTableRow>
+                  ))}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </div>

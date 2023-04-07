@@ -13,12 +13,14 @@ import { getContract } from "@wagmi/core";
 import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
 import supplierProduct from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 import hexToString from "./HexToStringConverter";
+import { getSpDetails } from "../helper/GetSpDetails";
 
 function DeleteProduct() {
   const { address, isConnected } = useAccount();
   const [productData, setProductData] = useState();
   const [selectedId, setSelectedId] = useState();
   const [loading, setLoading] = useState(false);
+  const [counter, setCounter] = useState(1);
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
@@ -29,9 +31,7 @@ function DeleteProduct() {
   });
 
   const getData = async () => {
-    const allProductsData = await connectedContract.getAllProductsOfSupplier(
-      address
-    );
+    const allProductsData = await getSpDetails(address);
     console.log(allProductsData);
 
     const filteredData = allProductsData[0]
@@ -59,6 +59,9 @@ function DeleteProduct() {
       const receipt = await deleteTx.wait();
       if (receipt) {
         setLoading(false);
+        setCounter((prev) => prev + 1);
+        setProductData(null);
+        getData();
       }
       toastInfo();
     } catch (err) {
@@ -104,6 +107,7 @@ function DeleteProduct() {
               }}
             >
               {productData &&
+                counter &&
                 productData.map((product) => (
                   <MenuItem value={product.spId}>
                     <div>{product.spId}</div>
@@ -118,7 +122,18 @@ function DeleteProduct() {
             size="large"
             className="delete-btn"
           >
-            {loading ? <div>loading..</div> : <div>Delete</div>}
+            {loading ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <div>Delete</div>
+            )}
           </Button>
 
           <ToastContainer
