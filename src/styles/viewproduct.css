@@ -37,21 +37,26 @@
 .first-row-product {
   padding: 10px;
 }
-.availabel-proposal-main-div .shape1 {
+.verify-product-main-div .shape1 {
   position: absolute;
   top: -25%;
   left: 0;
   z-index: -1;
 }
 
-.availabel-proposal-main-div .bubble3 {
+.verify-product-main-div .bubble3 {
   top: 40%;
   left: 11%;
   position: absolute;
 }
-.availabel-proposal-main-div .bubble4 {
+.verify-product-main-div .bubble4 {
   top: 15%;
   right: 11%;
+  position: absolute;
+}
+.verify-product-main-div .shape5 {
+  top: 62%;
+  right: 0;
   position: absolute;
 }
 .verify-hero-section {
@@ -69,7 +74,7 @@
   background: linear-gradient(to bottom, #9982ed 0%, #f879b6 100%);
   color: #ffffff;
   border: none;
-  width: 40%;
+  width: 30%;
   text-transform: uppercase;
   border-radius: 10px;
   padding: 15px 10px;

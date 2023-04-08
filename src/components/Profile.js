@@ -100,96 +100,107 @@ function Profile() {
   }, []);
 
   return (
-    <div className="profile-main-div">
-      <div className="profile-hero-section">
-        <div className="profile-form-main">
-          {isConnected ? (
-            profileData ? (
-              <>
-                {profileData.name !== "0x" ? (
-                  <>
-                    <div className="user-profile-div">
-                      <img
-                        src={profileData.image}
-                        alt=""
-                        className="profile-img"
-                      />
-                    </div>
+    <>
+      <div className="profile-main-div">
+        <div className="profile-hero-section">
+          <div className="profile-form-main">
+            {isConnected ? (
+              profileData ? (
+                <>
+                  {profileData.name !== "0x" ? (
+                    <>
+                      <div className="user-profile-div">
+                        <img
+                          src={profileData.image}
+                          alt=""
+                          className="profile-img"
+                        />
+                      </div>
 
-                    <div className="div-profile-info">
-                      <>
-                        <div className="div-role-main">
-                          <h3>Role : {profileData.type}</h3>
-                        </div>
-                        <div className="div-role-main">
-                          <h3>Name : {profileData.name}</h3>
-                        </div>
-                        <div className="div-role-main">
-                          <h3>address : {profileData.phy_add}</h3>
-                        </div>
-                      </>
+                      <div className="div-profile-info">
+                        <>
+                          <div className="div-role-main">
+                            <h3>Role : {profileData.type}</h3>
+                          </div>
+                          <div className="div-role-main">
+                            <h3>Name : {profileData.name}</h3>
+                          </div>
+                          <div className="div-role-main">
+                            <h3>address : {profileData.phy_add}</h3>
+                          </div>
+                        </>
 
-                      <div className="button-flex">
-                        <div>
-                          <button className="profile-btn">EDIT PICTURE</button>
-                          <input
-                            className="input-edit-profile"
-                            type="file"
-                            hidden
-                            // defaultValue={nameOfUser}
-                          />
-                        </div>
-                        <div>
-                          <button className="profile-btn">Save</button>
+                        <div className="button-flex">
+                          <div>
+                            <button className="profile-btn">
+                              EDIT PICTURE
+                            </button>
+                            <input
+                              className="input-edit-profile"
+                              type="file"
+                              hidden
+                              // defaultValue={nameOfUser}
+                            />
+                          </div>
+                          <div>
+                            <button className="profile-btn">Save</button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="div-profile-info">
-                      User not registered
-                      <button
-                        className="profile-btn"
-                        onClick={() => navigate("/register")}
-                      >
-                        sign up
-                      </button>
-                    </div>
-                  </>
-                )}
-              </>
+                    </>
+                  ) : (
+                    <>
+                      <div className="div-profile-info">
+                        User not registered
+                        <button
+                          className="profile-btn"
+                          onClick={() => navigate("/register")}
+                        >
+                          sign up
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div class="lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </>
+              )
             ) : (
               <>
-                <div class="lds-ellipsis">
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
+                <div className="div-role-main">
+                  <h3>Connect Wallet first</h3>
+                  <ConnectButtonCustom />
                 </div>
               </>
-            )
-          ) : (
-            <>
-              <div className="div-role-main">
-                <h3>Connect Wallet first</h3>
-                <ConnectButtonCustom />
-              </div>
-            </>
-          )}
+            )}
+          </div>
         </div>
+        <span className="shape1 header-shape">
+          <img src={feature1}></img>
+        </span>
+        <span className="bubble3 header-shape">
+          <img src={bubble4}></img>
+        </span>
+        <span className="bubble4 header-shape">
+          <img src={bubble4}></img>
+        </span>
       </div>
-      <span className="shape1 header-shape">
-        <img src={feature1}></img>
-      </span>
-
-      <span className="bubble3 header-shape">
-        <img src={bubble4}></img>
-      </span>
-      <span className="bubble4 header-shape">
-        <img src={bubble4}></img>
-      </span>
-    </div>
+      <footer id="footer">
+        <div className="copyright">
+          <p>
+            {" "}
+            Copyright © 2023, Created by <span>ProvyLense</span>
+          </p>
+        </div>
+      </footer>{" "}
+    </>
   );
 }
 

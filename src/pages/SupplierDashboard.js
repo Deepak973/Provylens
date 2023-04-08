@@ -560,7 +560,7 @@ c62 30 115 83 150 149 l23 43 3 611 c3 600 2 613 -18 668 -27 70 -93 139 -168
                   </svg>
                   Transfer History
                 </li>
-                <li
+                {/* <li
                   className={stock ? "active" : ""}
                   onClick={() => {
                     dashboardLinks("RequestStock");
@@ -625,11 +625,12 @@ l220 112 61 -32 c34 -18 297 -153 586 -300 l525 -267 70 0 70 0 370 190 c204
                     </g>
                   </svg>
                   Request Stock
-                </li>
+                </li> */}
               </>
             )}
           </ul>
         </div>
+
         <div className="right-db">
           <div className="avilabletest-front-buttons">
             <button
@@ -669,7 +670,6 @@ l220 112 61 -32 c34 -18 297 -153 586 -300 l525 -267 70 0 70 0 370 190 c204
               chain
             </button>
           </div>
-
           {addProduct ? (
             <>
               <AddProduct></AddProduct>

@@ -72,7 +72,7 @@ function LandingPage() {
             <div>
               {/* <div className="gradient-3"></div>
         <div className="gradient-4"></div> */}
-              {/* <img src={heroimg2} alt="hero" className="hero-image" /> */}
+              <img src={heroimg2} alt="hero" className="hero-image" />
             </div>
             <div className="hero-img-overlay"></div>
             <div>
