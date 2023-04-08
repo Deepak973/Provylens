@@ -447,7 +447,7 @@ function VerifyProduct() {
           />
         </div>
         <span className="shape1 header-shape">
-          <img src={feature1}></img>
+          <img src={feature1} className="verify-product-img"></img>
         </span>
         <span className="bubble3 header-shape">
           <img src={bubble4}></img>
@@ -455,9 +455,9 @@ function VerifyProduct() {
         <span className="bubble4 header-shape">
           <img src={bubble4}></img>
         </span>
-        <span className="shape5 header-shape">
+        {/* <span className="shape5 header-shape">
           <img src={feature2}></img>
-        </span>
+        </span> */}
         <footer id="footer">
           <div className="copyright">
             <p>

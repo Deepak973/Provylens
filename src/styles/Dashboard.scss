@@ -72,11 +72,9 @@
     width: 100%;
     padding: 0px 24px;
     margin: 20px 10px;
-    margin-top: 100px;
+    /* margin-top: 100px; */
     border-radius: 20px;
-    padding-top: 20px;
-    // background-color: rgb(21, 22, 25);
-    // color: rgb(255, 255, 255);
+    /* padding-top: 20px; */
     transition: box-shadow 300ms cubic-bezier(0.55, 0, 0.1, 1) 0ms;
     box-shadow: none;
 
@@ -222,4 +220,14 @@
   width: 24px;
   height: 24px;
   fill: white;
+}
+
+.avilabletest-front-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+.dashboard-right-main-div {
+  width: 100%;
 }

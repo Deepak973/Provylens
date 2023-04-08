@@ -188,6 +188,9 @@ div.push-box {
   left: 0;
   z-index: -1;
 }
+#header-06 .shape1 img {
+  height: 80vh;
+}
 #header-06 .header-shape {
   position: absolute;
 }
@@ -195,6 +198,15 @@ div.push-box {
   top: 0;
   right: 0;
   z-index: -1;
+}
+#header-06 .shape2 img {
+  height: 80vh;
+}
+#header-06 .shape3 img {
+  height: 80vh;
+}
+#header-06 .shape4 img {
+  height: 80vh;
 }
 #header-06 .shape3 {
   top: -28%;
@@ -256,22 +268,21 @@ div.push-box {
 }
 #footer {
   background: transparent;
-  z-index: 1;
-  position: relative;
+  // z-index: 1;
+  position: fixed;
+  width: 100%;
 }
 #footer .copyright {
   text-align: center;
   font-size: 16px;
   margin: 0;
-
   text-align: center;
-
   color: white;
 }
 #footer .copyright p {
   font-size: 1rem;
   margin: 0;
-  padding: 40px 0;
+  padding: 25px 0;
   border-top: 1px solid #271e5f;
   line-height: 14px;
   text-align: center;
@@ -312,6 +323,10 @@ div.push-box {
 .css-1mh10eb {
   height: 10vh !important;
 }
+.HMJwc {
+  margin: 10px !important;
+}
+
 @media only screen and (max-width: 1200px) {
   .hero {
     padding: 10px;

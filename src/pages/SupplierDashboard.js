@@ -630,8 +630,7 @@ l220 112 61 -32 c34 -18 297 -153 586 -300 l525 -267 70 0 70 0 370 190 c204
             )}
           </ul>
         </div>
-
-        <div className="right-db">
+        <div className="dashboard-right-main-div">
           <div className="avilabletest-front-buttons">
             <button
               id="product-btn"
@@ -670,25 +669,27 @@ l220 112 61 -32 c34 -18 297 -153 586 -300 l525 -267 70 0 70 0 370 190 c204
               chain
             </button>
           </div>
-          {addProduct ? (
-            <>
-              <AddProduct></AddProduct>
-            </>
-          ) : viewProduct ? (
-            <ViewProduct />
-          ) : deleteProduct ? (
-            <DeleteProduct />
-          ) : transfer ? (
-            <Transfer />
-          ) : transferHistory ? (
-            <TransferHistory dashboardLinks={dashboardLinks} />
-          ) : transferHistoryDetails ? (
-            <HistoryDetails
-              setTransferHistoryDetails={setTransferHistoryDetails}
-            />
-          ) : stock ? (
-            <RequestStock dashboardLinks={dashboardLinks} />
-          ) : null}
+          <div className="right-db">
+            {addProduct ? (
+              <>
+                <AddProduct></AddProduct>
+              </>
+            ) : viewProduct ? (
+              <ViewProduct />
+            ) : deleteProduct ? (
+              <DeleteProduct />
+            ) : transfer ? (
+              <Transfer />
+            ) : transferHistory ? (
+              <TransferHistory dashboardLinks={dashboardLinks} />
+            ) : transferHistoryDetails ? (
+              <HistoryDetails
+                setTransferHistoryDetails={setTransferHistoryDetails}
+              />
+            ) : stock ? (
+              <RequestStock dashboardLinks={dashboardLinks} />
+            ) : null}
+          </div>
         </div>
       </div>
     </>

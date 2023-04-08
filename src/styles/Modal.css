@@ -53,9 +53,9 @@ body.active-modal {
 }
 .modal-content-verify {
   position: absolute;
-  top: 50%;
-  left: 60%;
-  transform: translate(-50%, -50%);
+  top: 20%;
+  right: 0;
+  /* transform: translate(-50%, -50%); */
   line-height: 1.4;
   background: white;
   width: 28%;
@@ -64,12 +64,12 @@ body.active-modal {
   align-items: center;
   padding: 50px 28px;
   border-radius: 10px;
-  max-width: 700px;
+  max-width: 500px;
   min-width: 300px;
   z-index: 1002;
   flex-direction: column;
-  transform: translateX(-100%);
-  transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+  /* transform: translateX(-100%);
+  transition: width 0.5s ease-in-out, transform 0.5s ease-in-out; */
 }
 .modal-content-verify.open {
   width: 100%;
@@ -88,7 +88,7 @@ body.active-modal {
   width: 75%;
 }
 .product-name {
-  font-size: 1.2rem;
+  font-size: 1rem;
   letter-spacing: 2px;
   text-transform: capitalize;
 }

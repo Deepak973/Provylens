@@ -8,7 +8,7 @@ import ConnectButtonCustom from "./ConnectButtonCustom";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccount, useSigner } from "wagmi";
 import * as PushAPI from "@pushprotocol/restapi";
-import profile from "../assets/profile.png";
+import profile from "../assets/profile-main.png";
 import logo from "../assets/logo.png";
 import { Box, Button, Modal, Skeleton, Typography } from "@mui/material";
 
