@@ -17,9 +17,10 @@ import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../../config";
 import supplierManufacturer from "../../artifacts/contracts/supplierManufacturer.sol/supplierManufacturer.json";
 import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../../config";
 import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { getSpDetails } from "../../helper/GetSpDetails";
+import { getAllManufacturers } from "../../helper/CheckRegistration";
 
 function Transfer() {
-  const [allDataDaos, setDataDaos] = useState([]);
   const [manufacturerDetails, setManufacturerDetails] = useState();
   const [productDetails, setProductDetails] = useState();
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -27,6 +28,7 @@ function Transfer() {
   const [quantity, setQuantity] = useState();
   const [selectedManufacturer, setSelectedManufacturer] = useState(null);
   const { address, isConnected } = useAccount();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getManufacturerData();
@@ -38,78 +40,49 @@ function Transfer() {
   }, [selectedProduct]);
 
   const getProductData = async () => {
-    const data_ = `query MyQuery {
-      eventAddSupplierProducts(
-        where: {_address: "${address.toLowerCase()}"}
-      ) {
-        _address
-        _date
-        _description
-        _expiryDate
-        _name
-        _price
-        _spid
-        _timeAdded
-        _unit
-        blockNumber
-        blockTimestamp
-        id
-        transactionHash
-      }
-    }`;
+    setLoading(true);
+    const allProductsData = await getSpDetails(address);
+    console.log(allProductsData);
+    console.log(parseInt(allProductsData[1][0]["_hex"]));
 
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    const filteredData = result1.data.eventAddSupplierProducts.map(
-      (product) => {
-        return {
-          spId: product["_spid"],
-          name: hexToString(product["_name"]),
-          unit: product["_unit"],
-          price: product["_price"],
-          date: new Date(product["_date"] * 1000).toDateString(),
-          expiryDate: new Date(product["_expiryDate"] * 1000).toDateString(),
-          description: hexToString(product["_description"]),
-        };
-      }
-    );
-
-    setProductDetails(filteredData);
+    const filteredData = allProductsData[0]
+      .map((product, index) => {
+        if (product["sp_status"]) {
+          return {
+            spId: parseInt(allProductsData[1][index]["_hex"]),
+            name: hexToString(product["sp_name"]),
+            unit: parseInt(product["sp_unit"]),
+            price: parseInt(product["sp_price"]),
+            date: new Date(product["sp_date"]).toDateString(),
+            expiryDate: new Date(product["sp_expiryDate"]).toDateString(),
+            description: hexToString(product["sp_description"]),
+          };
+        } else {
+          return null;
+        }
+      })
+      .filter((product) => product !== null);
     console.log(filteredData);
+    setProductDetails(filteredData);
+    setTimeout(() => setLoading(false), 1000);
+    // setLoading(false);
   };
 
   const getManufacturerData = async () => {
-    const data_ = `query MyQuery {
-        eventUserDatas(where: {_type: 1}) {
-          _address
-          _image
-          _name
-          _physicalAddress
-          _timeUpdated
-          _type
-        }
-      }`;
+    setLoading(true);
+    const allManufacturerData = await getAllManufacturers();
+    console.log(allManufacturerData);
 
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
+    // const filteredData = allManufacturerData.map((product) => {
+    //   return {
+    //     address: product["_address"],
+    //     name: hexToString(product["_name"]),
+    //     physicalAddress: hexToString(product["_physicalAddress"]),
+    //   };
+    // });
 
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    const filteredData = result1.data.eventUserDatas.map((product) => {
-      return {
-        address: product["_address"],
-        name: hexToString(product["_name"]),
-        physicalAddress: hexToString(product["_physicalAddress"]),
-      };
-    });
-
-    setManufacturerDetails(filteredData);
-    console.log(filteredData);
+    // setManufacturerDetails(filteredData);
+    // console.log(filteredData);
   };
   const encoder = new TextEncoder();
   const addTransferData = async () => {

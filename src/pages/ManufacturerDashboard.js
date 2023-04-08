@@ -132,7 +132,7 @@ function Dashboard() {
     <>
       <div className="dashboard-main">
         <div className="left-db">
-          <div className="heading-main">{profileData} Dashboard</div>
+          <div className="heading-main">Manufacturer dashboard</div>
           <ul>
             {product === true ? (
               <>

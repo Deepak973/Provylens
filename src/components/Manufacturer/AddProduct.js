@@ -6,8 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Button from "@mui/material/Button";
 import { ethers } from "ethers";
 import "../../styles/addproduct.css";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
-import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
+import addproduct from "../../artifacts/contracts/manufacturerProduct.sol/manufacturerProduct.json";
 
 function AddProduct() {
   const [loading, setLoading] = useState(false);
@@ -20,6 +20,7 @@ function AddProduct() {
     endDate: null,
   });
 
+  //for handling all data(form data)
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setProductDetails((prevProductDetails) => ({
@@ -28,19 +29,14 @@ function AddProduct() {
     }));
   };
 
-  const handleStartDateChange = (event) => {
-    setProductDetails((prevProductDetails) => ({
-      ...prevProductDetails,
-      startDate: event.target.value,
-    }));
-  };
-
+  //for expiry date handle
   const handleEndDateChange = (event) => {
     setProductDetails((prevProductDetails) => ({
       ...prevProductDetails,
       endDate: event.target.value,
     }));
   };
+
   const toastInfo = () =>
     toast.success("Product Added", {
       position: "bottom-right",
@@ -59,7 +55,7 @@ function AddProduct() {
 
       setLoading(true);
       const registerUser = new ethers.Contract(
-        SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
+        MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC,
         addproduct.abi,
         signer
       );

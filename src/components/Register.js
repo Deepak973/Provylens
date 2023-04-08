@@ -22,6 +22,7 @@ import { useAccount } from "wagmi";
 
 function Register() {
   const { address, isConnected } = useAccount();
+  const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState({
     userType: "",
     name: "",
@@ -89,19 +90,23 @@ function Register() {
         userdetails.abi,
         signer
       );
-
+      setLoading(true);
       const tx = await registerUser.addUser(
         userData.userType,
         encoder.encode(userData.name),
         encoder.encode(userData.physcialAddress),
         encoder.encode(userData.profileImage)
       );
-      await tx.wait();
-      toastInfo();
-      setTimeout(() => {
-        navigate("/");
-      }, [5000]);
+      const receipt = await tx.wait();
+      if (receipt) {
+        setLoading(false);
+        toastInfo();
+        setTimeout(() => {
+          navigate("/");
+        }, [5000]);
+      }
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
 
@@ -239,7 +244,18 @@ function Register() {
               registerUser();
             }}
           >
-            Register
+            {loading ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <div>Register</div>
+            )}
           </button>
           <ToastContainer
             position="bottom-right"
