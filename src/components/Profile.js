@@ -35,12 +35,7 @@ function Profile() {
     // console.log(user);
 
     const user = await checkRegistration(address);
-
-    /* console.log(user.userImage);
-    console.log(user.userName);
-    console.log(user.userPhysicalAddress);
-    console.log(user.userStatus);
-    console.log(user.userType); */
+    console.log(user);
 
     var role = "";
     if (user.userType === 0) {
@@ -56,43 +51,7 @@ function Profile() {
       phy_add: hexToString(user.userPhysicalAddress),
       image: hexToString(user.userImage),
     });
-    /* const data_ = `query MyQuery {
-      eventUserDatas(where: {_address: "${address.toLowerCase()}"}) {
-        _image
-        _name
-        _physicalAddress
-        _timeUpdated
-        _type
-        blockNumber
-        blockTimestamp
-        id
-        transactionHash
-        _address
-      }
-    }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    var role = "";
-    if (result1.data.eventUserDatas[0]["_type"] === 0) role = "Supplier";
-    if (result1.data.eventUserDatas[0]["_type"] === 1) role = "Manufacturer";
-    if (result1.data.eventUserDatas[0]["_type"] === 2) role = "Distributor";
-
-    setProfileData({
-      name: hexToString(result1.data.eventUserDatas[0]["_name"]),
-      type: role,
-      phy_add: hexToString(result1.data.eventUserDatas[0]["_physicalAddress"]),
-      image: hexToString(result1.data.eventUserDatas[0]["_image"]),
-      id: hexToString(result1.data.eventUserDatas[0]["id"]),
-    });
-
-    console.log(result1.data.eventUserDatas[0]); */
   };
-
   console.log(profileData);
 
   useEffect(() => {

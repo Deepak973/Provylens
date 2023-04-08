@@ -9,8 +9,8 @@ import "../../styles/viewproduct.css";
 import { createClient } from "urql";
 import hexToString from "../../helper/HexToStringConverter";
 import { useAccount, useSigner } from "wagmi";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
-import supplierProduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
+import manufacturerProduct from "../../artifacts/contracts/manufacturerProduct.sol/manufacturerProduct.json";
 import { getContract } from "@wagmi/core";
 import { getProvider } from "@wagmi/core";
 import { getSpDetails } from "../../helper/GetSpDetails";
@@ -62,8 +62,8 @@ function ViewProduct() {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const connectedContract = getContract({
-    address: SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
-    abi: supplierProduct.abi,
+    address: MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC,
+    abi: manufacturerProduct.abi,
     signerOrProvider: signer,
   });
 
@@ -94,48 +94,6 @@ function ViewProduct() {
     setProductData(filteredData);
     setTimeout(() => setLoading(false), 1000);
     // setLoading(false);
-
-    /* const data_ = `query MyQuery {
-      eventAddSupplierProducts(
-        where: {_address: "${address.toLowerCase()}"}
-      ) {
-        _address
-        _date
-        _description
-        _expiryDate
-        _name
-        _price
-        _spid
-        _timeAdded
-        _unit
-        blockNumber
-        blockTimestamp
-        id
-        transactionHash
-      }
-    }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-    const filteredData = result1.data.eventAddSupplierProducts.map(
-      (product) => {
-        return {
-          spId: product["_spid"],
-          name: hexToString(product["_name"]),
-          unit: product["_unit"],
-          price: product["_price"],
-          date: new Date(product["_date"] * 1000).toDateString(),
-          expiryDate: new Date(product["_expiryDate"] * 1000).toDateString(),
-          description: hexToString(product["_description"]),
-        };
-      }
-    );
-
-    setProductData(filteredData);
-    console.log(filteredData); */
   };
 
   useEffect(() => {
