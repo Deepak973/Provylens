@@ -272,13 +272,20 @@ function Register() {
         <span className="shape1 header-shape">
           <img src={feature1} className="register-bgimg" alt=""></img>
         </span>
-
         <span className="bubble3 header-shape">
           <img src={bubble4} alt=""></img>
         </span>
         <span className="bubble4 header-shape">
           <img src={bubble4} alt=""></img>
         </span>
+        <footer id="footer">
+          <div className="copyright">
+            <p>
+              {" "}
+              Copyright © 2023, Created by <span>ProvyLense</span>
+            </p>
+          </div>
+        </footer>{" "}
       </div>
     </>
   );
