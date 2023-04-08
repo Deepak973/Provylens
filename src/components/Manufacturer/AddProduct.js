@@ -9,8 +9,14 @@ import "../../styles/addproduct.css";
 import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
 import addproduct from "../../artifacts/contracts/manufacturerProduct.sol/manufacturerProduct.json";
 
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+
 function AddProduct() {
   const [loading, setLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [productDetails, setProductDetails] = useState({
     productName: "",
     productDescription: "",
@@ -92,6 +98,26 @@ function AddProduct() {
             "& > :not(style)": { m: 1 },
           }}
         >
+          <FormControl
+            sx={{ m: 1, minWidth: 70 }}
+            size="small"
+            id="dropdown-formcontrol"
+            className="select-parent"
+          >
+            <InputLabel id="select-label-status">Supplier Address</InputLabel>
+            <Select
+              labelId="demo-select-small"
+              id="demo-select-small"
+              // value={age}
+              label="Status"
+              onChange={(e) =>
+                setSelectedProduct({
+                  ...selectedProduct,
+                  product: e.target.value,
+                })
+              }
+            ></Select>
+          </FormControl>
           <TextField
             helperText=" "
             id="productName"
