@@ -6,7 +6,7 @@
 
 https://provylens-virid.vercel.app/
 
-## About
+# About
 
 **Project Goal**: Our vision is to revolutionise the supply chain industry through blockchain technology for secure end-to-end tracking and management. We aim to ensure authenticity and safety of products with decentralised and tamper-proof systems.
 
@@ -25,6 +25,10 @@ Install Node.js and npm
 Install the required dependencies using `npm install` or `yarn`
 To start the frontend, run `npm start` command
 
-**Future Goals**: The project aims to expand the platform’s capabilities to cover more supply chain stages, allowing for greater end-to-end tracking and management of goods. This will involve leveraging the latest blockchain technologies to provide enhanced visibility and security throughout the supply chain, from raw material procurement to final delivery.
+# Future Goals
+
+The project aims to expand the platform’s capabilities to cover more supply chain stages, allowing for greater end-to-end tracking and management of goods. This will involve leveraging the latest blockchain technologies to provide enhanced visibility and security throughout the supply chain, from raw material procurement to final delivery.
+
 Provylens will focus on enhancing the user interface and experience to create a more seamless and intuitive platform. This will involve improving the platform’s design and usability, streamlining the onboarding process for new users, and providing more personalised and targeted features to meet the specific needs of each user.
+
 Creation of a comprehensive solution that caters to the needs of various industries and stakeholders. This will involve collaborating with key players in different industries to identify their unique challenges and requirements and developing tailored solutions to meet their needs. Provylens will also work to build a strong ecosystem of partners and collaborators to support the growth and adoption of its platform across different industries and regions.
