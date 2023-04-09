@@ -40,3 +40,22 @@ export const getAllManufacturers = async () => {
     console.log(err);
   }
 };
+export const getAllSuppliers = async () => {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    const registerUser = new ethers.Contract(
+      USERDETAILS_CONTRACT_ADDRESS_BTTC,
+      userdetails.abi,
+      signer
+    );
+
+    const tx = await registerUser.getAllSuppliers();
+
+    // await tx.wait();
+    return tx;
+  } catch (err) {
+    console.log(err);
+  }
+};
