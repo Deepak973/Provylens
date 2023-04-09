@@ -51,24 +51,7 @@ function App() {
     },
     testnet: true,
   };
-  async function getAddressFromMetaMask() {
-    // Check if MetaMask is installed
-    if (!window.ethereum) {
-      throw new Error("MetaMask is not installed");
-    }
 
-    // Request access to the user's accounts
-    await window.ethereum.request({ method: "eth_requestAccounts" });
-
-    // Create an Ethers.js provider with MetaMask as the signer
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-    // Get the user's address
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    setAddress(address);
-    return address;
-  }
   const { chains, provider } = configureChains(
     [BTTChain, polygonMumbai],
     [
@@ -89,10 +72,6 @@ function App() {
     connectors,
     provider,
   });
-
-  // useEffect(() => {
-  //   getAddressFromMetaMask();
-  // }, []);
 
   return (
     <WagmiConfig client={wagmiClient}>
