@@ -90,9 +90,9 @@ function App() {
     provider,
   });
 
-  useEffect(() => {
-    getAddressFromMetaMask();
-  }, []);
+  // useEffect(() => {
+  //   getAddressFromMetaMask();
+  // }, []);
 
   return (
     <WagmiConfig client={wagmiClient}>
