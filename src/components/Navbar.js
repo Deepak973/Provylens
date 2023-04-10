@@ -62,14 +62,14 @@ function Navbar() {
     });
   };
 
-  const getNotifications = async () => {
-    const notifications = await PushAPI.user.getFeeds({
-      user: `eip155:8000:${address}`, // user address in CAIP
-      env: "staging",
-      limit: 100,
-    });
-    setPushNotifications(notifications);
-  };
+  // const getNotifications = async () => {
+  //   const notifications = await PushAPI.user.getFeeds({
+  //     user: `eip155:8000:${address}`, // user address in CAIP
+  //     env: "staging",
+  //     limit: 100,
+  //   });
+  //   setPushNotifications(notifications);
+  // };
   useEffect(() => {
     if (address) {
       const subscriptions = PushAPI.user.getSubscriptions({
@@ -89,7 +89,7 @@ function Navbar() {
         }
       }
 
-      getNotifications();
+      // getNotifications();
       console.log(subscriptions);
     }
   }, [address]);
