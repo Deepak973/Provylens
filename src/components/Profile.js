@@ -63,6 +63,7 @@ function Profile() {
       <div className="profile-main-div">
         <div className="profile-hero-section">
           <div className="profile-form-main">
+            <div className="profile-block">
             {isConnected ? (
               profileData ? (
                 <>
@@ -89,7 +90,7 @@ function Profile() {
                           </div>
                         </>
 
-                        <div className="button-flex">
+                        {/* <div className="button-flex">
                           <div>
                             <button className="profile-btn">
                               EDIT PICTURE
@@ -98,13 +99,13 @@ function Profile() {
                               className="input-edit-profile"
                               type="file"
                               hidden
-                              // defaultValue={nameOfUser}
+                              
                             />
                           </div>
                           <div>
                             <button className="profile-btn">Save</button>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </>
                   ) : (
@@ -139,7 +140,9 @@ function Profile() {
                 </div>
               </>
             )}
+            </div>
           </div>
+        
         </div>
         <span className="shape1 header-shape">
           <img src={feature1}></img>
