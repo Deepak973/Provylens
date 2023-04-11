@@ -8,26 +8,23 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { polygonMumbai } from "wagmi/chains";
-// import { scrollTestnet } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
 import LandingPage from "./pages/LandingPage";
 import Navbar from "./components/Navbar";
 import Register from "./components/Register";
 import SupplierDashboard from "./pages/SupplierDashboard";
 import ManufacturerDashboard from "./pages/ManufacturerDashboard";
 import DistributorDashboard from "./pages/DistributorDashboard";
-import Particles from "./components/Particles";
 import VerifyProduct from "./components/VerifyProduct";
 import Profile from "./components/Profile";
-import { useNavigate } from "react-router-dom";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
 import { Chat } from "@pushprotocol/uiweb";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { useAccount } from "wagmi";
 
 function App() {
-  const [address, setAddress] = useState();
+  // const address = useAccount();
+  // const { address, isConnecting, isDisconnected } = useAccount();
+  let address = "";
 
   const BTTChain = {
     id: 1029,

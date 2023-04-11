@@ -76,14 +76,19 @@ contract userDetails is IUserDetails{
     }
 
     /// @notice function to return all the users registered as suppliers
-    function getAllSuppliers() public view returns(userDetails[] memory){
-        userDetails[] memory suppD = new userDetails[](suppliers.length);
-        for(uint i=0;i<suppliers.length;i++)
-        {
-            suppD[i] = userDetailsMapping[suppliers[i]];
-        }
-        return suppD;
+    function getAllSuppliers() public view returns(address[] memory, userDetails[] memory) {
+        address[] memory suppAddresses = new address[](suppliers.length);
+        userDetails[] memory suppDetails = new userDetails[](suppliers.length);
 
+        for(uint i=0; i<suppliers.length; i++) {
+            address suppAddress = suppliers[i];
+            userDetails memory details = userDetailsMapping[suppAddress];
+
+            suppAddresses[i] = suppAddress;
+            suppDetails[i] = details;
+        }
+
+        return (suppAddresses, suppDetails);
     }
 
     /// @notice function to return all the users registered as manufacturers
