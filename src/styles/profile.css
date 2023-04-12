@@ -1,38 +1,41 @@
 .profile-main-div {
   width: 100%;
   text-align: center;
-  height: 70vh;
-  
+  height: 80vh;
 }
 .profile-hero-section {
-  padding: 40px;
   width: 100%;
-
-  margin: 5% auto;
+  margin: 0 auto;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 8px, rgb(0 0 0 / 23%) 0px 0px 3px -2px,
     rgb(0 0 0 / 17%) 0px 0px 25px;
-height: 40vh;
-background: repeating-linear-gradient(45deg, black, transparent 100px);
-  /* border-radius: 10px; */
+  height: 40vh;
+  background: repeating-linear-gradient(45deg, #0606064d, transparent 100px);
+  /* background: url("../assets/profile.png"); */
 }
-.profile-block{
+/* .background-opacity {
+  background: #272930b3;
+  height: 330px;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+} */
+.profile-block {
   align-items: center;
-    bottom: 20%;
-    display: flex;
-    margin: .25%;
-    padding: 1%;
-    position: absolute;
-    width: 30%;
-    justify-content: space-around;
-    flex-direction: row;
+  bottom: 35%;
+  display: flex;
+  margin: 0.25%;
+  padding: 1%;
+  position: absolute;
+  width: 50%;
 }
 .profile-img {
-  width: 65px;
-  height: 50px;
+  width: 120px;
+  height: 120px;
   border-radius: 34%;
+
   object-fit: cover;
   object-position: center;
-  padding: 10px;
+  padding: 20px;
 }
 .user-profile-div {
   /* margin-right: 20px; */
@@ -42,9 +45,9 @@ background: repeating-linear-gradient(45deg, black, transparent 100px);
   /* margin: 0 auto; */
 }
 .profile-form-main {
-  padding-bottom: 30px;
-  width: 35%;
+  width: 50%;
   margin: 0 auto;
+  height: 40vh;
 }
 .div-btn-main {
   background-color: #00566a;
@@ -53,7 +56,6 @@ background: repeating-linear-gradient(45deg, black, transparent 100px);
   padding: 7px;
   /* font-size: 1.2rem; */
   border-radius: 10px;
-
   margin-top: 30px;
 }
 .div-profile-info {
@@ -61,12 +63,19 @@ background: repeating-linear-gradient(45deg, black, transparent 100px);
   font-weight: 300;
   font-family: "HammersmithOne-Regular";
   margin-top: 20px;
+  text-align: initial;
+  margin-left: 50px;
 }
 .div-role-main {
   font-size: 15px;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   padding-bottom: 10px;
+  text-transform: capitalize;
   font-family: "HammersmithOne-Regular";
+}
+.div-role-main h3 {
+  font-weight: 300;
+  font-size: 15px;
 }
 
 .edit-profile {
@@ -91,6 +100,15 @@ background: repeating-linear-gradient(45deg, black, transparent 100px);
   top: -25%;
   left: 0;
   z-index: -1;
+}
+.profile-main-div .shape1 img {
+  width: 100%;
+  height: 100vh;
+}
+.div-role-main h3 {
+  color: white;
+  font-size: 15px;
+  line-height: 25px;
 }
 
 .profile-main-div .bubble3 {
