@@ -4,6 +4,7 @@ import feature1 from "../assets/feature-1.png";
 import bubble4 from "../assets/fixed4.png";
 import { createClient } from "urql";
 import { useAccount, useSigner } from "wagmi";
+import Footer from "../components/Footer";
 import hexToString from "../helper/HexToStringConverter";
 //wagmi
 import { getContract } from "@wagmi/core";
@@ -92,23 +93,6 @@ function Profile() {
                               <h3>address : {profileData.phy_add}</h3>
                             </div>
                           </>
-
-                          {/* <div className="button-flex">
-                          <div>
-                            <button className="profile-btn">
-                              EDIT PICTURE
-                            </button>
-                            <input
-                              className="input-edit-profile"
-                              type="file"
-                              hidden
-                              
-                            />
-                          </div>
-                          <div>
-                            <button className="profile-btn">Save</button>
-                          </div>
-                        </div> */}
                         </div>
                       </>
                     ) : (
@@ -154,14 +138,7 @@ function Profile() {
           <img src={bubble4}></img>
         </span>
       </div>
-      <footer id="footer">
-        <div className="copyright">
-          <p>
-            {" "}
-            Copyright © 2023, Created by <span>ProvyLense</span>
-          </p>
-        </div>
-      </footer>{" "}
+      <Footer />
     </>
   );
 }

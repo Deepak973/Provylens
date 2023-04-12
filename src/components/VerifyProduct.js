@@ -1,25 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/deleteproduct.css";
 import Button from "@mui/material/Button";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import feature1 from "../assets/feature-1.png";
 import bubble4 from "../assets/fixed4.png";
 import feature2 from "../assets/header6_shape_5.png";
 import "../styles/viewproduct.css";
 import { createClient } from "urql";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import hexToString from "../helper/HexToStringConverter";
-
+import Footer from "../components/Footer";
+// ...graph..........
 import { ForceGraph2D } from "react-force-graph";
 import { details } from "./verifyDetails";
-import data from "./graphdata.json";
-// import { HStack, useDisclosure, Input } from "@chakra-ui/react";
 
 function VerifyProduct() {
   const [age, setAge] = useState("");
@@ -28,13 +22,70 @@ function VerifyProduct() {
   const [manufacturerDetails, setManufacturerDetails] = useState();
   const [supplierProduct, setSupplierProduct] = useState();
 
-  const [graphData, setGraphData] = useState(data);
   const [isClicked, setIsClicked] = useState(false);
   const [isClicked2, setIsClicked2] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const [modal, setModal] = useState(false);
   const [productData, setProductData] = useState({});
+
+  const data01 = {
+    nodes: [
+      {
+        id: "0",
+        name: "Product",
+        value: 6,
+      },
+      {
+        id: "1",
+        label: "",
+        name: "Distributor",
+        value: 4,
+      },
+      {
+        id: "2",
+        label: "",
+        name: "manufacturer",
+        value: 4,
+      },
+      {
+        id: "3",
+        name: "Supplier",
+        value: 4,
+      },
+      {
+        id: "4",
+        name: "manufacturer 1",
+        value: 4,
+      },
+      {
+        id: "5",
+        name: "manufacturer 1",
+        value: 4,
+      },
+      {
+        id: "6",
+        name: "manufacturer 1",
+        value: 4,
+      },
+    ],
+    links: [
+      { source: "0", target: "1" },
+      { source: "1", target: "2" },
+      { source: "2", target: "3" },
+      { source: "2", target: "4" },
+      { source: "2", target: "5" },
+      { source: "2", target: "6" },
+    ],
+  };
+  const nodes = data01.nodes?.map((node) => ({
+    id: node.id,
+    name: node.name,
+    value: node.value,
+  }));
+  const links = data01.links?.map((link) => ({
+    source: link.source,
+    target: link.target,
+  }));
 
   const toggleModal = () => {
     setModal(!modal);
@@ -419,14 +470,14 @@ function VerifyProduct() {
           {modal && <ModalData />}
           <ForceGraph2D
             ref={fgRef}
-            graphData={data}
+            graphData={{ nodes, links }}
             nodeLabel="name"
             nodeAutoColorBy="group"
             autoPauseRedraw={false}
             linkWidth={(link) => (highlightLinks.has(link) ? 10 : 1)}
             linkDirectionalParticles={3}
             linkDirectionalParticleWidth={(link) =>
-              highlightLinks.has(link) ? 3 : 0
+              highlightLinks.has(link) ? 4 : 0
             }
             onBackgroundClick={() => fgRef.current.zoomToFit(1000, 100)}
             linkCurvature="curvature"
@@ -455,17 +506,7 @@ function VerifyProduct() {
         <span className="bubble4 header-shape">
           <img src={bubble4}></img>
         </span>
-        {/* <span className="shape5 header-shape">
-          <img src={feature2}></img>
-        </span> */}
-        <footer id="footer">
-          <div className="copyright">
-            <p>
-              {" "}
-              Copyright © 2023, Created by <span>ProvyLense</span>
-            </p>
-          </div>
-        </footer>{" "}
+        <Footer />
       </div>
     </>
   );

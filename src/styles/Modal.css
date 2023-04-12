@@ -11,8 +11,6 @@ body.active-modal {
 
 .modal,
 .overlay {
-  /* width: 100vw;
-  height: 100vh; */
   top: 0;
   left: 0;
   right: 0;
@@ -35,7 +33,7 @@ body.active-modal {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding: 50px 28px;
+  padding: 30px 0px;
   border-radius: 10px;
   max-width: 900px;
   min-width: 300px;

@@ -1,7 +1,7 @@
 .profile-main-div {
   width: 100%;
   text-align: center;
-  height: 80vh;
+  height: 85vh;
 }
 .profile-hero-section {
   width: 100%;
@@ -10,23 +10,21 @@
     rgb(0 0 0 / 17%) 0px 0px 25px;
   height: 40vh;
   background: repeating-linear-gradient(45deg, #0606064d, transparent 100px);
-  /* background: url("../assets/profile.png"); */
 }
-/* .background-opacity {
-  background: #272930b3;
-  height: 330px;
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-} */
+
 .profile-block {
   align-items: center;
   bottom: 35%;
   display: flex;
   margin: 0.25%;
-  padding: 1%;
+  padding: 30px;
   position: absolute;
   width: 50%;
+  background-color: #1a1156;
+  box-shadow: 0 10px 25px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 50px;
+  justify-content: start;
 }
 .profile-img {
   width: 120px;
@@ -49,15 +47,7 @@
   margin: 0 auto;
   height: 40vh;
 }
-.div-btn-main {
-  background-color: #00566a;
-  color: white;
-  width: 27%;
-  padding: 7px;
-  /* font-size: 1.2rem; */
-  border-radius: 10px;
-  margin-top: 30px;
-}
+
 .div-profile-info {
   color: #ffffff;
   font-weight: 300;
@@ -78,16 +68,6 @@
   font-size: 15px;
 }
 
-.edit-profile {
-  background-color: #00566a;
-  color: white;
-  width: 35%;
-  padding: 7px;
-  /* font-size: 1.2rem; */
-  border-radius: 10px;
-
-  margin-top: 30px;
-}
 .button-flex {
   display: flex;
   display: flex;
@@ -99,7 +79,7 @@
   position: absolute;
   top: -25%;
   left: 0;
-  z-index: -1;
+  /* z-index: -1; */
 }
 .profile-main-div .shape1 img {
   width: 100%;

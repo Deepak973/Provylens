@@ -7,7 +7,7 @@
   border-bottom-width: 1px;
 }
 .dashboard-main {
-  min-height: 90vh;
+  min-height: 85vh;
   display: flex;
   flex-direction: row;
 
@@ -80,7 +80,7 @@
 
     #right-db-inside {
       width: 100%;
-      margin: 3% auto;
+      margin: 6% auto;
 
       .templates-div {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -115,6 +115,7 @@
     }
     .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
       border-color: rgba(255, 255, 255, 0.5) !important;
+      color: #ffffff !important;
     }
     .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
       color: rgba(255, 255, 255, 0.5) !important;

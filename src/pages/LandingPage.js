@@ -19,7 +19,7 @@ import Navbar from "../components/Navbar";
 import Particles from "../components/Particles";
 import Loader from "../components/Loader";
 import { Chat } from "@pushprotocol/uiweb";
-
+import Footer from "../components/Footer";
 import { checkRegistration } from "../helper/CheckRegistration";
 
 function LandingPage() {
@@ -121,14 +121,7 @@ function LandingPage() {
           <span className="bubble4 header-shape">
             <img src={bubble4}></img>
           </span>
-          <footer id="footer">
-            <div className="copyright">
-              <p>
-                {" "}
-                Copyright © 2023, Created by <span>ProvyLense</span>
-              </p>
-            </div>
-          </footer>{" "}
+          <Footer />
         </section>
       </>
     </>

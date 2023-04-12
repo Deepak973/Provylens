@@ -1,6 +1,7 @@
 .register-main-div {
   width: 100%;
   text-align: center;
+  min-height: 75vh;
 }
 #dropdown-formcontrol {
   min-width: 220px !important;
@@ -8,14 +9,9 @@
 .register-main {
   padding: 40px;
   width: 35%;
-
   margin: 5% auto;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 8px, rgb(0 0 0 / 23%) 0px 0px 3px -2px,
     rgb(0 0 0 / 17%) 0px 0px 25px;
-  // background-image: linear-gradient(
-  //   rgba(255, 255, 255, 0.09),
-  //   rgba(255, 255, 255, 0.09)
-  // );
   background: #1a1156;
   border-radius: 10px;
 }

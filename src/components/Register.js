@@ -8,6 +8,7 @@ import { Button, CardActions } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import "../styles/register.scss";
 import Navbar from "./Navbar";
+import Footer from "../components/Footer";
 import { Input } from "@mui/material";
 import { ethers } from "ethers";
 import axios from "axios";
@@ -278,15 +279,8 @@ function Register() {
         <span className="bubble4 header-shape">
           <img src={bubble4} alt=""></img>
         </span>
-        <footer id="footer">
-          <div className="copyright">
-            <p>
-              {" "}
-              Copyright © 2023, Created by <span>ProvyLense</span>
-            </p>
-          </div>
-        </footer>{" "}
       </div>
+      <Footer />
     </>
   );
 }

@@ -11,6 +11,7 @@ import { polygonMumbai } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import LandingPage from "./pages/LandingPage";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Register from "./components/Register";
 import SupplierDashboard from "./pages/SupplierDashboard";
 import ManufacturerDashboard from "./pages/ManufacturerDashboard";
