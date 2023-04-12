@@ -89,7 +89,6 @@ contract userDetails is IUserDetails{
 
         return (suppAddresses, suppDetails);
     }
-
     
     function getAllSupplierAddresses() public view returns(address[] memory) {
         return suppliers;
