@@ -115,9 +115,9 @@ function Navbar() {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "transparent",
+        backgroundColor: "#0e044d",
         padding: "10px 0px",
-        position: "relative",
+        position: "fixed",
         zIndex: "50000000",
       }}
     >
