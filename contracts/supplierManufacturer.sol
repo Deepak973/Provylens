@@ -10,13 +10,35 @@ pragma solidity >=0.8.0 <=0.8.19;
 
 contract supplierManufacturer is ISupplierManufacturer{
     uint public smId = 1;
-    uint public reqId =1;
+    uint public reqId = 1;
+    userDetails udInstance;
+    supplierProduct spInstance;
+    address owner;
+    constructor(address _udAddress, address _spAddress) {
+        owner = msg.sender;
+        udInstance = userDetails(_udAddress);
+        spInstance = supplierProduct(_spAddress);
+    }
 
-    userDetails ud = userDetails(0xd9145CCE52D386f254917e481eB44e9943F39138);
-    supplierProduct spInstance = supplierProduct(0x7EF2e0048f5bAeDe046f6BF797943daF4ED8CB47);
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+
+    function changeOwner(address _ownerAddress)public onlyOwner{
+        owner = _ownerAddress;
+    }
+
+    function changeUdAddress(address _udAddress) public onlyOwner{
+        udInstance = userDetails(_udAddress);
+    }
+
+    function changeSpAddress(address _spAddress) public onlyOwner{
+        spInstance = supplierProduct(_spAddress);
+    }
 
     function getAllSupplierAddresses() public view returns(address[] memory){
-        return ud.getAllSupplierAddresses();
+        return udInstance.getAllSupplierAddresses();
     }
 
     // struct
@@ -51,7 +73,7 @@ contract supplierManufacturer is ISupplierManufacturer{
 
     /// @notice function to transfer product from supplier to manufacturer
     function transferProduct(uint _spId,address _manufacturerAddress,uint32 _quantity,uint32 _currentQuantity)external override{
-        userDetails.userDetails memory user = ud.getSingleUser(msg.sender);
+        userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
         require(uint8(user.userType)== 0,"Only Supplier can Transfer product"); 
 
         smIdToStructMapping[smId].spId = _spId;
@@ -59,14 +81,13 @@ contract supplierManufacturer is ISupplierManufacturer{
         smIdToStructMapping[smId].dispatchTime = uint32(block.timestamp);
         smIdToStructMapping[smId].currentQuantity = _currentQuantity;
         smIdToStructMapping[smId].status = transferStatus.Approved;
-        
         emit eventSupplierManufacturerTransfer(smId,_spId,msg.sender,_manufacturerAddress,uint32(block.timestamp));
         spInstance.updateSupplierProductUints(_spId,_quantity);
         
     }
 
     function requestProduct(uint _spId,uint32 _quantity, address _supplierAddress)external override {
-        userDetails.userDetails memory user = ud.getSingleUser(msg.sender);
+        userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
         require(uint8(user.userType)== 1,"Only Manufacturer can Request product"); 
 
         smIdToStructMapping[smId] = supplierManufacturer(smId,_spId,_supplierAddress,msg.sender,0,0,_quantity,0,transferStatus.Requested);
@@ -77,8 +98,9 @@ contract supplierManufacturer is ISupplierManufacturer{
     
     /// @notice function to update that the product has been received
     function receiveProduct(uint _smId)external override{
-        userDetails.userDetails memory user = ud.getSingleUser(msg.sender);
-        require(uint8(user.userType)== 1,"Only Manufacturer can acknowledge receive product"); 
+        userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
+        require(uint8(user.userType) == 1,"Only Manufacturer can acknowledge receive product"); 
+
         smIdToStructMapping[_smId].arrivalTime = uint32(block.timestamp);
         smIdToStructMapping[_smId].status = transferStatus.Received;
         emit eventArrivalTime(uint32(block.timestamp));
