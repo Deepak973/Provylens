@@ -202,7 +202,5 @@ button.create-proposal-btn-popup {
 }
 .verify-product-main-div {
   width: 100%;
-  /* width: 100%; */
-  /* max-width: 1240px; */
-  margin-top: 10%;
+  padding-top: 10%;
 }
