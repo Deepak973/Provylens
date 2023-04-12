@@ -83,12 +83,15 @@ contract userDetails is IUserDetails{
         for(uint i=0; i<suppliers.length; i++) {
             address suppAddress = suppliers[i];
             userDetails memory details = userDetailsMapping[suppAddress];
-
             suppAddresses[i] = suppAddress;
             suppDetails[i] = details;
         }
 
         return (suppAddresses, suppDetails);
+    }
+    
+    function getAllSupplierAddresses() public view returns(address[] memory) {
+        return suppliers;
     }
 
     /// @notice function to return all the users registered as manufacturers
