@@ -14,8 +14,10 @@ import Footer from "../components/Footer";
 // ...graph..........
 import { ForceGraph2D } from "react-force-graph";
 import { details } from "./verifyDetails";
+import { useParams } from "react-router-dom";
 
 function VerifyProduct() {
+  const { id } = useParams();
   const [age, setAge] = useState("");
   const [smId, setSmId] = useState();
   const [supplierDetails, setSupplierDetails] = useState();
@@ -234,6 +236,7 @@ function VerifyProduct() {
             </label>
             <button className="close-modal" onClick={toggleModal}>
               CLOSE
+              <h1>Value from URL: {id}</h1>
             </button>
           </div>
         </div>

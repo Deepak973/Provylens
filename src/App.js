@@ -93,7 +93,7 @@ function App() {
                 element={<DistributorDashboard />}
               />
               <Route path="/profile" element={<Profile />}></Route>
-              <Route path="/verify-product" element={<VerifyProduct />} />
+              <Route path="/verify-product/:id?" element={<VerifyProduct />} />
             </Routes>
           </Router>
         </div>
