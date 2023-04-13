@@ -103,7 +103,7 @@ function DeleteProduct() {
               // value={selectedId}
               label="Product-Id"
               sx={{
-                ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                ".MuiOutlinedInput-notchedOutline": {
                   borderColor: "red",
                 },
               }}
