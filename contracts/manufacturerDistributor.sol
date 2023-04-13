@@ -58,7 +58,7 @@ contract manufacturerDistributor is IManufacturerDistributor{
     /// @notice function to transfer product from supplier to manufacturer
     function transferProduct(uint _mpId,address _distributorAddress,uint32 _quantity)external override{
         userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
-        require(uint8(user.userType)== 0,"Only Supplier can Transfer product"); 
+        require(uint8(user.userType)== 1,"Only manufacturer can Transfer product"); 
 
         mpInstance.updateManufactureProductTransfer(_mpId,_distributorAddress);
         mdIdToStructMapping[mdId].status = transferStatus.Approved;
@@ -74,7 +74,7 @@ contract manufacturerDistributor is IManufacturerDistributor{
 
     function requestProduct(uint _mpId,uint32 _quantity, address _manufacturerAddress)external override {
         userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
-        require(uint8(user.userType)== 1,"Only Manufacturer can Request product"); 
+        require(uint8(user.userType)== 2,"Only Distributor can Request product"); 
 
         mdIdToStructMapping[mdId] = manufacturerDistributor(mdId,_mpId,_manufacturerAddress,msg.sender,0,0,_quantity,0,transferStatus.Requested);
         distributorTomdIdMapping[msg.sender].push(mdId);
@@ -85,7 +85,7 @@ contract manufacturerDistributor is IManufacturerDistributor{
     /// @notice function to update that the product has been received
     function receiveProduct(uint _mpId,uint _mdId)external override{
         userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
-        require(uint8(user.userType) == 1,"Only Distributor can acknowledge received product"); 
+        require(uint8(user.userType) == 2,"Only Distributor can acknowledge received product"); 
         
         mpInstance.updateManufactureProductReceived(_mpId);
         mdIdToStructMapping[_mdId].status = transferStatus.Received;

@@ -98,10 +98,10 @@ function App() {
           </Router>
         </div>
       </RainbowKitProvider>
-      <Chat
+      {/* <Chat
         account={address} //user address
         supportAddress="0xe57f4c84539a6414C4Cf48f135210e01c477EFE0" //support address
-      />
+      /> */}
     </WagmiConfig>
   );
 }
