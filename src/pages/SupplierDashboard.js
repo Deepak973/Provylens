@@ -489,7 +489,7 @@ m-551 -438 l227 -145 0 -244 0 -245 -78 43 c-43 24 -151 84 -240 133 l-161 90
                       />
                     </g>
                   </svg>
-                  Transfer
+                  View Requests
                 </li>
                 <li
                   className={transferHistory ? "active" : ""}

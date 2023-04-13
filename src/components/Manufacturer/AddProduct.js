@@ -28,7 +28,7 @@ function AddProduct() {
     productPrice: "",
     productUnit: "",
     startDate: null,
-    endDate: null,
+    expiryDate: null,
   });
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -41,7 +41,7 @@ function AddProduct() {
     },
   };
 
-  const getData = async () => {
+  const getSupplierAddress = async () => {
     const allSuppliersData = await getAllSupplierAddresses();
     console.log(allSuppliersData);
     setSupplierAddresses(allSuppliersData);
@@ -50,8 +50,14 @@ function AddProduct() {
     console.log(allSmIdForManufacturer);
   };
 
+  const getProductnames = async () => {
+    // const allProductsupplier = await supplierProduct.getAllProductsOfSupplier(
+    //   "0xe57f4c84539a6414C4Cf48f135210e01c477EFE0"
+    // );
+  };
+
   useEffect(() => {
-    getData();
+    getSupplierAddress();
   }, []);
 
   const names = [

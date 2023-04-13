@@ -9,9 +9,22 @@ import MenuItem from "@mui/material/MenuItem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createClient } from "urql";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+
+import Grid from "@mui/material/Grid";
+
 import hexToString from "../../helper/HexToStringConverter";
 import { useAccount, useSigner } from "wagmi";
 import { TextField } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+
 import { ethers } from "ethers";
 import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../../config";
 import supplierManufacturer from "../../artifacts/contracts/supplierManufacturer.sol/supplierManufacturer.json";
@@ -19,6 +32,36 @@ import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../../config";
 import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 import { getSpDetails } from "../../helper/GetSpDetails";
 import { getAllManufacturers } from "../../helper/userDetailsHelper";
+import { requestHistoryOfSupplier } from "../../helper/supplierManufacturerHelper";
+import { transferProductToManufacturer } from "../../helper/supplierManufacturerHelper";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 function Transfer() {
   const [manufacturerDetails, setManufacturerDetails] = useState();
@@ -29,103 +72,53 @@ function Transfer() {
   const [selectedManufacturer, setSelectedManufacturer] = useState(null);
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState(false);
+  const [requestDetails, setRequestDetails] = useState();
 
   useEffect(() => {
-    getManufacturerData();
-    getProductData();
+    getTransferData();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedProduct);
-  }, [selectedProduct]);
+  const getTransferData = async () => {
+    const reqHistory = await requestHistoryOfSupplier(
+      "0x9b4716573622751e7F6a56da251D054b6BBa4B00"
+    );
+    console.log(reqHistory);
+    const filteredData = reqHistory.map((val, index) => {
+      if (val["status"] === 1) {
+        return {
+          reqId: parseInt(val["smId"]),
+          spId: parseInt(val["spId"]),
+          // name: hexToString(val["userName"]),
+          status:
+            val["status"] === 1
+              ? "Requested"
+              : val["status"] === 2
+              ? "Approved"
+              : val["status"] === 3
+              ? "Received"
+              : null,
+          quantity: val["quantity"],
+          manufacturerAddress: val["manufacturerAddress"],
+        };
+      } else {
+        return null;
+      }
+    });
+    setRequestDetails(filteredData);
 
-  const getProductData = async () => {
-    setLoading(true);
-    const allProductsData = await getSpDetails(address);
-    console.log(allProductsData);
-    console.log(parseInt(allProductsData[1][0]["_hex"]));
-
-    const filteredData = allProductsData[0]
-      .map((product, index) => {
-        if (product["sp_status"]) {
-          return {
-            spId: parseInt(allProductsData[1][index]["_hex"]),
-            name: hexToString(product["sp_name"]),
-            unit: parseInt(product["sp_unit"]),
-            price: parseInt(product["sp_price"]),
-            date: new Date(product["sp_date"]).toDateString(),
-            expiryDate: new Date(product["sp_expiryDate"]).toDateString(),
-            description: hexToString(product["sp_description"]),
-          };
-        } else {
-          return null;
-        }
-      })
-      .filter((product) => product !== null);
     console.log(filteredData);
-    setProductDetails(filteredData);
-    setTimeout(() => setLoading(false), 1000);
-    // setLoading(false);
+    // console.log(reqHistory);
   };
 
-  const getManufacturerData = async () => {
-    setLoading(true);
-    const allManufacturerData = await getAllManufacturers();
-    console.log(allManufacturerData);
-
-    // const filteredData = allManufacturerData.map((product) => {
-    //   return {
-    //     address: product["_address"],
-    //     name: hexToString(product["_name"]),
-    //     physicalAddress: hexToString(product["_physicalAddress"]),
-    //   };
-    // });
-
-    // setManufacturerDetails(filteredData);
-    // console.log(filteredData);
-  };
   const encoder = new TextEncoder();
-  const addTransferData = async () => {
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      const transfer = new ethers.Contract(
-        SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI,
-        supplierManufacturer.abi,
-        signer
-      );
-
-      // console.log(
-      //   selectedProduct.product.spId,
-      //   address,
-      //   selectedManufacturer.manufacturer.address,
-      //   Math.trunc(new Date().getTime() / 1000)
-      // );
-      const tx = await transfer.transferProduct(
-        selectedProduct.product.spId,
-        address,
-        selectedManufacturer.manufacturer.address,
-        Math.trunc(new Date().getTime() / 1000)
-      );
-      await tx.wait();
-
-      const updateSupplierProductUints = new ethers.Contract(
-        SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI,
-        addproduct.abi,
-        signer
-      );
-      // console.log(quantity);
-      const tx1 = await updateSupplierProductUints.updateSupplierProductUints(
-        selectedProduct.product.spId,
-        quantity
-      );
-      await tx1.wait();
-
-      toastInfo();
-    } catch (err) {
-      console.log(err);
-    }
+  const transferData = async (i) => {
+    console.log(requestDetails[i]);
+    transferProductToManufacturer(
+      requestDetails[0].reqId,
+      requestDetails[0].manufacturerAddress,
+      requestDetails[0].quantity,
+      requestDetails[0].quantity
+    );
   };
 
   const toastInfo = () =>
@@ -142,122 +135,49 @@ function Transfer() {
 
   return (
     <>
-      <div className="transfer-main-div">
-        <div className="all-datadao-main-div">
-          <div className="first-row">
-            <FormControl
-              sx={{ m: 1, minWidth: 70 }}
-              size="small"
-              id="dropdown-formcontrol"
-              className="select-parent"
-            >
-              <InputLabel id="select-label-status">Product</InputLabel>
-              <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                // value={age}
-                label="Status"
-                onChange={(e) =>
-                  setSelectedProduct({
-                    ...selectedProduct,
-                    product: e.target.value,
-                  })
-                }
-              >
-                {productDetails &&
-                  productDetails.map((product) => (
-                    <MenuItem value={product}>{product.name} </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-            <div className="product-details">
-              <label className="manufacture-details-quality">
-                Name : {selectedProduct?.product.name}
-              </label>
-              <label className="manufacture-details-quality">
-                Price : {selectedProduct?.product.price} Matic
-              </label>
-              <label className="manufacture-details-quality">
-                Unit : {selectedProduct?.product.unit}
-              </label>
-              <label className="manufacture-details-quality">
-                Description : {selectedProduct?.product.description}
-              </label>
-            </div>
-          </div>
-          <div className="second-row">
-            <FormControl
-              sx={{ m: 1, minWidth: 70 }}
-              size="small"
-              id="dropdown-formcontrol"
-              className="select-parent"
-            >
-              <InputLabel id="select-label-status">Manufacturer</InputLabel>
-              <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                // value={age}
-                onChange={(e) =>
-                  setSelectedManufacturer({
-                    ...selectedManufacturer,
-                    manufacturer: e.target.value,
-                  })
-                }
-                label="Status"
-              >
-                {manufacturerDetails &&
-                  manufacturerDetails.map((manufacturer) => (
-                    <MenuItem value={manufacturer}>
-                      {manufacturer.name}{" "}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-            <div className="manufacture-details">
-              <label className="manufacture-details-quality">
-                Manufacturer details
-              </label>
-              <label className="manufacture-details-quality">
-                Name :{selectedManufacturer?.manufacturer.name}
-              </label>
-              <label className="manufacture-details-quality">
-                {selectedManufacturer?.manufacturer.physicalAddress}
-              </label>
-            </div>
-          </div>
-          <div className="third-row">
-            {" "}
-            <FormControl
-              sx={{ m: 1, minWidth: 70 }}
-              size="small"
-              id="dropdown-formcontrol"
-              className="select-parent"
-            >
-              <TextField
-                id="standard-basic"
-                label="Unit"
-                variant="standard"
-                onChange={(e) => {
-                  setAmount(e.target.value * selectedProduct?.product.price);
-                  setQuantity(e.target.value);
-                }}
-              />
-            </FormControl>
-            <div className="manufacture-details">
-              <label className="manufacture-details-quality">
-                Total Amount : {amount ? amount + " Matic" : "--"}
-              </label>
-            </div>
-          </div>
-        </div>
-        <Button
-          variant="contained"
-          size="large"
-          className="transfer-btn"
-          onClick={() => addTransferData()}
-        >
-          Transfer
-        </Button>
+      {/* <div className="transfer-main-div">
+        {requestDetails &&
+          requestDetails.map((data, i) => {
+            return (
+              <Box sx={{ width: "100%" }}>
+                <Grid
+                  container
+                  rowSpacing={1}
+                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                >
+                  <Grid item xs={8}>
+                    <Item>
+                      {" "}
+                      <div className="history-flex">
+                        <label className="transfer-history">
+                          Requeset Id:{data?.reqId}
+                        </label>
+                        <label className="transfer-history">
+                          product Id:{data?.spId}
+                        </label>
+                        <label className="transfer-history">
+                          Request Status:{data?.status}
+                        </label>
+                        <label className="transfer-history">
+                          Quantity:{data?.quantity}
+                        </label>
+                      </div>
+                      <div></div>
+                    </Item>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      className="transfer-btn"
+                      onClick={() => transferData(i)}
+                    >
+                      Transfer
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            );
+          })}
+
         <ToastContainer
           position="bottom-right"
           autoClose={5000}
@@ -269,6 +189,70 @@ function Transfer() {
           draggable
           pauseOnHover
         />
+      </div> */}
+
+      <div className="availabel-proposal-main-div">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Request Id</StyledTableCell>
+                <StyledTableCell align="right">Product Id</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">
+                  Manufacturer address
+                </StyledTableCell>
+                <StyledTableCell align="right">Status</StyledTableCell>
+                <StyledTableCell align="right"></StyledTableCell>
+              </TableRow>
+            </TableHead>
+            {loading ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <TableBody>
+                {requestDetails &&
+                  requestDetails.map((requestDetails) => (
+                    <StyledTableRow key={requestDetails.reqId}>
+                      <StyledTableCell component="th" scope="row">
+                        {requestDetails.reqId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.spId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.quantity}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.manufacturerAddress}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.status}
+                      </StyledTableCell>
+                      <div className="view-more-btn">
+                        <Button
+                          variant="contained"
+                          size="large"
+                          className="view-More"
+                          onClick={() => {
+                            transferData();
+                          }}
+                        >
+                          Transfer Product
+                        </Button>
+                      </div>
+                    </StyledTableRow>
+                  ))}
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
       </div>
     </>
   );
