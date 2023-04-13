@@ -6,7 +6,7 @@ function Footer() {
       <div className="copyright">
         <p>
           {" "}
-          Copyright © 2023, Created by <span>ProvyLense</span>
+          Copyright © 2023, Created by <span>ProvyLens</span>
         </p>
       </div>
     </footer>
