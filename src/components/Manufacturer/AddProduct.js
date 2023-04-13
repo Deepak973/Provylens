@@ -147,12 +147,15 @@ function AddProduct() {
         <Box
           sx={{
             display: "flex",
+
             flexDirection: "column",
             alignItems: "center",
             "& > :not(style)": { m: 1 },
           }}
         >
-          <FormControl sx={{ m: 1, width: 300 }}>
+          <FormControl
+            sx={{ m: 1, width: "50%", paddingBottom: "10px", color: "white" }}
+          >
             <InputLabel id="demo-multiple-name-label">Name</InputLabel>
             <Select
               labelId="demo-multiple-name-label"
