@@ -16,7 +16,7 @@ import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
 import ConnectButtonCustom from "./ConnectButtonCustom";
 import { useNavigate } from "react-router-dom";
 
-import { checkRegistration } from "../helper/CheckRegistration";
+import { checkRegistration } from "../helper/userDetailsHelper";
 
 function Profile() {
   const navigate = useNavigate();

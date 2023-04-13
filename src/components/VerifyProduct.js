@@ -14,10 +14,11 @@ import Footer from "../components/Footer";
 // ...graph..........
 import { ForceGraph2D } from "react-force-graph";
 import { details } from "./verifyDetails";
+import { QRCodeCanvas } from "qrcode.react";
 
 function VerifyProduct() {
   const [age, setAge] = useState("");
-  const [smId, setSmId] = useState();
+  // const [productId, setProductId] = useState();
   const [supplierDetails, setSupplierDetails] = useState();
   const [manufacturerDetails, setManufacturerDetails] = useState();
   const [supplierProduct, setSupplierProduct] = useState();
@@ -27,6 +28,150 @@ function VerifyProduct() {
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [productData, setProductData] = useState({});
+
+  const [productId, setProductId] = useState(false);
+
+  const canvasRef = useRef(null);
+
+  const downloadQRCode = (e) => {
+    e.preventDefault();
+    setProductId("");
+  };
+  const qrCodeEncoder = (e) => {
+    setProductId(e.target.value);
+  };
+
+  const qrcode = (
+    <QRCodeCanvas
+      style={{
+        marginLeft: "100px",
+        borderWidth: "10px",
+        borderStyle: "solid",
+        borderColor: "white",
+      }}
+      ref={canvasRef}
+      id="qrCode"
+      value={productId}
+      size={300}
+      bgColor={"#fff"}
+      level={"H"}
+    />
+  );
+
+  /* const saveImageToLocal = () => {
+    // let link = event.currentTarget;
+    const a = document.createElement("a");
+    // document.body.appendChild(a);
+    console.log(a);
+    const canvas = document.getElementById("qrCode");
+    var image = canvas.toDataURL("image/png");
+    a.download = "QR-Start";
+    a.href = image;
+    a.click();
+  }; */
+
+  /* const saveImageToLocal = () => {
+    const a = document.createElement("a");
+    const originalCanvas = document.getElementById("qrCode");
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = originalCanvas.width + 40; // add 40px to width for border
+    tempCanvas.height = originalCanvas.height + 40; // add 40px to height for border
+    const tempCtx = tempCanvas.getContext("2d");
+    tempCtx.strokeStyle = "white";
+    tempCtx.lineWidth = 30;
+    tempCtx.strokeRect(
+      30, // add 20px to x-coordinate for left border
+      30, // add 20px to y-coordinate for top border
+      originalCanvas.width, // use original width for QR code
+      originalCanvas.height // use original height for QR code
+    );
+    tempCtx.drawImage(originalCanvas, 30, 30); // draw original QR code onto temp canvas with 20px offset
+    const image = tempCanvas.toDataURL("image/png");
+    a.download = "QR-Start";
+    a.href = image;
+    a.click();
+  }; */
+
+  /* const saveImageToLocal = () => {
+    const a = document.createElement("a");
+    const originalCanvas = document.getElementById("qrCode");
+    const tempCanvas = document.createElement("canvas");
+    const textPadding = 20;
+    const textSize = 36;
+    const text = "✔ ProvyLens";
+    const textWidth = originalCanvas.width;
+    const textHeight = textSize + textPadding;
+    tempCanvas.width = originalCanvas.width + 40;
+    tempCanvas.height = originalCanvas.height + textHeight + 40;
+    const tempCtx = tempCanvas.getContext("2d");
+    tempCtx.fillStyle = "white";
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+    tempCtx.drawImage(originalCanvas, 20, 20);
+    tempCtx.strokeStyle = "white";
+    tempCtx.lineWidth = 20;
+    tempCtx.strokeRect(10, 10, tempCanvas.width - 20, tempCanvas.height - 20);
+    tempCtx.fillStyle = "black";
+    tempCtx.font = `bold ${textSize}px Arial`;
+    tempCtx.textAlign = "center";
+    tempCtx.textBaseline = "middle";
+    tempCtx.fillText(
+      text,
+      tempCanvas.width / 2,
+      tempCanvas.height - textPadding - textSize / 2
+    );
+    const image = tempCanvas.toDataURL("image/png");
+    a.download = "QR-Start";
+    a.href = image;
+    a.click();
+  }; */
+
+  const saveImageToLocal = () => {
+    const a = document.createElement("a");
+    const originalCanvas = document.getElementById("qrCode");
+    const tempCanvas = document.createElement("canvas");
+    const textPadding = 20;
+    const textSize = 36;
+    const textLine1 = "✔ ProvyLens";
+    const textLine2 = "Product Id: " + productId;
+    const textWidth = originalCanvas.width;
+    const textHeight = textSize + textPadding;
+    const smallTextSize = 20;
+    const smallTextPadding = 10;
+    tempCanvas.width = originalCanvas.width + 40;
+    tempCanvas.height = originalCanvas.height + textHeight + smallTextSize + 60;
+    const tempCtx = tempCanvas.getContext("2d");
+    tempCtx.fillStyle = "white";
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+    tempCtx.drawImage(originalCanvas, 20, 20);
+    tempCtx.strokeStyle = "white";
+    tempCtx.lineWidth = 20;
+    tempCtx.strokeRect(10, 10, tempCanvas.width - 20, tempCanvas.height - 20);
+    tempCtx.fillStyle = "black";
+    tempCtx.font = `bold ${textSize}px Arial`;
+    tempCtx.textAlign = "center";
+    tempCtx.textBaseline = "middle";
+    tempCtx.fillText(
+      textLine1,
+      tempCanvas.width / 2,
+      tempCanvas.height -
+        textPadding -
+        textSize / 2 -
+        smallTextSize -
+        smallTextPadding
+    );
+    tempCtx.font = `bold ${smallTextSize}px Arial`;
+    tempCtx.fillText(
+      textLine2,
+      tempCanvas.width / 2,
+      tempCanvas.height - smallTextPadding - smallTextSize / 2
+    );
+    const image = tempCanvas.toDataURL("image/png");
+    a.download = "QR-Start";
+    a.href = image;
+    a.click();
+  };
+
+  // const textLine2 = `Product Id: ${productId} ` + productId;
 
   const data01 = {
     nodes: [
@@ -242,9 +387,9 @@ function VerifyProduct() {
   };
   // ................
 
-  const getSmId = async (smId) => {
+  const getSmId = async (productId) => {
     const data_ = `query MyQuery {
-      eventSupplierManufacturerTransfers(where: {_smId: "${smId}"}) {
+      eventSupplierManufacturerTransfers(where: {_smId: "${productId}"}) {
         _dispatchTime
         _manufacturerAddress
         _smId
@@ -259,7 +404,7 @@ function VerifyProduct() {
 
     const result1 = await c.query(data_).toPromise();
 
-    setSmId({
+    setProductId({
       dispatchTime: new Date(
         result1.data.eventSupplierManufacturerTransfers[0]["_name"] * 1000
       ).toDateString(),
@@ -267,7 +412,7 @@ function VerifyProduct() {
         result1.data.eventSupplierManufacturerTransfers[0][
           "_manufacturerAddress"
         ],
-      smId: result1.data.eventSupplierManufacturerTransfers[0]["_smId"],
+      productId: result1.data.eventSupplierManufacturerTransfers[0]["_smId"],
       spId: result1.data.eventSupplierManufacturerTransfers[0]["_spId"],
       supplierAddress:
         result1.data.eventSupplierManufacturerTransfers[0]["_supplierAddress"],
@@ -433,19 +578,31 @@ function VerifyProduct() {
   return (
     <>
       <div className="verify-product-main-div">
+        <div>{qrcode}</div>
+        {/* <div><form onSubmit={downloadQRCode}></form></div> */}
+        <button
+          id="download_image_link"
+          className="browse-btn"
+          href="download_link"
+          onClick={() => {
+            saveImageToLocal();
+          }}
+        >
+          Download QR Code
+        </button>
         <div className="delete-product-main-div">
           <TextField
             helperText=" "
             id="demo-helper-text-aligned-no-helper"
             label="Product Id"
             onChange={(e) => {
-              setSmId(e.target.value);
+              setProductId(e.target.value);
             }}
           />
 
           <Button
             onClick={() => {
-              getSmId(smId);
+              getSmId(productId);
             }}
             variant="contained"
             size="large"
