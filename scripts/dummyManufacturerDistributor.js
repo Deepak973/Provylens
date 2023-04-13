@@ -7,25 +7,24 @@ async function deploy() {
     "manufacturerDistributor"
   );
   const manufacturerDistributor = await ManufacturerDistributor.deploy(
-    "userdetails address"
-  );
+    "0x85b83843424ff60F1Dc0AE03E1577c420d1ef0Bc",
+    "0x6339EdEFeFAC4DAac16e9E3e6A9D2583E0Bf6518"
+  ); //user address & manufacture product
   console.log(
     "manufacturerDistributor deployed to address:",
     manufacturerDistributor.address
   );
 }
 
-deploy();
+// deploy();
 
 // Interact script
 
-const { ethers } = require("hardhat");
-
 async function interact() {
   const encoder = new TextEncoder();
-  const contractAddress = "CONTRACT_ADDRESS_HERE";
+  const contractAddress = "0x5D6b7d0a10347Cea5665f286B0b9F81f0F71Cea3";
   const mdContract = await ethers.getContractAt(
-    "ContractName",
+    "manufacturerDistributor",
     contractAddress
   );
 

@@ -8,23 +8,22 @@ async function deploy() {
     "manufacturerProduct"
   );
   const manufacturerProduct = await ManufacturerProduct.deploy(
-    "userDetails address"
-  );
+    "0x85b83843424ff60F1Dc0AE03E1577c420d1ef0Bc"
+  ); //userdetails contract address
   await manufacturerProduct.deployed();
 
   // Print the contract address
   console.log("manufacturerProduct deployed to:", manufacturerProduct.address);
 }
-deploy();
+// deploy();
 
 // Interact script
 
-const { ethers } = require("hardhat");
-
 async function interact() {
-  const contractAddress = "CONTRACT_ADDRESS_HERE";
+  const encoder = new TextEncoder();
+  const contractAddress = "0x6339EdEFeFAC4DAac16e9E3e6A9D2583E0Bf6518";
   const manufacturerProductContract = await ethers.getContractAt(
-    "ContractName",
+    "manufacturerProduct",
     contractAddress
   );
 
