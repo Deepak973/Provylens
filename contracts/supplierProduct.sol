@@ -11,7 +11,6 @@ pragma solidity >=0.8.0 <=0.8.19;
 contract supplierProduct is ISupplierProduct{
 
     userDetails udInstance; // instance of userDetails contract
-    supplierProduct spInstance; // instance of supplierProduct contract
     address owner; // address of the contract owner
 
     constructor(address _udAddress) {
@@ -63,7 +62,7 @@ contract supplierProduct is ISupplierProduct{
     /// @notice function to add supplier product
     function addSupplierProduct(bytes calldata _name,bytes calldata _description,uint128 _unit,uint128 _price,uint32 _date,uint32 _expiryDate)public override  {
         userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
-        require(uint8(user.userType)== 0,"Only Manufacturer can Request product"); 
+        require(uint8(user.userType)== 0,"Only Supplier can add products"); 
 
         supplierProductsIdToStructMapping[spId] = supplierProduct(msg.sender,_name,_description,_unit,_price,_date,_expiryDate,true);
         supplierAddressToproductsIdMapping[msg.sender].push(spId);
