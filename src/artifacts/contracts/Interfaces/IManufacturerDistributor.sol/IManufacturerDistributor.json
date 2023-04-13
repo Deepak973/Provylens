@@ -57,6 +57,11 @@
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_mpId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
           "name": "_mdId",
           "type": "uint256"
         }
@@ -104,11 +109,6 @@
         {
           "internalType": "uint32",
           "name": "_quantity",
-          "type": "uint32"
-        },
-        {
-          "internalType": "uint32",
-          "name": "_currentQuantity",
           "type": "uint32"
         }
       ],

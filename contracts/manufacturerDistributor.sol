@@ -14,9 +14,11 @@ contract manufacturerDistributor is IManufacturerDistributor{
     userDetails udInstance;
     manufacturerProduct mpInstance;
     address owner;
-    constructor(address _udAddress) {
+    constructor(address _udAddress,address _mpAddress) {
         owner = msg.sender;
         udInstance = userDetails(_udAddress);
+        mpInstance = manufacturerProduct(_mpAddress);
+
     }
 
     modifier onlyOwner() {

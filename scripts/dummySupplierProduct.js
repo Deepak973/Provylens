@@ -1,30 +1,56 @@
-const hre = require("hardhat");
+// Deploy script
 
-async function main() {
-  const encoder = new TextEncoder();
+const { ethers } = require("hardhat");
 
-  const Contract = await ethers.getContractFactory("supplierProduct");
-  // const contract = await Contract.deploy();
-  // await contract.deployed();
-
-  const supplierProductContract = await Contract.attach(
-    "0x9036dE7d09BD7cb5326Eb58cafd7Df5d0aFE04a0"
-  );
-
-  // Use dummy data to test the addSupplierProduct function
-  await supplierProduct.addSupplierProduct(
-    encoder.encode("product name"),
-    encoder.encode("product description"),
-    100,
-    10,
-    1649865600,
-    1749865600
-  );
-
-  console.log("Contract deployed to:", supplierProduct.address);
+async function deploy() {
+  const SupplierProduct = await ethers.getContractFactory("supplierProduct");
+  const supplierProduct = await SupplierProduct.deploy("user details");
+  console.log("Contract address:", supplierProduct.address);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+deploy();
+
+// Interact script
+
+const { ethers } = require("hardhat");
+
+async function interact() {
+  const encoder = new TextEncoder();
+
+  const contractAddress = "CONTRACT_ADDRESS_HERE";
+  const supplierProduct = await ethers.getContractAt(
+    "supplierProduct",
+    contractAddress
+  );
+
+  // Call addSupplierProduct function
+  await supplierProduct.addSupplierProduct(
+    "Product Name",
+    "Product Description",
+    10,
+    100,
+    1630742400, // Unix timestamp for 2021-09-04
+    1662278400 // Unix timestamp for 2022-09-04
+  );
+  console.log("Supplier product added successfully");
+
+  // Call getSupplierProductIds function
+  const productIds = await supplierProduct.getSupplierProductIds();
+  console.log("Product IDs:", productIds);
+
+  // Call getSingleSupplierProduct function
+  const singleProduct = await supplierProduct.getSingleSupplierProduct(
+    productIds[0]
+  );
+  console.log("Single product:", singleProduct);
+
+  // Call updateSupplierProductUints function
+  await supplierProduct.updateSupplierProductUints(productIds[0], 2);
+  console.log("Supplier product units updated successfully");
+
+  // Call deleteSupplierProduct function
+  await supplierProduct.deleteSupplierProduct(productIds[0]);
+  console.log("Supplier product deleted successfully");
+}
+
+interact();
