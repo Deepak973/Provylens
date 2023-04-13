@@ -20,7 +20,7 @@ import Particles from "../components/Particles";
 import Loader from "../components/Loader";
 import { Chat } from "@pushprotocol/uiweb";
 import Footer from "../components/Footer";
-import { checkRegistration } from "../helper/CheckRegistration";
+import { checkRegistration } from "../helper/userDetailsHelper";
 
 function LandingPage() {
   const { address, isConnected } = useAccount();

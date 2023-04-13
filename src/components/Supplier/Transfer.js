@@ -18,7 +18,7 @@ import supplierManufacturer from "../../artifacts/contracts/supplierManufacturer
 import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../../config";
 import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 import { getSpDetails } from "../../helper/GetSpDetails";
-import { getAllManufacturers } from "../../helper/CheckRegistration";
+import { getAllManufacturers } from "../../helper/userDetailsHelper";
 
 function Transfer() {
   const [manufacturerDetails, setManufacturerDetails] = useState();
