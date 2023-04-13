@@ -4,7 +4,7 @@ const { ethers } = require("hardhat");
 
 async function deploy() {
   const SupplierProduct = await ethers.getContractFactory("supplierProduct");
-  const supplierProduct = await SupplierProduct.deploy();
+  const supplierProduct = await SupplierProduct.deploy("user details");
   console.log("Contract address:", supplierProduct.address);
 }
 
@@ -15,6 +15,8 @@ deploy();
 const { ethers } = require("hardhat");
 
 async function interact() {
+  const encoder = new TextEncoder();
+
   const contractAddress = "CONTRACT_ADDRESS_HERE";
   const supplierProduct = await ethers.getContractAt(
     "supplierProduct",
