@@ -2,7 +2,7 @@
   width: 100%;
   width: 100%;
   max-width: 1240px;
-  margin: 10% auto;
+  margin: 3% auto;
 }
 .availabel-proposal-section1 {
   display: flex;
@@ -58,11 +58,11 @@ svg.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
 #dropdown-formcontrol {
   min-width: 120px;
 }
-/* .css-14lo706 > span {
+.css-14lo706 > span {
   padding-left: 30px !important;
   width: 50% !important;
   content: "" !important;
-} */
+}
 
 .create-proposal-parent {
   background-color: rgb(21, 22, 25);

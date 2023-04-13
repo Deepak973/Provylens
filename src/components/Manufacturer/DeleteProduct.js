@@ -102,6 +102,11 @@ function DeleteProduct() {
               id="demo-select-small"
               // value={selectedId}
               label="Product-Id"
+              sx={{
+                ".MuiOutlinedInput-notchedOutline": {
+                  borderColor: "red",
+                },
+              }}
               onChange={(e) => {
                 setSelectedId(e.target.value);
               }}

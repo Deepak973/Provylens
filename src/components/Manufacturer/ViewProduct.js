@@ -28,11 +28,13 @@ import { ethers } from "ethers";
 // ..............
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#1a1156",
     color: theme.palette.common.white,
+    textAlign: "center",
+    letterSpacing: "2px",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 15,
   },
 }));
 
@@ -126,12 +128,24 @@ function ViewProduct() {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Product Id</StyledTableCell>
-                <StyledTableCell align="right">Product Name</StyledTableCell>
-                <StyledTableCell align="right">Unit</StyledTableCell>
-                <StyledTableCell align="right">Price per unit</StyledTableCell>
-                <StyledTableCell align="right">Expiry Date</StyledTableCell>
-                <StyledTableCell align="right"></StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  sx={{ width: "130px", textAlign: "center" }}
+                >
+                  Product Id
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ width: "400px" }}>
+                  Product Name
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ width: "130px" }}>
+                  Unit
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ width: "150px" }}>
+                  Price per unit
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ width: "300px" }}>
+                  Expiry Date
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             {loading ? (
@@ -151,16 +165,16 @@ function ViewProduct() {
                       <StyledTableCell component="th" scope="row">
                         {product.spId}
                       </StyledTableCell>
-                      <StyledTableCell align="right">
+                      <StyledTableCell align="center">
                         {product.name}
                       </StyledTableCell>
-                      <StyledTableCell align="right">
+                      <StyledTableCell align="center">
                         {product.unit}
                       </StyledTableCell>
-                      <StyledTableCell align="right">
+                      <StyledTableCell align="center">
                         {product.price}
                       </StyledTableCell>
-                      <StyledTableCell align="right">
+                      <StyledTableCell align="center">
                         {product.expiryDate}
                       </StyledTableCell>
                       <div className="view-more-btn">

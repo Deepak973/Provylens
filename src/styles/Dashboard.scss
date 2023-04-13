@@ -10,7 +10,7 @@
   min-height: 85vh;
   display: flex;
   flex-direction: row;
-  padding-top: 6%;
+  padding-top: 85px;
 
   .left-db {
     width: 250px;
@@ -81,7 +81,7 @@
 
     #right-db-inside {
       width: 100%;
-      margin: 6% auto;
+      margin: 3% auto;
 
       .templates-div {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -200,7 +200,7 @@
     width: 80% !important;
   }
   .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
-    border-color: rgba(255, 255, 255, 0.5) !important;
+    // border-color: rgba(255, 255, 255, 0.5) !important;
   }
 }
 

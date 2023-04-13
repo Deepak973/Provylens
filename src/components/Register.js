@@ -20,6 +20,7 @@ import bubble4 from "../assets/fixed4.png";
 import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
 import userdetails from "../artifacts/contracts/userDetails.sol/userDetails.json";
 import { useAccount } from "wagmi";
+import { BorderColor } from "@mui/icons-material";
 
 function Register() {
   const { address, isConnected } = useAccount();
@@ -146,6 +147,20 @@ function Register() {
           >
             <InputLabel id="select-label-status">Select role</InputLabel>
             <Select
+              sx={{
+                ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+                ".css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input":
+                  { color: "white" },
+                ".css-1tznxlx-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline:hover":
+                  { borderColor: "rgba(255, 255, 255, 0.5)" },
+                ".css-be55cd-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                  { borderColor: "rgba(255, 255, 255, 0.5)" },
+                ".css-1x51dt5-MuiInputBase-input-MuiInput-input:focus ": {
+                  outline: "none",
+                },
+              }}
               labelId="demo-select-small"
               id="demo-select-small"
               // defaultValue={""}
@@ -156,7 +171,15 @@ function Register() {
                 setUserData({ ...userData, userType: e.target.value });
               }}
             >
-              <MenuItem value={0}>Supplier </MenuItem>
+              <MenuItem
+                value={0}
+                sx={{
+                  ".css-1tznxlx-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline:hover":
+                    { borderColor: "rgba(255, 255, 255, 0.5)" },
+                }}
+              >
+                Supplier{" "}
+              </MenuItem>
               <MenuItem value={1}>Manufacturer </MenuItem>
               <MenuItem value={2}>Distributor</MenuItem>
             </Select>
@@ -183,6 +206,14 @@ function Register() {
               inputProps={{ accept: "image/*" }}
               className="input-edit-profile"
               id="register-file"
+              sx={{
+                ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+                ".css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
+                  color: "white",
+                },
+              }}
             />
 
             {preview && (
@@ -219,6 +250,11 @@ function Register() {
               onChange={(e) => {
                 setUserData({ ...userData, name: e.target.value });
               }}
+              sx={{
+                ".css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                },
+              }}
             />
           </Box>
           <Box
@@ -235,6 +271,13 @@ function Register() {
               variant="standard"
               onChange={(e) => {
                 setUserData({ ...userData, physcialAddress: e.target.value });
+              }}
+              sx={{
+                ".css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                },
+                "css-1c2i806-MuiFormLabel-root-MuiInputLabel-root.Mui-focused":
+                  { color: "rgba(255, 255, 255, 0.5)" },
               }}
             />
           </Box>
