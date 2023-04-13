@@ -4,10 +4,7 @@ function Footer() {
   return (
     <footer id="footer">
       <div className="copyright">
-        <p>
-          {" "}
-          Copyright © 2023, Created by <span>ProvyLens</span>
-        </p>
+        <p> copyright Ⓒ 2023 Provylens, All rights reserved, Site credits</p>
       </div>
     </footer>
   );
