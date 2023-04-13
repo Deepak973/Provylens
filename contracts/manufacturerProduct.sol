@@ -43,7 +43,7 @@ contract manufacturerProduct is IManufacturerProduct{
         uint32 _date,
         uint32 _expiryDate
     )public override {
-        manufacturerProductsIdToStructMapping[mpId] = manufacturerProduct(_supplierAddress,_smId,_name,_description,_unit,_price,_date,_expiryDate,true);
+        manufacturerProductsIdToStructMapping[mpId] = manufacturerProduct(_supplierAddress,_smId,_name,_description,_unit,_price,_date,_expiryDate,true,0x0000000000000000000000000000000000000000,0,0);
         manufacturerAddressToproductsIdMapping[msg.sender].push(mpId);
         emit eventAddManufacturerProduct(mpId,_supplierAddress,_smId,_name,_description,_unit,_price,_date,_expiryDate);
         mpId++;
@@ -55,9 +55,21 @@ contract manufacturerProduct is IManufacturerProduct{
         emit eventUpdateManufacturerProductUints(_mpId, manufacturerProductsIdToStructMapping[_mpId].mp_unit);
     }
 
+    function updateManufactureProductTransfer(uint _mpId,address _distributorAddress) public{
+        manufacturerProductsIdToStructMapping[_mpId].distributorAddress = _distributorAddress;
+        manufacturerProductsIdToStructMapping[_mpId].dispatchTime = uint32(block.timestamp);
+    }
+
+     function updateManufactureProductReceived(uint _mpId) public{
+        manufacturerProductsIdToStructMapping[_mpId].arrivalTime = uint32(block.timestamp);
+    }
+
     /// @notice function to return manufacturer product IDs
     function getManufacturerProductIds() public view returns(uint[] memory){
         return manufacturerAddressToproductsIdMapping[msg.sender];
+    }
+     function getMpIdsByAddress(address _address) public view returns(uint[] memory){
+        return manufacturerAddressToproductsIdMapping[_address];
     }
 
     /// @notice function to return manufacturer' single product

@@ -56,15 +56,17 @@ contract manufacturerDistributor is IManufacturerDistributor{
     mapping(address => uint[]) public manufacturerTosmIdMapping;
 
     /// @notice function to transfer product from supplier to manufacturer
-    function transferProduct(uint _mpId,address _distributorAddress,uint32 _quantity,uint32 _currentQuantity)external override{
+    function transferProduct(uint _mpId,address _distributorAddress,uint32 _quantity)external override{
         userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
         require(uint8(user.userType)== 0,"Only Supplier can Transfer product"); 
 
-        mdIdToStructMapping[mdId].mpId = _mpId;
-        mdIdToStructMapping[mdId].m_address = msg.sender;
-        mdIdToStructMapping[mdId].dispatchTime = uint32(block.timestamp);
-        mdIdToStructMapping[mdId].currentQuantity = _currentQuantity;
+        mpInstance.updateManufactureProductTransfer(_mpId,_distributorAddress);
         mdIdToStructMapping[mdId].status = transferStatus.Approved;
+        // mdIdToStructMapping[mdId].mpId = _mpId;
+        // mdIdToStructMapping[mdId].m_address = msg.sender;
+        // mdIdToStructMapping[mdId].dispatchTime = uint32(block.timestamp);
+        // mdIdToStructMapping[mdId].currentQuantity = _currentQuantity;
+        // mdIdToStructMapping[mdId].status = transferStatus.Approved;
         
         emit eventManufacturerDistributorTransfer(mdId,_mpId,msg.sender,_distributorAddress,uint32(block.timestamp));
         mpInstance.updateManufacturerProductUints(_mpId,_quantity);
@@ -81,12 +83,13 @@ contract manufacturerDistributor is IManufacturerDistributor{
     }
     
     /// @notice function to update that the product has been received
-    function receiveProduct(uint _smId)external override{
+    function receiveProduct(uint _mpId,uint _mdId)external override{
         userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
         require(uint8(user.userType) == 1,"Only Distributor can acknowledge received product"); 
         
-        mdIdToStructMapping[_smId].arrivalTime = uint32(block.timestamp);
-        mdIdToStructMapping[_smId].status = transferStatus.Received;
+        mpInstance.updateManufactureProductReceived(_mpId);
+        mdIdToStructMapping[_mdId].status = transferStatus.Received;
+
         emit eventArrivalTime(uint32(block.timestamp));
     } 
 
