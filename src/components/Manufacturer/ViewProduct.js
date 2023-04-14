@@ -90,8 +90,9 @@ function ViewProduct() {
           width: 70,
           excavate: true,
         }}
-        size={300}
-        bgColor={"#fff"}
+        size={400}
+        bgColor={"#ffffff"}
+        fgColor={"#000000"}
         level={"H"}
       />
     );
