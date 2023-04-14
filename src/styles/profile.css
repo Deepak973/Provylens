@@ -10,6 +10,7 @@
     rgb(0 0 0 / 17%) 0px 0px 25px;
   height: 45vh;
   background: repeating-linear-gradient(45deg, #0606064d, transparent 100px);
+  z-index: 1;
 }
 
 .profile-block {

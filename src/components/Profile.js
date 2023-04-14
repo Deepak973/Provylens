@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/profile.css";
 import feature1 from "../assets/feature-1.png";
 import bubble4 from "../assets/fixed4.png";
+
 import { createClient } from "urql";
 import { useAccount, useSigner } from "wagmi";
 import Footer from "../components/Footer";

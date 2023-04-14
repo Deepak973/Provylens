@@ -148,17 +148,18 @@ function Register() {
             <InputLabel id="select-label-status">Select role</InputLabel>
             <Select
               sx={{
-                ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                ".MuiOutlinedInput-notchedOutline": {
                   borderColor: "rgba(255, 255, 255, 0.5)",
                 },
-                ".css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input":
-                  { color: "white" },
-                ".css-1tznxlx-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline:hover":
-                  { borderColor: "rgba(255, 255, 255, 0.5)" },
-                ".css-be55cd-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  { borderColor: "rgba(255, 255, 255, 0.5)" },
-                ".css-1x51dt5-MuiInputBase-input-MuiInput-input:focus ": {
-                  outline: "none",
+                ".MuiOutlinedInput-input": {
+                  color: "white",
+                  fontFamily: "HammersmithOne-Regular",
+                },
+                ".MuiSelect-icon": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                },
+                ".MuiOutlinedInput-notchedOutline.Mui-focused ": {
+                  borderColor: "red",
                 },
               }}
               labelId="demo-select-small"
@@ -174,8 +175,12 @@ function Register() {
               <MenuItem
                 value={0}
                 sx={{
-                  ".css-1tznxlx-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline:hover":
-                    { borderColor: "rgba(255, 255, 255, 0.5)" },
+                  ".MuiOutlinedInput-notchedOutline:hover": {
+                    borderColor: "rgba(255, 255, 255, 0.5)",
+                  },
+                  ".MuiOutlinedInput-notchedOutline.Mui-focused": {
+                    borderColor: "rgba(255, 255, 255, 0.5)",
+                  },
                 }}
               >
                 Supplier{" "}
@@ -187,7 +192,7 @@ function Register() {
           <Box
             component="form"
             sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
+              "& > :not(style)": { m: 1, width: "30ch" },
             }}
             noValidate
             autoComplete="off"
@@ -203,17 +208,18 @@ function Register() {
               type="file"
               label=""
               onChange={handleFileChange}
+              sx={{
+                ".MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+                ".MuiOutlinedInput-root": {
+                  color: "white",
+                  fontFamily: "HammersmithOne-Regular",
+                },
+              }}
               inputProps={{ accept: "image/*" }}
               className="input-edit-profile"
               id="register-file"
-              sx={{
-                ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(255, 255, 255, 0.5)",
-                },
-                ".css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
-                  color: "white",
-                },
-              }}
             />
 
             {preview && (
@@ -238,7 +244,7 @@ function Register() {
           <Box
             component="form"
             sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
+              "& > :not(style)": { m: 1, width: "30ch" },
             }}
             noValidate
             autoComplete="off"
@@ -246,21 +252,37 @@ function Register() {
             <TextField
               id="standard-basic"
               label="Name"
+              sx={{
+                ".MuiInput-root:before": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+
+                ".MuiInput-root:after": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+                ".MuiInput-input ": {
+                  color: "white",
+                  fontFamily: "HammersmithOne-Regular",
+                },
+                ".MuiInputLabel-root ": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                  fontFamily: "HammersmithOne-Regular",
+                },
+                ".MuiInputLabel-root.Mui-focused ": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                  fontFamily: "HammersmithOne-Regular",
+                },
+              }}
               variant="standard"
               onChange={(e) => {
                 setUserData({ ...userData, name: e.target.value });
-              }}
-              sx={{
-                ".css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root": {
-                  color: "rgba(255, 255, 255, 0.5)",
-                },
               }}
             />
           </Box>
           <Box
             component="form"
             sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
+              "& > :not(style)": { m: 1, width: "30ch" },
             }}
             noValidate
             autoComplete="off"
@@ -268,16 +290,27 @@ function Register() {
             <TextField
               id="standard-basic"
               label="Address"
+              sx={{
+                ".MuiInput-root:before": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+
+                ".MuiInput-root:after": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+                ".MuiInput-input ": {
+                  color: "white",
+                },
+                ".MuiInputLabel-root ": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                },
+                ".MuiInputLabel-root.Mui-focused ": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                },
+              }}
               variant="standard"
               onChange={(e) => {
                 setUserData({ ...userData, physcialAddress: e.target.value });
-              }}
-              sx={{
-                ".css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root": {
-                  color: "rgba(255, 255, 255, 0.5)",
-                },
-                "css-1c2i806-MuiFormLabel-root-MuiInputLabel-root.Mui-focused":
-                  { color: "rgba(255, 255, 255, 0.5)" },
               }}
             />
           </Box>
