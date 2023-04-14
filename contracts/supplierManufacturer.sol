@@ -17,6 +17,12 @@ contract supplierManufacturer is ISupplierManufacturer{
     supplierProduct spInstance; // instance of supplierProduct contract
     address owner; // address of the contract owner
 
+    struct supplierManufacturerWithProduct {
+    supplierManufacturer smDetails;
+    supplierProduct.supplierProduct spDetails;
+    userDetails.userDetails uDetails;
+    }
+
     constructor(address _udAddress, address _spAddress) {
         owner = msg.sender;
         udInstance = userDetails(_udAddress);
@@ -101,7 +107,7 @@ contract supplierManufacturer is ISupplierManufacturer{
         smIdToStructMapping[_smId].currentQuantity = _currentQuantity;
         smIdToStructMapping[_smId].status = transferStatus.Approved;
         emit eventSupplierManufacturerTransfer(smId,smIdToStructMapping[_smId].spId,msg.sender,_manufacturerAddress,uint32(block.timestamp));
-        spInstance.updateSupplierProductUints(smIdToStructMapping[_smId].spId,_quantity);
+        spInstance.updateSupplierProductUints(smIdToStructMapping[_smId].spId,_quantity,caller);
     }
 
     // function testGet()public view returns(uint[] memory){
@@ -155,4 +161,32 @@ contract supplierManufacturer is ISupplierManufacturer{
         }
         return smIdDetails;
     }
+
+    function getAllSmIdForSupplierWithproductDetails(address _supplierAddress) public view returns(supplierManufacturerWithProduct[] memory){
+    uint[] memory smIdData = supplierTosmIdMapping[_supplierAddress];
+    supplierManufacturerWithProduct[] memory smIdDetails = new supplierManufacturerWithProduct[](smIdData.length);
+    for(uint i=0;i<smIdData.length;i++)
+    {
+        smIdDetails[i].smDetails = smIdToStructMapping[smIdData[i]];
+        smIdDetails[i].spDetails = spInstance.getSingleSupplierProduct(smIdDetails[i].smDetails.spId);
+        smIdDetails[i].uDetails = udInstance.getSingleUser(smIdDetails[i].smDetails.manufacturerAddress);
+
+    }
+    return smIdDetails;
+}
+
+ function getAllSmIdForManufacturerWithproductDetails(address _manufacturerAddress) public view returns(supplierManufacturerWithProduct[] memory){
+    uint[] memory smIdData = manufacturerTosmIdMapping[_manufacturerAddress];
+    supplierManufacturerWithProduct[] memory smIdDetails = new supplierManufacturerWithProduct[](smIdData.length);
+    for(uint i=0;i<smIdData.length;i++)
+    {
+        smIdDetails[i].smDetails = smIdToStructMapping[smIdData[i]];
+        smIdDetails[i].spDetails = spInstance.getSingleSupplierProduct(smIdDetails[i].smDetails.spId);
+        smIdDetails[i].uDetails = udInstance.getSingleUser(smIdDetails[i].smDetails.supplierAddress);
+
+    }
+    return smIdDetails;
+}
+
+
 }

@@ -8,8 +8,8 @@ async function deploy() {
     "supplierManufacturer"
   );
   const supplierManufacturer = await SupplierManufacturer.deploy(
-    "0x85b83843424ff60F1Dc0AE03E1577c420d1ef0Bc",
-    "0x479f48c20A3632ea40Ae1B75a6D7836e1e5fba9C"
+    "0x9F3b9F145D7E7a6487844A223ac348FA8EC152fF",
+    "0x28a13393946449D53429fB3dbfb0Adec3F5cB3af"
   );
   await supplierManufacturer.deployed();
 
@@ -20,14 +20,14 @@ async function deploy() {
   );
 }
 
-// deploy();
+deploy();
 
 // Interact script
 
 async function interact() {
   const encoder = new TextEncoder();
 
-  const contractAddress = "0x4EE716655AA4F4Fbd2F12Cd71b0c39f85A8DF236";
+  const contractAddress = "0x1D7BE62073DBB675DBd942629E379D6e15b67795";
   const supplierManufacturer = await ethers.getContractAt(
     "supplierManufacturer",
     contractAddress
@@ -78,4 +78,4 @@ async function interact() {
   // console.log("Product received");
 }
 
-interact();
+// interact();

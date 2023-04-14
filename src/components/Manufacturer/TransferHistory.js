@@ -10,8 +10,15 @@ import history from "../TransferHistory.json";
 import { createClient } from "urql";
 import { useAccount, useSigner } from "wagmi";
 import { requestHistoryOfManufacturer } from "../../helper/supplierManufacturerHelper";
+import { receiveProduct } from "../../helper/supplierManufacturerHelper";
 import { getSingleSupplierProduct } from "../../helper/supplierProductHelper";
 import hexToString from "../../helper/HexToStringConverter";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Table from "@mui/material/Table";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -19,6 +26,26 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
 }));
 
 function TransferHistory({ dashboardLinks }) {
@@ -36,22 +63,32 @@ function TransferHistory({ dashboardLinks }) {
   useEffect(() => {
     getTransferData();
   }, []);
+
+  const updateStatus = async (smId) => {
+    receiveProduct(smId);
+  };
   const getTransferData = async () => {
     const reqHistory = await requestHistoryOfManufacturer(address);
     console.log(reqHistory);
     const filteredData = reqHistory.map((val, index) => {
       return {
-        reqId: parseInt(val["smId"]),
-        spId: parseInt(val["spId"]),
+        reqId: parseInt(val[0]["smId"]),
+        spId: parseInt(val[0]["spId"]),
         // name: hexToString(val["userName"]),
         status:
-          val["status"] === 1
+          val[0]["status"] === 1
             ? "Requested"
-            : val["status"] === 2
+            : val[0]["status"] === 2
             ? "Approved"
-            : val["status"] === 3
+            : val[0]["status"] === 3
             ? "Received"
             : null,
+        quantity: val[0]["quantity"],
+        productname: hexToString(val[1]["sp_name"]),
+        p_description: hexToString(val[1]["sp_description"]),
+        p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
+        p_date_created: new Date(val[1]["sp_date"]).toDateString(),
+        supplier_name: hexToString(val[2]["userName"]),
       };
     });
     setRequestDetails(filteredData);
@@ -67,7 +104,7 @@ function TransferHistory({ dashboardLinks }) {
   }
   return (
     <>
-      {modal && (
+      {/* {modal && (
         <div className=" modal ">
           <div onClick={toggleModal} className="overlay"></div>
           <div className=" modal-content">
@@ -111,8 +148,8 @@ function TransferHistory({ dashboardLinks }) {
             </button>
           </div>
         </div>
-      )}
-      <div className="all-history-main-div">
+      )} */}
+      {/* <div className="all-history-main-div">
         {requestDetails &&
           requestDetails.map((data) => {
             return (
@@ -157,6 +194,66 @@ function TransferHistory({ dashboardLinks }) {
               </Box>
             );
           })}
+      </div> */}
+
+      <div className="availabel-proposal-main-div">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Request Id</StyledTableCell>
+                <StyledTableCell align="right">Product Name</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">Supplier Name</StyledTableCell>
+                <StyledTableCell align="right">Current Status</StyledTableCell>
+                <StyledTableCell align="right">Update Status</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            {false ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <TableBody>
+                {requestDetails &&
+                  requestDetails.map((requestDetails) => (
+                    <StyledTableRow key={requestDetails.reqId}>
+                      <StyledTableCell component="th" scope="row">
+                        {requestDetails.reqId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.productname}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.quantity}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.supplier_name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.status}
+                      </StyledTableCell>
+                      {requestDetails.status === "Received" ? null : (
+                        <div
+                          className="view-more-btn"
+                          onClick={() => {
+                            updateStatus(requestDetails.reqId);
+                          }}
+                        >
+                          Receive
+                        </div>
+                      )}
+                    </StyledTableRow>
+                  ))}
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
       </div>
     </>
   );

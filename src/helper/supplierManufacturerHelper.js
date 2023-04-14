@@ -61,7 +61,8 @@ export const requestHistoryOfManufacturer = async (add) => {
       signer
     );
 
-    const tx = await connectedContract.getAllSmIdForManufacturer(add);
+    const tx =
+      await connectedContract.getAllSmIdForManufacturerWithproductDetails(add);
 
     // await tx.wait();
     return tx;
@@ -81,7 +82,9 @@ export const requestHistoryOfSupplier = async (add) => {
       signer
     );
 
-    const tx = await connectedContract.getAllSmIdForSupplier(add);
+    const tx = await connectedContract.getAllSmIdForSupplierWithproductDetails(
+      add
+    );
 
     // await tx.wait();
     return tx;
@@ -112,6 +115,26 @@ export const transferProductToManufacturer = async (
       quantity,
       currentQuantity
     );
+
+    await tx.wait();
+    return tx;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const receiveProduct = async (smId) => {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    const connectedContract = new ethers.Contract(
+      SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_BTTC,
+      supplierManufacturer.abi,
+      signer
+    );
+
+    const tx = await connectedContract.receiveProduct(smId);
 
     await tx.wait();
     return tx;
