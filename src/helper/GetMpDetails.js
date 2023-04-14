@@ -2,7 +2,7 @@ import manufacturerProduct from "../artifacts/contracts/manufacturerProduct.sol/
 import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
 import { ethers } from "ethers";
 
-export const getSpDetails = async (address) => {
+export const getAllProductsOfManufacturer = async (address) => {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
