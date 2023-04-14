@@ -595,6 +595,27 @@ function VerifyProduct() {
             helperText=" "
             id="demo-helper-text-aligned-no-helper"
             label="Product Id"
+            sx={{
+              ".MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(255, 255, 255, 0.5)",
+              },
+              "..MuiOutlinedInput-input.Mui-focused": {
+                borderColor: "rgba(255, 255, 255, 0.5)",
+              },
+
+              ".MuiInputLabel-root ": {
+                color: "rgba(255, 255, 255, 0.5)",
+                fontFamily: "HammersmithOne-Regular",
+              },
+              ".MuiInputLabel-root.Mui-focused ": {
+                color: "rgba(255, 255, 255, 0.5)",
+                fontFamily: "HammersmithOne-Regular",
+              },
+              ".MuiOutlinedInput-input": {
+                color: "white",
+                fontFamily: "HammersmithOne-Regular",
+              },
+            }}
             onChange={(e) => {
               setProductId(e.target.value);
             }}

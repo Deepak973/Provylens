@@ -95,12 +95,12 @@ function Navbar() {
   }, [address]);
 
   const style = {
-    position: "absolute",
+    position: "fixed",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "50vw",
-    bgcolor: "background.paper",
+    backgroundColor: " #0e044d",
     borderRadius: "20px",
     boxShadow: 24,
     p: 0,

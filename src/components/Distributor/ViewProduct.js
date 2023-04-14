@@ -183,11 +183,8 @@ function ViewProduct() {
                 <StyledTableCell align="center" sx={{ width: "130px" }}>
                   Unit
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "170px" }}>
+                <StyledTableCell align="center" sx={{ width: "150px" }}>
                   Price per unit
-                </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "300px" }}>
-                  Expiry Date
                 </StyledTableCell>
                 <StyledTableCell align="center" sx={{ width: "300px" }}>
                   Expiry Date

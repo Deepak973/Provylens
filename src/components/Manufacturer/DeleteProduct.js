@@ -104,7 +104,7 @@ function DeleteProduct() {
               label="Product-Id"
               sx={{
                 ".MuiOutlinedInput-notchedOutline": {
-                  borderColor: "red",
+                  borderColor: "rgba(255, 255, 255, 0.5)",
                 },
               }}
               onChange={(e) => {
