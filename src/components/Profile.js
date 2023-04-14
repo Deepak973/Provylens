@@ -71,7 +71,7 @@ function Profile() {
               {isConnected ? (
                 profileData ? (
                   <>
-                    {profileData.name !== "0x" ? (
+                    {profileData.name !== "\u0000" ? (
                       <>
                         <div className="user-profile-div">
                           <img
