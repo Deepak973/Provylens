@@ -118,7 +118,7 @@ contract manufacturerProduct is IManufacturerProduct{
     }
 
     /// @notice function to get all manufacturer products that it created on the platform
-     function getAllProductsOfManufacturer(address _manufacturerAddress) public view returns(manufacturerProduct[] memory,uint[] memory _productIds)
+    function getAllProductsOfManufacturer(address _manufacturerAddress) public view returns(manufacturerProduct[] memory,uint[] memory _productIds)
     {
         uint[] memory productIds= manufacturerAddressToproductsIdMapping[_manufacturerAddress];
         manufacturerProduct[] memory ManufacturerP = new manufacturerProduct[](productIds.length);
