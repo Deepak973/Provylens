@@ -1,15 +1,59 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/transfer.css";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import "../../styles/Modal.css";
-import history from "../TransferHistory.json";
+import "react-toastify/dist/ReactToastify.css";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { createClient } from "urql";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+
+import Grid from "@mui/material/Grid";
+
+import hexToString from "../../helper/HexToStringConverter";
 import { useAccount, useSigner } from "wagmi";
+import { TextField } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+
+import { ethers } from "ethers";
+import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../../config";
+import supplierManufacturer from "../../artifacts/contracts/supplierManufacturer.sol/supplierManufacturer.json";
+// import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../../config";
+import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { getSpDetails } from "../../helper/GetSpDetails";
+import { getAllManufacturers } from "../../helper/userDetailsHelper";
 import { requestHistoryOfSupplier } from "../../helper/supplierManufacturerHelper";
+import { transferProductToManufacturer } from "../../helper/supplierManufacturerHelper";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -18,17 +62,16 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-
 function TransferHistory({ dashboardLinks }) {
+  const [manufacturerDetails, setManufacturerDetails] = useState();
+  const [productDetails, setProductDetails] = useState();
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [amount, setAmount] = useState();
+  const [quantity, setQuantity] = useState();
+  const [selectedManufacturer, setSelectedManufacturer] = useState(null);
   const { address, isConnected } = useAccount();
-  const [modal, setModal] = useState(false);
-  const [transferDetails, setTransferDetails] = useState();
+  const [loading, setLoading] = useState(false);
   const [requestDetails, setRequestDetails] = useState();
-
-  console.log(history);
-  const toggleModal = () => {
-    setModal(!modal);
-  };
 
   useEffect(() => {
     getTransferData();
@@ -39,17 +82,24 @@ function TransferHistory({ dashboardLinks }) {
     console.log(reqHistory);
     const filteredData = reqHistory.map((val, index) => {
       return {
-        reqId: parseInt(val["smId"]),
-        spId: parseInt(val["spId"]),
+        reqId: parseInt(val[0]["smId"]),
+        spId: parseInt(val[0]["spId"]),
         // name: hexToString(val["userName"]),
         status:
-          val["status"] === 1
+          val[0]["status"] === 1
             ? "Requested"
-            : val["status"] === 2
+            : val[0]["status"] === 2
             ? "Approved"
-            : val["status"] === 3
+            : val[0]["status"] === 3
             ? "Received"
             : null,
+        manufacturerAddress: val[0]["manufacturerAddress"],
+        quantity: val[0]["quantity"],
+        productname: hexToString(val[1]["sp_name"]),
+        p_description: hexToString(val[1]["sp_description"]),
+        p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
+        p_date_created: new Date(val[1]["sp_date"]).toDateString(),
+        manufacturer_name: hexToString(val[2]["userName"]),
       };
     });
     setRequestDetails(filteredData);
@@ -58,98 +108,34 @@ function TransferHistory({ dashboardLinks }) {
     // console.log(reqHistory);
   };
 
-  // const getTransferData = async () => {
-  //   const data_ = `query MyQuery {
-  //     eventSupplierManufacturerTransfers(
-  //       where: {_supplierAddress: "${address.toLowerCase()}"}
-  //     ) {
-  //       _dispatchTime
-  //       _manufacturerAddress
-  //       _smId
-  //       _spId
-  //       _supplierAddress
-  //     }
-  //   }`;
+  const encoder = new TextEncoder();
+  const transferData = async (reqId, manufacturerAddress, quantity) => {
+    console.log(reqId, manufacturerAddress, quantity);
+    transferProductToManufacturer(
+      reqId,
+      manufacturerAddress,
+      quantity,
+      quantity
+    );
+  };
 
-  //   const c = createClient({
-  //     url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-  //   });
+  const toastInfo = () =>
+    toast.success("Tranfer Successfully", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
-  //   const result1 = await c.query(data_).toPromise();
-  //   // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-  //   const filteredData = result1.data.eventSupplierManufacturerTransfers.map(
-  //     (product) => {
-  //       return {
-  //         dispatchTime: new Date(
-  //           product["_dispatchTime"] * 1000
-  //         ).toDateString(),
-  //         manufacturerAddress: product["_manufacturerAddress"],
-  //         smId: product["_smId"],
-  //         spId: product["_spId"],
-  //         supplierAddress: product["supplierAddress"],
-  //       };
-  //     }
-  //   );
-
-  //   setTransferDetails(filteredData);
-  //   console.log(filteredData);
-  // };
-
-  if (modal) {
-    document.body.classList.add("active-modal");
-  } else {
-    document.body.classList.remove("active-modal");
-  }
   return (
     <>
-      {modal && (
-        <div className=" modal ">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className=" modal-content">
-            <div className="first-row">
-              <label className="manufacture-details-quality-title font-color">
-                {history.Product}
-              </label>
-              <div className="product-details font-color">
-                <label className="manufacture-details-quality">
-                  Total Quality : {history.totalQuality}
-                </label>
-                <label className="manufacture-details-quality">
-                  Current Price : {history.price}
-                </label>
-              </div>
-            </div>
-            <div className="second-row">
-              <label className="manufacture-details-quality-title font-color">
-                {history.Manufacturer}
-              </label>
-              <div className="manufacture-details font-color">
-                <label className="manufacture-details-quality">
-                  {history.name}
-                </label>
-                <label className="manufacture-details-quality">
-                  {history.address}
-                </label>
-                <label className="manufacture-details-quality"></label>
-              </div>
-            </div>
-            <div className="third-row">
-              <label className="manufacture-details-quality-title font-color">
-                {history.quality}
-              </label>{" "}
-              <div className="manufacture-details font-color">
-                <label className="manufacture-details-quality">25%</label>
-              </div>
-            </div>
-            <button className="close-modal" onClick={toggleModal}>
-              CLOSE
-            </button>
-          </div>
-        </div>
-      )}
-      <div className="all-history-main-div">
-        {transferDetails &&
-          transferDetails.map((data) => {
+      {/* <div className="transfer-main-div">
+        {requestDetails &&
+          requestDetails.map((data, i) => {
             return (
               <Box sx={{ width: "100%" }}>
                 <Grid
@@ -162,34 +148,113 @@ function TransferHistory({ dashboardLinks }) {
                       {" "}
                       <div className="history-flex">
                         <label className="transfer-history">
-                          Transfer Id:{data?.smId}
+                          Requeset Id:{data?.reqId}
                         </label>
                         <label className="transfer-history">
                           product Id:{data?.spId}
                         </label>
                         <label className="transfer-history">
-                          Dispatch Time:{data?.dispatchTime}
+                          Request Status:{data?.status}
+                        </label>
+                        <label className="transfer-history">
+                          Quantity:{data?.quantity}
                         </label>
                       </div>
-                      <div>
-                        <Button
-                          variant="contained"
-                          size="large"
-                          className="transfer-history-btn"
-                          // onClick={() => {
-                          //   dashboardLinks("HistoryDetails");
-                          // }}
-                          onClick={toggleModal}
-                        >
-                          View Details
-                        </Button>
-                      </div>
+                      <div></div>
                     </Item>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      className="transfer-btn"
+                      onClick={() => transferData(i)}
+                    >
+                      Transfer
+                    </Button>
                   </Grid>
                 </Grid>
               </Box>
             );
           })}
+
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </div> */}
+
+      <div className="availabel-proposal-main-div">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Request Id</StyledTableCell>
+                <StyledTableCell align="right">Product Name</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">
+                  Manufacturer Name
+                </StyledTableCell>
+                <StyledTableCell align="right">Status</StyledTableCell>
+                <StyledTableCell align="right"></StyledTableCell>
+              </TableRow>
+            </TableHead>
+            {loading ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <TableBody>
+                {requestDetails &&
+                  requestDetails.map((requestDetails) => (
+                    <StyledTableRow key={requestDetails.reqId}>
+                      <StyledTableCell component="th" scope="row">
+                        {requestDetails.reqId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.productname}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.quantity}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.manufacturer_name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.status}
+                      </StyledTableCell>
+                      <div className="view-more-btn">
+                        <Button
+                          variant="contained"
+                          size="large"
+                          className="view-More"
+                          // onClick={() => {
+                          //   transferData(
+                          //     requestDetails.spId,
+                          //     requestDetails.manufacturerAddress,
+                          //     requestDetails.quantity
+                          //   );
+                          // }}
+                        >
+                          View Details
+                        </Button>
+                      </div>
+                    </StyledTableRow>
+                  ))}
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
       </div>
     </>
   );

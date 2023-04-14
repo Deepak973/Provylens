@@ -79,30 +79,29 @@ function Transfer() {
   }, []);
 
   const getTransferData = async () => {
-    const reqHistory = await requestHistoryOfSupplier(
-      "0x9b4716573622751e7F6a56da251D054b6BBa4B00"
-    );
+    const reqHistory = await requestHistoryOfSupplier(address);
     console.log(reqHistory);
     const filteredData = reqHistory.map((val, index) => {
-      if (val["status"] === 1) {
-        return {
-          reqId: parseInt(val["smId"]),
-          spId: parseInt(val["spId"]),
-          // name: hexToString(val["userName"]),
-          status:
-            val["status"] === 1
-              ? "Requested"
-              : val["status"] === 2
-              ? "Approved"
-              : val["status"] === 3
-              ? "Received"
-              : null,
-          quantity: val["quantity"],
-          manufacturerAddress: val["manufacturerAddress"],
-        };
-      } else {
-        return null;
-      }
+      return {
+        reqId: parseInt(val[0]["smId"]),
+        spId: parseInt(val[0]["spId"]),
+        // name: hexToString(val["userName"]),
+        status:
+          val[0]["status"] === 1
+            ? "Requested"
+            : val[0]["status"] === 2
+            ? "Approved"
+            : val[0]["status"] === 3
+            ? "Received"
+            : null,
+        manufacturerAddress: val[0]["manufacturerAddress"],
+        quantity: val[0]["quantity"],
+        productname: hexToString(val[1]["sp_name"]),
+        p_description: hexToString(val[1]["sp_description"]),
+        p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
+        p_date_created: new Date(val[1]["sp_date"]).toDateString(),
+        manufacturer_name: hexToString(val[2]["userName"]),
+      };
     });
     setRequestDetails(filteredData);
 
@@ -111,13 +110,13 @@ function Transfer() {
   };
 
   const encoder = new TextEncoder();
-  const transferData = async (i) => {
-    console.log(requestDetails[i]);
+  const transferData = async (reqId, manufacturerAddress, quantity) => {
+    console.log(reqId, manufacturerAddress, quantity);
     transferProductToManufacturer(
-      requestDetails[0].reqId,
-      requestDetails[0].manufacturerAddress,
-      requestDetails[0].quantity,
-      requestDetails[0].quantity
+      reqId,
+      manufacturerAddress,
+      quantity,
+      quantity
     );
   };
 
@@ -197,10 +196,10 @@ function Transfer() {
             <TableHead>
               <TableRow>
                 <StyledTableCell>Request Id</StyledTableCell>
-                <StyledTableCell align="right">Product Id</StyledTableCell>
+                <StyledTableCell align="right">Product Name</StyledTableCell>
                 <StyledTableCell align="right">Quantity</StyledTableCell>
                 <StyledTableCell align="right">
-                  Manufacturer address
+                  Manufacturer Name
                 </StyledTableCell>
                 <StyledTableCell align="right">Status</StyledTableCell>
                 <StyledTableCell align="right"></StyledTableCell>
@@ -218,37 +217,48 @@ function Transfer() {
             ) : (
               <TableBody>
                 {requestDetails &&
-                  requestDetails.map((requestDetails) => (
-                    <StyledTableRow key={requestDetails.reqId}>
-                      <StyledTableCell component="th" scope="row">
-                        {requestDetails.reqId}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {requestDetails.spId}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {requestDetails.quantity}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {requestDetails.manufacturerAddress}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {requestDetails.status}
-                      </StyledTableCell>
-                      <div className="view-more-btn">
-                        <Button
-                          variant="contained"
-                          size="large"
-                          className="view-More"
-                          onClick={() => {
-                            transferData();
-                          }}
-                        >
-                          Transfer Product
-                        </Button>
-                      </div>
-                    </StyledTableRow>
-                  ))}
+                  requestDetails.map((requestDetails) => {
+                    // if (product["sp_status"]) {
+                    if (requestDetails.status !== "Approved") {
+                      return (
+                        <StyledTableRow key={requestDetails.reqId}>
+                          <StyledTableCell component="th" scope="row">
+                            {requestDetails.reqId}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {requestDetails.productname}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {requestDetails.quantity}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {requestDetails.manufacturer_name}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {requestDetails.status}
+                          </StyledTableCell>
+                          <div className="view-more-btn">
+                            <Button
+                              variant="contained"
+                              size="large"
+                              className="view-More"
+                              onClick={() => {
+                                transferData(
+                                  requestDetails.spId,
+                                  requestDetails.manufacturerAddress,
+                                  requestDetails.quantity
+                                );
+                              }}
+                            >
+                              Transfer Product
+                            </Button>
+                          </div>
+                        </StyledTableRow>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
               </TableBody>
             )}
           </Table>

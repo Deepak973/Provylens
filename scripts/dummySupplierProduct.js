@@ -5,19 +5,19 @@ const { ethers } = require("hardhat");
 async function deploy() {
   const SupplierProduct = await ethers.getContractFactory("supplierProduct");
   const supplierProduct = await SupplierProduct.deploy(
-    "0x85b83843424ff60F1Dc0AE03E1577c420d1ef0Bc"
+    "0x9F3b9F145D7E7a6487844A223ac348FA8EC152fF"
   );
   console.log("Contract address:", supplierProduct.address);
 }
 
-// deploy();
+deploy();
 
 // Interact script
 
 async function interact() {
   const encoder = new TextEncoder();
 
-  const contractAddress = "0x479f48c20A3632ea40Ae1B75a6D7836e1e5fba9C";
+  const contractAddress = "0x28a13393946449D53429fB3dbfb0Adec3F5cB3af";
   const supplierProduct = await ethers.getContractAt(
     "supplierProduct",
     contractAddress
@@ -57,4 +57,4 @@ async function interact() {
   // console.log("Supplier product deleted successfully");
 }
 
-interact();
+// interact();

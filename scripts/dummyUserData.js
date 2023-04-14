@@ -6,12 +6,12 @@ async function deploy() {
   console.log("User detailsContract address:", userDetails.address);
 }
 
-// deploy();
+deploy();
 
 async function interact() {
   const encoder = new TextEncoder();
   // Get the contract instance
-  const contractAddress = "0x85b83843424ff60F1Dc0AE03E1577c420d1ef0Bc";
+  const contractAddress = "0x9F3b9F145D7E7a6487844A223ac348FA8EC152fF";
   const userDetailsContract = await ethers.getContractAt(
     "userDetails",
     contractAddress
@@ -39,4 +39,4 @@ async function interact() {
   console.log("Supplier details:", supplierDetails);
 }
 
-interact();
+// interact();

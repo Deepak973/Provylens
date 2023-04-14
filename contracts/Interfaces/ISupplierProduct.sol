@@ -19,5 +19,5 @@ interface ISupplierProduct {
   
   function addSupplierProduct(bytes calldata _name,bytes calldata _description,uint128 _unit,uint128 _price,uint32 _date,uint32 _expiryDate)external  ;
   function deleteSupplierProduct(uint _spId)external;
-  function updateSupplierProductUints(uint _spId,uint128 _quantity) external;
+  function updateSupplierProductUints(uint _spId,uint128 _quantity,address _caller) external;
 }

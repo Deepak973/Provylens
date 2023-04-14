@@ -71,8 +71,9 @@ contract supplierProduct is ISupplierProduct{
     }
 
     /// @notice function to update supplier product units
-    function updateSupplierProductUints(uint _spId, uint128 _quantity) public override{
-        uint256[] memory supplierAddresses = getSupplierProductIds();
+    function updateSupplierProductUints(uint _spId, uint128 _quantity,address _supplierAddress) external override {
+        
+        uint256[] memory supplierAddresses = getSpIdsByAddress(_supplierAddress);
         bool found = false;
         for (uint i = 0; i < supplierAddresses.length; i++) {
             if (supplierAddresses[i] == _spId) {
