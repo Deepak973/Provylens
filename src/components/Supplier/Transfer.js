@@ -28,7 +28,7 @@ import Paper from "@mui/material/Paper";
 import { ethers } from "ethers";
 import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../../config";
 import supplierManufacturer from "../../artifacts/contracts/supplierManufacturer.sol/supplierManufacturer.json";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../../config";
+// import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../../config";
 import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 import { getSpDetails } from "../../helper/GetSpDetails";
 import { getAllManufacturers } from "../../helper/userDetailsHelper";

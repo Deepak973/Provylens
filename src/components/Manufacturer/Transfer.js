@@ -13,9 +13,9 @@ import hexToString from "../../helper/HexToStringConverter";
 import { useAccount, useSigner } from "wagmi";
 import { TextField } from "@mui/material";
 import { ethers } from "ethers";
-import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../../config";
+// import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../../config";
 import supplierManufacturer from "../../artifacts/contracts/supplierManufacturer.sol/supplierManufacturer.json";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI } from "../../config";
+import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
 import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
 
 function Transfer() {
@@ -118,7 +118,7 @@ function Transfer() {
       const signer = provider.getSigner();
 
       const transfer = new ethers.Contract(
-        SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI,
+        SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
         supplierManufacturer.abi,
         signer
       );
@@ -138,7 +138,7 @@ function Transfer() {
       await tx.wait();
 
       const updateSupplierProductUints = new ethers.Contract(
-        SUPPLIERPRODUCT_CONTRACT_ADDRESS_MUMBAI,
+        SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
         addproduct.abi,
         signer
       );
