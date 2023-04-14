@@ -160,16 +160,16 @@ contract manufacturerProduct is IManufacturerProduct{
         emit eventDeleteManufacturerProduct(_mpId);
     }
 
-    function getAllProductsOfManufacturer(uint _mpId) public view returns(ManufacturerProductAllDetails memory)
+    function getProductsOfManufacturer(uint _mpId) public view returns(ManufacturerProductAllDetails memory)
     {
         manufacturerProduct memory mpData = manufacturerProductsIdToStructMapping[_mpId];
         uint[] memory smIds =mpData.smId;
         ManufacturerProductAllDetails memory allDetails;
 
-        allDetails.manufacturerProductDetails = manufacturerProductsIdToStructMapping[mpId];
-        allDetails.manufacturerDetails = udInstance.getSingleUser(manufacturerProductsIdToStructMapping[mpId].manufacturerAddress);
+        allDetails.manufacturerProductDetails = manufacturerProductsIdToStructMapping[_mpId];
+        allDetails.manufacturerDetails = udInstance.getSingleUser(manufacturerProductsIdToStructMapping[_mpId].manufacturerAddress);
         allDetails.supplierManufacturerWithProductDetails = smInstance.getAllSmIdForSupplierWithproductDetailsWithId(smIds);
-        allDetails.distributorDetails = udInstance.getSingleUser(manufacturerProductsIdToStructMapping[mpId].distributorAddress);
+        allDetails.distributorDetails = udInstance.getSingleUser(manufacturerProductsIdToStructMapping[_mpId].distributorAddress);
         
         return allDetails;
 

@@ -8,20 +8,21 @@ async function deploy() {
     "manufacturerProduct"
   );
   const manufacturerProduct = await ManufacturerProduct.deploy(
-    "0x85b83843424ff60F1Dc0AE03E1577c420d1ef0Bc"
+    "0x30E198C8aa56985B534F01F935a938B646A7adf5",
+    "0x6cE2eAC2cE25BDd1f323C53d026c83363767C548"
   ); //userdetails contract address
   await manufacturerProduct.deployed();
 
   // Print the contract address
   console.log("manufacturerProduct deployed to:", manufacturerProduct.address);
 }
-// deploy();
+deploy();
 
 // Interact script
 
 async function interact() {
   const encoder = new TextEncoder();
-  const contractAddress = "0x6339EdEFeFAC4DAac16e9E3e6A9D2583E0Bf6518";
+  const contractAddress = "0x06eDF53bb9039F4Ad4fe651536dCd1663808CC8f";
   const manufacturerProductContract = await ethers.getContractAt(
     "manufacturerProduct",
     contractAddress
@@ -85,4 +86,4 @@ async function interact() {
   await manufacturerProductContract.deleteManufacturerProduct(mpId);
 }
 
-interact();
+// interact();

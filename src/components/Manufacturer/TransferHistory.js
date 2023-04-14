@@ -238,7 +238,8 @@ function TransferHistory({ dashboardLinks }) {
                       <StyledTableCell align="right">
                         {requestDetails.status}
                       </StyledTableCell>
-                      {requestDetails.status === "Received" ? null : (
+                      {requestDetails.status === "Received" ||
+                      requestDetails.status === "Requested" ? null : (
                         <div
                           className="view-more-btn"
                           onClick={() => {

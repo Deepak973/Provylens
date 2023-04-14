@@ -16,6 +16,7 @@ import { ForceGraph2D } from "react-force-graph";
 import { details } from "./verifyDetails";
 import { QRCodeCanvas } from "qrcode.react";
 import img from "../assets/ProvyLensLogo.png";
+import { getProductsOfManufacturer } from "../helper/GetMpDetails";
 
 function VerifyProduct() {
   const [age, setAge] = useState("");
@@ -349,177 +350,9 @@ function VerifyProduct() {
   };
   // ................
 
-  const getSmId = async (productId) => {
-    const data_ = `query MyQuery {
-      eventSupplierManufacturerTransfers(where: {_smId: "${productId}"}) {
-        _dispatchTime
-        _manufacturerAddress
-        _smId
-        _spId
-        _supplierAddress
-      }
-    }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-
-    setProductId({
-      dispatchTime: new Date(
-        result1.data.eventSupplierManufacturerTransfers[0]["_name"] * 1000
-      ).toDateString(),
-      manufacturerAddress:
-        result1.data.eventSupplierManufacturerTransfers[0][
-          "_manufacturerAddress"
-        ],
-      productId: result1.data.eventSupplierManufacturerTransfers[0]["_smId"],
-      spId: result1.data.eventSupplierManufacturerTransfers[0]["_spId"],
-      supplierAddress:
-        result1.data.eventSupplierManufacturerTransfers[0]["_supplierAddress"],
-    });
-    console.log(result1.data.eventSupplierManufacturerTransfers[0]);
-
-    await getSupplier(
-      result1.data.eventSupplierManufacturerTransfers[0]["_supplierAddress"]
-    );
-
-    await getManufacturer(
-      result1.data.eventSupplierManufacturerTransfers[0]["_manufacturerAddress"]
-    );
-
-    await getProductDetails(
-      result1.data.eventSupplierManufacturerTransfers[0]["_spId"]
-    );
-  };
-
-  const getSupplier = async (supplierAddress) => {
-    const data_ = `query MyQuery {
-      eventUserDatas(where: {_address: "${supplierAddress.toLowerCase()}"}) {
-        _image
-        _name
-        _physicalAddress
-        _timeUpdated
-        _type
-        blockNumber
-        blockTimestamp
-        id
-        transactionHash
-        _address
-      }
-    }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    var role = "";
-    if (result1.data.eventUserDatas[0]["_type"] === 0) role = "Supplier";
-    if (result1.data.eventUserDatas[0]["_type"] === 1) role = "Manufacturer";
-    if (result1.data.eventUserDatas[0]["_type"] === 2) role = "Distributor";
-
-    setSupplierDetails({
-      name: hexToString(result1.data.eventUserDatas[0]["_name"]).slice(1),
-      type: role,
-      phy_add: hexToString(
-        result1.data.eventUserDatas[0]["_physicalAddress"]
-      ).slice(1),
-      image: hexToString(result1.data.eventUserDatas[0]["_image"]),
-      id: hexToString(result1.data.eventUserDatas[0]["id"]),
-    });
-
-    console.log(result1.data.eventUserDatas[0]);
-  };
-
-  const getManufacturer = async (manufacturerAddress) => {
-    const data_ = `query MyQuery {
-      eventUserDatas(where: {_address: "${manufacturerAddress.toLowerCase()}"}) {
-        _image
-        _name
-        _physicalAddress
-        _timeUpdated
-        _type
-        blockNumber
-        blockTimestamp
-        id
-        transactionHash
-        _address
-      }
-    }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    var role = "";
-    if (result1.data.eventUserDatas[0]["_type"] === 0) role = "Supplier";
-    if (result1.data.eventUserDatas[0]["_type"] === 1) role = "Manufacturer";
-    if (result1.data.eventUserDatas[0]["_type"] === 2) role = "Distributor";
-
-    setManufacturerDetails({
-      name: hexToString(result1.data.eventUserDatas[0]["_name"]).slice(1),
-      type: role,
-      phy_add: hexToString(
-        result1.data.eventUserDatas[0]["_physicalAddress"]
-      ).slice(1),
-      image: hexToString(result1.data.eventUserDatas[0]["_image"]),
-      id: hexToString(result1.data.eventUserDatas[0]["id"]),
-    });
-
-    console.log(result1.data.eventUserDatas[0]);
-  };
-
-  const getProductDetails = async (spId) => {
-    const data_ = `query MyQuery {
-      eventAddSupplierProducts(where: {_spid: "${spId}"}) {
-        _address
-        _date
-        _description
-        _expiryDate
-        _name
-        _price
-        _spid
-        _timeAdded
-        _unit
-      }
-    }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-
-    setSupplierProduct({
-      spId: result1.data.eventAddSupplierProducts[0]["_spid"],
-      name: hexToString(
-        result1.data.eventAddSupplierProducts[0]["_name"]
-      ).slice(1),
-      unit: result1.data.eventAddSupplierProducts[0]["_unit"],
-      price: result1.data.eventAddSupplierProducts[0]["_price"],
-      date: new Date(
-        result1.data.eventAddSupplierProducts[0]["_date"] * 1000
-      ).toDateString(),
-      expiryDate: new Date(
-        result1.data.eventAddSupplierProducts[0]["_expiryDate"] * 1000
-      ).toDateString(),
-      description: hexToString(
-        result1.data.eventAddSupplierProducts[0]["_description"]
-      ),
-    });
-
-    // setSupplierProduct({
-    //   ...supplierProduct,
-    //   supplierDetails: supplierDetails,
-    //   manufacturerDetails: manufacturerDetails,
-    // });
-
-    console.log(result1.data.eventAddSupplierProducts[0]);
+  const getProductDetails = async (smId) => {
+    console.log(smId);
+    const allData = getProductsOfManufacturer(smId);
   };
 
   const handleChange = (event) => {
@@ -573,7 +406,7 @@ function VerifyProduct() {
 
           <Button
             onClick={() => {
-              getSmId(productId);
+              getProductDetails(productId);
             }}
             variant="contained"
             size="large"
@@ -603,7 +436,7 @@ function VerifyProduct() {
             nodeAutoColorBy="group"
             autoPauseRedraw={false}
             linkWidth={(link) => (highlightLinks.has(link) ? 10 : 1)}
-            linkDirectionalParticles={3}
+            linkDirectionalParticles={0}
             linkDirectionalParticleWidth={(link) =>
               highlightLinks.has(link) ? 4 : 0
             }
@@ -622,7 +455,7 @@ function VerifyProduct() {
               changeModal(e);
             }}
             cooldownTicks={20}
-            onLinkHover={handleLinkHover}
+            // onLinkHover={handleLinkHover}
           />
         </div>
         <span className="shape1 header-shape">

@@ -7,8 +7,8 @@ async function deploy() {
     "manufacturerDistributor"
   );
   const manufacturerDistributor = await ManufacturerDistributor.deploy(
-    "0x85b83843424ff60F1Dc0AE03E1577c420d1ef0Bc",
-    "0x6339EdEFeFAC4DAac16e9E3e6A9D2583E0Bf6518"
+    "0x30E198C8aa56985B534F01F935a938B646A7adf5",
+    "0xaE471b0914c93a6A30665Cb5300F63874685112A"
   ); //user address & manufacture product
   console.log(
     "manufacturerDistributor deployed to address:",
@@ -16,13 +16,13 @@ async function deploy() {
   );
 }
 
-// deploy();
+deploy();
 
 // Interact script
 
 async function interact() {
   const encoder = new TextEncoder();
-  const contractAddress = "0x5D6b7d0a10347Cea5665f286B0b9F81f0F71Cea3";
+  const contractAddress = "0xCC3Fa1604728b54aa6e1B29B817bB674DBA137cB";
   const mdContract = await ethers.getContractAt(
     "manufacturerDistributor",
     contractAddress
@@ -72,4 +72,4 @@ async function interact() {
   console.log("All product transfers for distributor:", mdList);
 }
 
-interact();
+// interact();

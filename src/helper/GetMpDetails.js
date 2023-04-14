@@ -22,3 +22,25 @@ export const getAllProductsOfManufacturer = async (address) => {
     console.log(err);
   }
 };
+
+export const getProductsOfManufacturer = async (id) => {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    const connectedContract = new ethers.Contract(
+      MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC,
+      manufacturerProduct.abi,
+      signer
+    );
+
+    const allProductsData = await connectedContract.getProductsOfManufacturer(
+      id
+    );
+    console.table(allProductsData);
+
+    return allProductsData;
+  } catch (err) {
+    console.log(err);
+  }
+};
