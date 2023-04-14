@@ -124,7 +124,7 @@ contract manufacturerProduct is IManufacturerProduct{
         manufacturerProduct[] memory ManufacturerP = new manufacturerProduct[](productIds.length);
         for(uint i=0;i<productIds.length;i++)
         {
-            ManufacturerP[i] =manufacturerProductsIdToStructMapping[productIds[i]];
+            ManufacturerP[i] = manufacturerProductsIdToStructMapping[productIds[i]];
         }
         return (ManufacturerP,productIds);
     }
