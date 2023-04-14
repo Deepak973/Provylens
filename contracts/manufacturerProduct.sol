@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 import "./Interfaces/IManufacturerProduct.sol";
 import "./userDetails.sol";
+import "./supplierProduct.sol";
+import "./supplierManufacturer.sol";
 
 pragma solidity >=0.8.0 <=0.8.19;
 
@@ -10,6 +12,10 @@ pragma solidity >=0.8.0 <=0.8.19;
 
 contract manufacturerProduct is IManufacturerProduct{
     userDetails udInstance; // instance of userDetails contract
+    supplierProduct spInstance; // instance of supplierProduct contract
+    supplierManufacturer smInstance; // instance of suppliermanufacturer contract
+
+
     address owner; // address of the contract owner
 
     constructor(address _udAddress) {
@@ -20,6 +26,13 @@ contract manufacturerProduct is IManufacturerProduct{
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
         _;
+    }
+
+    struct ManufacturerProductAllDetails {
+        manufacturerProduct manufacturerDetails;
+        supplierManufacturer.supplierManufacturer supplierManufacturerDetails;
+        supplierProduct.supplierProduct supplierproductDetails;
+        userDetails.userDetails uDetails;
     }
 
     /// @notice Changes the contract owner
@@ -144,4 +157,14 @@ contract manufacturerProduct is IManufacturerProduct{
         manufacturerProductsIdToStructMapping[_mpId].mp_status=false;
         emit eventDeleteManufacturerProduct(_mpId);
     }
+
+    function getAllProductsOfManufacturer(uint _mpId) public view returns(ManufacturerProductAllDetails[] memory)
+    {
+        manufacturerProduct memory mpData = manufacturerProductsIdToStructMapping[_mpId];
+        
+
+    }
+
+
+
 }

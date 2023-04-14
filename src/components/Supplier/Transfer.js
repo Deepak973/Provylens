@@ -219,7 +219,7 @@ function Transfer() {
                 {requestDetails &&
                   requestDetails.map((requestDetails) => {
                     // if (product["sp_status"]) {
-                    if (requestDetails.status !== "Approved") {
+                    if (requestDetails.status === "Requested") {
                       return (
                         <StyledTableRow key={requestDetails.reqId}>
                           <StyledTableCell component="th" scope="row">
