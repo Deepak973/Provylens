@@ -13,7 +13,11 @@ import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
 import manufacturerProduct from "../../artifacts/contracts/manufacturerProduct.sol/manufacturerProduct.json";
 import { getContract } from "@wagmi/core";
 import { getProvider } from "@wagmi/core";
-import { getSpDetails } from "../../helper/GetSpDetails";
+import { getAllProductsOfManufacturer } from "../../helper/GetMpDetails";
+import { QRCodeCanvas } from "qrcode.react";
+import img from "../../assets/ProvyLensLogo.png";
+import QRCode from "qrcode.react";
+// X:\Tron s4\Provylens\src\assets\ProvyLens logo.png
 
 // ................
 import Button from "@mui/material/Button";
@@ -56,8 +60,88 @@ function ViewProduct() {
 
   const [modal, setModal] = useState(false);
 
+  const canvasRef = useRef(null);
+
   const toggleModal = () => {
     setModal(!modal);
+  };
+
+  //--------------------------------------------------qrcode generation
+  const qrcode = (v) => {
+    return (
+      <QRCodeCanvas
+        style={{
+          borderWidth: "10px",
+          borderStyle: "solid",
+          borderColor: "white",
+          width: "7rem",
+          height: "7rem",
+        }}
+        ref={canvasRef}
+        id={`${v}`}
+        value={`${v}`}
+        imageSettings={{
+          src: img,
+          // borderWidth: 20,
+          // borderColor: "white",
+          x: undefined,
+          y: undefined,
+          height: 70,
+          width: 70,
+          excavate: true,
+        }}
+        size={300}
+        bgColor={"#fff"}
+        level={"H"}
+      />
+    );
+  };
+
+  //working one
+  const saveImageToLocal = (e) => {
+    const a = document.createElement("a");
+    const originalCanvas = document.getElementById(e);
+    const tempCanvas = document.createElement("canvas");
+    const textPadding = 20;
+    const textSize = 36;
+    const textLine1 = "✔ ProvyLens";
+    const textLine2 = "Product Id: " + e;
+    const textWidth = originalCanvas.width;
+    const textHeight = textSize + textPadding;
+    const smallTextSize = 20;
+    const smallTextPadding = 10;
+    tempCanvas.width = originalCanvas.width + 40;
+    tempCanvas.height = originalCanvas.height + textHeight + smallTextSize + 60;
+    const tempCtx = tempCanvas.getContext("2d");
+    tempCtx.fillStyle = "white";
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+    tempCtx.drawImage(originalCanvas, 20, 20);
+    tempCtx.strokeStyle = "white";
+    tempCtx.lineWidth = 20;
+    tempCtx.strokeRect(10, 10, tempCanvas.width - 20, tempCanvas.height - 20);
+    tempCtx.fillStyle = "black";
+    tempCtx.font = `bold ${textSize}px Arial`;
+    tempCtx.textAlign = "center";
+    tempCtx.textBaseline = "middle";
+    tempCtx.fillText(
+      textLine1,
+      tempCanvas.width / 2,
+      tempCanvas.height -
+        textPadding -
+        textSize / 2 -
+        smallTextSize -
+        smallTextPadding
+    );
+    tempCtx.font = `bold ${smallTextSize}px Arial`;
+    tempCtx.fillText(
+      textLine2,
+      tempCanvas.width / 2,
+      tempCanvas.height - smallTextPadding - smallTextSize / 2
+    );
+    const image = tempCanvas.toDataURL("image/png");
+    a.download = "QR-Start";
+    a.href = image;
+    a.click();
   };
 
   //---------------------------contract instance
@@ -71,21 +155,30 @@ function ViewProduct() {
 
   const getData = async () => {
     setLoading(true);
-    const allProductsData = await getSpDetails(address);
+    const allProductsData = await getAllProductsOfManufacturer(address);
     console.log(allProductsData);
     console.log(parseInt(allProductsData[1][0]["_hex"]));
 
     const filteredData = allProductsData[0]
       .map((product, index) => {
-        if (product["sp_status"]) {
+        if (product["mp_status"]) {
           return {
-            spId: parseInt(allProductsData[1][index]["_hex"]),
-            name: hexToString(product["sp_name"]),
-            unit: parseInt(product["sp_unit"]),
-            price: parseInt(product["sp_price"]),
-            date: new Date(product["sp_date"]).toDateString(),
-            expiryDate: new Date(product["sp_expiryDate"]).toDateString(),
-            description: hexToString(product["sp_description"]),
+            mpId: parseInt(allProductsData[1][index]["_hex"]),
+            name: hexToString(product["mp_name"]),
+            unit: parseInt(product["mp_unit"]),
+            price: parseInt(product["mp_price"]),
+            dispatchTime: parseInt(product["dispatchTime"]),
+            arrivalTime: parseInt(product["arrivalTime"]),
+            date: new Date(product["mp_date"]).toDateString(),
+            expiryDate: new Date(product["mp_expiryDate"]).toDateString(),
+            description: hexToString(product["mp_description"]),
+            distributorAddress: hexToString(product["distributorAddress"]),
+            smId: Array.isArray(product["smId"])
+              ? product["smId"].map((id) => parseInt(id, 16))
+              : [parseInt(product["smId"], 16)],
+            supplierAddress: Array.isArray(product["supplierAddress"])
+              ? product["supplierAddress"]
+              : [product["supplierAddress"]],
           };
         } else {
           return null;
@@ -128,23 +221,45 @@ function ViewProduct() {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell
-                  align="center"
-                  sx={{ width: "130px", textAlign: "center" }}
-                >
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                  QR-code
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
                   Product Id
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "400px" }}>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
                   Product Name
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "130px" }}>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
                   Unit
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "150px" }}>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
                   Price per unit
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "300px" }}>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                  date
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
                   Expiry Date
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                  description
+                </StyledTableCell>
+
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                  Distributor address
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                  Dispatch time
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                  spId
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                  Supplier Addresses
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                  Arrival time
                 </StyledTableCell>
               </TableRow>
             </TableHead>
@@ -161,9 +276,22 @@ function ViewProduct() {
               <TableBody>
                 {productData &&
                   productData.map((product) => (
-                    <StyledTableRow key={product.spId}>
+                    <StyledTableRow key={product.mpId}>
+                      <StyledTableCell align="center">
+                        {qrcode(product.mpId)}
+                        <button
+                          id="download_image_link"
+                          className="browse-btn"
+                          href="download_link"
+                          onClick={() => {
+                            saveImageToLocal(product.mpId);
+                          }}
+                        >
+                          Download QR Code
+                        </button>
+                      </StyledTableCell>
                       <StyledTableCell component="th" scope="row">
-                        {product.spId}
+                        {product.mpId}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {product.name}
@@ -175,21 +303,42 @@ function ViewProduct() {
                         {product.price}
                       </StyledTableCell>
                       <StyledTableCell align="center">
+                        {product.date}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
                         {product.expiryDate}
                       </StyledTableCell>
-                      <div className="view-more-btn">
-                        <Button
-                          variant="contained"
-                          size="large"
-                          className="view-More"
-                          onClick={() => {
-                            setSelectedProduct(product);
-                            toggleModal();
-                          }}
-                        >
-                          View More
-                        </Button>
-                      </div>
+                      <StyledTableCell align="center">
+                        <div className="view-more-btn">
+                          <Button
+                            variant="contained"
+                            size="large"
+                            className="view-More"
+                            onClick={() => {
+                              setSelectedProduct(product);
+                              toggleModal();
+                            }}
+                          >
+                            View More
+                          </Button>
+                        </div>
+                      </StyledTableCell>
+
+                      <StyledTableCell align="center">
+                        {product.distributorAddress}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {product.dispatchTime}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {product.smId.join(", ")}{" "}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {product.supplierAddress.join(", ")}{" "}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {product.arrivalTime}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
               </TableBody>
