@@ -1,0 +1,125 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IManufacturerDistributor",
+  "sourceName": "contracts/Interfaces/IManufacturerDistributor.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "_arrivalTime",
+          "type": "uint32"
+        }
+      ],
+      "name": "eventArrivalTime",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_mdId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_mpId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_manufacturerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_distributorAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "_dispatchTime",
+          "type": "uint32"
+        }
+      ],
+      "name": "eventManufacturerDistributorTransfer",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_mpId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_mdId",
+          "type": "uint256"
+        }
+      ],
+      "name": "receiveProduct",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_mpId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_quantity",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "_supplierAddress",
+          "type": "address"
+        }
+      ],
+      "name": "requestProduct",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_mpId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_distributorAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_quantity",
+          "type": "uint32"
+        }
+      ],
+      "name": "transferProduct",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

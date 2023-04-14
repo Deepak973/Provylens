@@ -1,0 +1,141 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IUserDetails",
+  "sourceName": "contracts/Interfaces/IUserDetails.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "eventDeleteUser",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum IUserDetails.userType",
+          "name": "_type",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "_name",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "_physicalAddress",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "_image",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_timeUpdated",
+          "type": "uint256"
+        }
+      ],
+      "name": "eventUserData",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum IUserDetails.userType",
+          "name": "_type",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_name",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_physicalAddress",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_image",
+          "type": "bytes"
+        }
+      ],
+      "name": "addUser",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "deleteUser",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "_image",
+          "type": "bytes"
+        }
+      ],
+      "name": "editImage",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "_name",
+          "type": "bytes"
+        }
+      ],
+      "name": "editName",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "_physicalAddress",
+          "type": "bytes"
+        }
+      ],
+      "name": "editPhysicalAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
