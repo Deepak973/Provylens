@@ -118,15 +118,15 @@ contract manufacturerProduct is IManufacturerProduct{
     }
 
     /// @notice function to get all manufacturer products that it created on the platform
-    function getAllProductsOfManufacturer(address _manufacturerAddress) public view returns(manufacturerProduct[] memory,uint[] memory _productIds)
+    function getAllProductsOfManufacturer(address _manufacturerAddress) public view returns(manufacturerProduct[] memory)
     {
         uint[] memory productIds= manufacturerAddressToproductsIdMapping[_manufacturerAddress];
         manufacturerProduct[] memory ManufacturerP = new manufacturerProduct[](productIds.length);
         for(uint i=0;i<productIds.length;i++)
         {
-            ManufacturerP[i] = manufacturerProductsIdToStructMapping[productIds[i]];
+            ManufacturerP[i] =manufacturerProductsIdToStructMapping[productIds[i]];
         }
-        return (ManufacturerP,productIds);
+        return ManufacturerP;
     }
 
     /// @notice function to delete manufacturer product (making the product Inactive)
