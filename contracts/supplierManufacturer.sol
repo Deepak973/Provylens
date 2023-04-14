@@ -187,6 +187,18 @@ contract supplierManufacturer is ISupplierManufacturer{
     }
     return smIdDetails;
 }
+ function getAllSmIdForSupplierWithproductDetailsWithId(uint[] memory _smIdData) public view returns(supplierManufacturerWithProduct[] memory){
+    // uint[] memory smIdData = supplierTosmIdMapping[_supplierAddress];
+    supplierManufacturerWithProduct[] memory smIdDetails = new supplierManufacturerWithProduct[](_smIdData.length);
+    for(uint i=0;i<_smIdData.length;i++)
+    {
+        smIdDetails[i].smDetails = smIdToStructMapping[_smIdData[i]];
+        smIdDetails[i].spDetails = spInstance.getSingleSupplierProduct(smIdDetails[i].smDetails.spId);
+        smIdDetails[i].uDetails = udInstance.getSingleUser(smIdDetails[i].smDetails.supplierAddress);
+
+    }
+    return smIdDetails;
+}
 
 
 }

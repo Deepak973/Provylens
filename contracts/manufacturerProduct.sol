@@ -12,15 +12,15 @@ pragma solidity >=0.8.0 <=0.8.19;
 
 contract manufacturerProduct is IManufacturerProduct{
     userDetails udInstance; // instance of userDetails contract
-    supplierProduct spInstance; // instance of supplierProduct contract
     supplierManufacturer smInstance; // instance of suppliermanufacturer contract
 
 
     address owner; // address of the contract owner
 
-    constructor(address _udAddress) {
+    constructor(address _udAddress,address _smAddress) {
         owner = msg.sender;
         udInstance = userDetails(_udAddress);
+        smInstance = supplierManufacturer(_smAddress);
     }
 
     modifier onlyOwner() {
@@ -29,10 +29,12 @@ contract manufacturerProduct is IManufacturerProduct{
     }
 
     struct ManufacturerProductAllDetails {
-        manufacturerProduct manufacturerDetails;
-        supplierManufacturer.supplierManufacturer supplierManufacturerDetails;
-        supplierProduct.supplierProduct supplierproductDetails;
-        userDetails.userDetails uDetails;
+        manufacturerProduct manufacturerProductDetails;
+        supplierManufacturer.supplierManufacturerWithProduct[] supplierManufacturerWithProductDetails;
+        userDetails.userDetails manufacturerDetails;
+        userDetails.userDetails distributorDetails;
+
+    
     }
 
     /// @notice Changes the contract owner
@@ -85,7 +87,7 @@ contract manufacturerProduct is IManufacturerProduct{
         userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
         require(uint8(user.userType)== 1,"Only Manufacturer can add product"); 
 
-        manufacturerProductsIdToStructMapping[mpId] = manufacturerProduct(_supplierAddress,_smId,_name,_description,_unit,_price,_date,_expiryDate,true,0x0000000000000000000000000000000000000000,0,0);
+        manufacturerProductsIdToStructMapping[mpId] = manufacturerProduct(_supplierAddress,_smId,msg.sender,_name,_description,_unit,_price,_date,_expiryDate,true,0x0000000000000000000000000000000000000000,0,0);
         manufacturerAddressToproductsIdMapping[msg.sender].push(mpId);
         emit eventAddManufacturerProduct(mpId,_supplierAddress,_smId,_name,_description,_unit,_price,_date,_expiryDate);
         mpId++;
@@ -158,10 +160,18 @@ contract manufacturerProduct is IManufacturerProduct{
         emit eventDeleteManufacturerProduct(_mpId);
     }
 
-    function getAllProductsOfManufacturer(uint _mpId) public view returns(ManufacturerProductAllDetails[] memory)
+    function getAllProductsOfManufacturer(uint _mpId) public view returns(ManufacturerProductAllDetails memory)
     {
         manufacturerProduct memory mpData = manufacturerProductsIdToStructMapping[_mpId];
+        uint[] memory smIds =mpData.smId;
+        ManufacturerProductAllDetails memory allDetails;
+
+        allDetails.manufacturerProductDetails = manufacturerProductsIdToStructMapping[mpId];
+        allDetails.manufacturerDetails = udInstance.getSingleUser(manufacturerProductsIdToStructMapping[mpId].manufacturerAddress);
+        allDetails.supplierManufacturerWithProductDetails = smInstance.getAllSmIdForSupplierWithproductDetailsWithId(smIds);
+        allDetails.distributorDetails = udInstance.getSingleUser(manufacturerProductsIdToStructMapping[mpId].distributorAddress);
         
+        return allDetails;
 
     }
 

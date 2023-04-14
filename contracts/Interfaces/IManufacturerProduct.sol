@@ -4,7 +4,8 @@ pragma solidity >=0.8.0 <=0.8.19;
 interface IManufacturerProduct {
   struct manufacturerProduct{
       address[] supplierAddress;
-      uint[] smId;    
+      uint[] smId;   
+      address manufacturerAddress; 
       bytes mp_name;
       bytes mp_description;
       uint128 mp_unit;
