@@ -14,10 +14,12 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { getAllSuppliers } from "../../helper/CheckRegistration";
+import { getAllSupplierAddresses } from "../../helper/userDetailsHelper";
+import { getAllSmIdForManufacturer } from "../../helper/supplierManufacturerHelper";
 
 function AddProduct() {
   const [loading, setLoading] = useState(false);
+  const [supplierAddresses, setSupplierAddresses] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [personName, setPersonName] = useState([]);
   const [productDetails, setProductDetails] = useState({
@@ -26,7 +28,7 @@ function AddProduct() {
     productPrice: "",
     productUnit: "",
     startDate: null,
-    endDate: null,
+    expiryDate: null,
   });
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -39,13 +41,23 @@ function AddProduct() {
     },
   };
 
-  const getData = async () => {
-    const allSuppliersData = await getAllSuppliers();
+  const getSupplierAddress = async () => {
+    const allSuppliersData = await getAllSupplierAddresses();
     console.log(allSuppliersData);
+    setSupplierAddresses(allSuppliersData);
+
+    const allSmIdForManufacturer = await getAllSmIdForManufacturer();
+    console.log(allSmIdForManufacturer);
+  };
+
+  const getProductnames = async () => {
+    // const allProductsupplier = await supplierProduct.getAllProductsOfSupplier(
+    //   "0xe57f4c84539a6414C4Cf48f135210e01c477EFE0"
+    // );
   };
 
   useEffect(() => {
-    getData();
+    getSupplierAddress();
   }, []);
 
   const names = [
@@ -154,9 +166,11 @@ function AddProduct() {
           }}
         >
           <FormControl
-            sx={{ m: 1, width: "50%", paddingBottom: "10px", color: "white" }}
+            sx={{ m: 1, width: "100%", paddingBottom: "10px", color: "white" }}
           >
-            <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+            <InputLabel id="demo-multiple-name-label">
+              Supplier Addresses
+            </InputLabel>
             <Select
               labelId="demo-multiple-name-label"
               id="demo-multiple-name"
@@ -166,15 +180,41 @@ function AddProduct() {
               input={<OutlinedInput label="Name" />}
               MenuProps={MenuProps}
             >
-              {names.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, personName, theme)}
-                >
-                  {name}
-                </MenuItem>
-              ))}
+              {supplierAddresses &&
+                supplierAddresses.map((name) => (
+                  <MenuItem
+                    key={name}
+                    value={name}
+                    style={getStyles(name, personName, theme)}
+                  >
+                    {name}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+          <FormControl
+            sx={{ m: 1, width: "100%", paddingBottom: "10px", color: "white" }}
+          >
+            <InputLabel id="demo-multiple-name-label">SmId</InputLabel>
+            <Select
+              labelId="demo-multiple-name-label"
+              id="demo-multiple-name"
+              multiple
+              value={personName}
+              onChange={handleChange}
+              input={<OutlinedInput label="Name" />}
+              MenuProps={MenuProps}
+            >
+              {supplierAddresses &&
+                supplierAddresses.map((name) => (
+                  <MenuItem
+                    key={name}
+                    value={name}
+                    style={getStyles(name, personName, theme)}
+                  >
+                    {name}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <TextField

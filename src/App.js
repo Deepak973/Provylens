@@ -93,15 +93,15 @@ function App() {
                 element={<DistributorDashboard />}
               />
               <Route path="/profile" element={<Profile />}></Route>
-              <Route path="/verify-product" element={<VerifyProduct />} />
+              <Route path="/verify-product/:id?" element={<VerifyProduct />} />
             </Routes>
           </Router>
         </div>
       </RainbowKitProvider>
-      <Chat
+      {/* <Chat
         account={address} //user address
         supportAddress="0xe57f4c84539a6414C4Cf48f135210e01c477EFE0" //support address
-      />
+      /> */}
     </WagmiConfig>
   );
 }

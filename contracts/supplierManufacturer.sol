@@ -115,7 +115,8 @@ contract supplierManufacturer is ISupplierManufacturer{
 
         smIdToStructMapping[smId] = supplierManufacturer(smId,_spId,_supplierAddress,msg.sender,0,0,_quantity,0,transferStatus.Requested);
         manufacturerTosmIdMapping[msg.sender].push(smId);
-        supplierTosmIdMapping[msg.sender].push(smId);
+        // supplierTosmIdMapping[msg.sender].push(smId);
+        supplierTosmIdMapping[_supplierAddress].push(smId);
         smId++;
     }
     

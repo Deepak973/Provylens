@@ -1,29 +1,32 @@
-const hre = require("hardhat");
+const { ethers } = require("hardhat");
 
-async function main() {
+async function deploy() {
+  const UserDetails = await ethers.getContractFactory("userDetails");
+  const userDetails = await UserDetails.deploy();
+  console.log("User detailsContract address:", userDetails.address);
+}
+
+// deploy();
+
+async function interact() {
   const encoder = new TextEncoder();
   // Get the contract instance
-  const Contract = await ethers.getContractFactory("userDetails");
-  //   const contract = await Contract.deploy();
-  //   await contract.deployed();
-  const userDetailsContract = await Contract.attach(
-    "0xCbe6A856ed9523A20B707AcD24794634d42eD7ca"
-  );
-  console.log(
-    "Contract userDetailsContract deployed to:",
-    userDetailsContract.address
+  const contractAddress = "0x85b83843424ff60F1Dc0AE03E1577c420d1ef0Bc";
+  const userDetailsContract = await ethers.getContractAt(
+    "userDetails",
+    contractAddress
   );
 
   // Add a user
-  const name = "John Doe";
-  const physicalAddress = "123 Main St.";
+  const name = "Jay Ambe floor factory";
+  const physicalAddress = "810-bodakdev, ahmedabad, Gujarat, 398890";
   const image = "QmYV2kcbsbLrwjJ7ZZd5WzKvQ5a5Z5x1SajLb6NSvJFWVC";
-  //   await userDetailsContract.addUser(
-  //     0,
-  //     encoder.encode(name),
-  //     encoder.encode(physicalAddress),
-  //     encoder.encode(image)
-  //   );
+  // await userDetailsContract.addUser(
+  //   0,
+  //   encoder.encode(name),
+  //   encoder.encode(physicalAddress),
+  //   encoder.encode(image)
+  // );
 
   // Get all users
   const allUsers = await userDetailsContract.getAllUsers();
@@ -36,7 +39,4 @@ async function main() {
   console.log("Supplier details:", supplierDetails);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+interact();

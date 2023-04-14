@@ -9,6 +9,9 @@ import "../../styles/Modal.css";
 import history from "../TransferHistory.json";
 import { createClient } from "urql";
 import { useAccount, useSigner } from "wagmi";
+import { requestHistoryOfManufacturer } from "../../helper/supplierManufacturerHelper";
+import { getSingleSupplierProduct } from "../../helper/supplierProductHelper";
+import hexToString from "../../helper/HexToStringConverter";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -21,51 +24,40 @@ const Item = styled(Paper)(({ theme }) => ({
 function TransferHistory({ dashboardLinks }) {
   const { address, isConnected } = useAccount();
   const [modal, setModal] = useState(false);
-  const [transferDetails, setTransferDetails] = useState();
+  const [requestDetails, setRequestDetails] = useState();
+  // const [spId, setSpId] = useState();
 
   console.log(history);
   const toggleModal = () => {
     setModal(!modal);
+    // console.log(spId);
   };
 
   useEffect(() => {
     getTransferData();
   }, []);
   const getTransferData = async () => {
-    const data_ = `query MyQuery {
-      eventSupplierManufacturerTransfers(
-        where: {_supplierAddress: "${address.toLowerCase()}"}
-      ) {
-        _dispatchTime
-        _manufacturerAddress
-        _smId
-        _spId
-        _supplierAddress
-      }
-    }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
+    const reqHistory = await requestHistoryOfManufacturer(address);
+    console.log(reqHistory);
+    const filteredData = reqHistory.map((val, index) => {
+      return {
+        reqId: parseInt(val["smId"]),
+        spId: parseInt(val["spId"]),
+        // name: hexToString(val["userName"]),
+        status:
+          val["status"] === 1
+            ? "Requested"
+            : val["status"] === 2
+            ? "Approved"
+            : val["status"] === 3
+            ? "Received"
+            : null,
+      };
     });
+    setRequestDetails(filteredData);
 
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    const filteredData = result1.data.eventSupplierManufacturerTransfers.map(
-      (product) => {
-        return {
-          dispatchTime: new Date(
-            product["_dispatchTime"] * 1000
-          ).toDateString(),
-          manufacturerAddress: product["_manufacturerAddress"],
-          smId: product["_smId"],
-          spId: product["_spId"],
-          supplierAddress: product["supplierAddress"],
-        };
-      }
-    );
-
-    setTransferDetails(filteredData);
     console.log(filteredData);
+    // console.log(reqHistory);
   };
 
   if (modal) {
@@ -81,7 +73,7 @@ function TransferHistory({ dashboardLinks }) {
           <div className=" modal-content">
             <div className="first-row">
               <label className="manufacture-details-quality-title font-color">
-                {history.Product}
+                Product Details
               </label>
               <div className="product-details font-color">
                 <label className="manufacture-details-quality">
@@ -94,7 +86,7 @@ function TransferHistory({ dashboardLinks }) {
             </div>
             <div className="second-row">
               <label className="manufacture-details-quality-title font-color">
-                {history.Manufacturer}
+                Supplier Details
               </label>
               <div className="manufacture-details font-color">
                 <label className="manufacture-details-quality">
@@ -108,7 +100,7 @@ function TransferHistory({ dashboardLinks }) {
             </div>
             <div className="third-row">
               <label className="manufacture-details-quality-title font-color">
-                {history.quality}
+                Quantity
               </label>{" "}
               <div className="manufacture-details font-color">
                 <label className="manufacture-details-quality">25%</label>
@@ -121,8 +113,8 @@ function TransferHistory({ dashboardLinks }) {
         </div>
       )}
       <div className="all-history-main-div">
-        {transferDetails &&
-          transferDetails.map((data) => {
+        {requestDetails &&
+          requestDetails.map((data) => {
             return (
               <Box sx={{ width: "100%" }}>
                 <Grid
@@ -135,13 +127,13 @@ function TransferHistory({ dashboardLinks }) {
                       {" "}
                       <div className="history-flex">
                         <label className="transfer-history">
-                          Transfer Id:{data?.smId}
+                          Requeset Id:{data?.reqId}
                         </label>
                         <label className="transfer-history">
                           product Id:{data?.spId}
                         </label>
                         <label className="transfer-history">
-                          Dispatch Time:{data?.dispatchTime}
+                          Request Status:{data?.status}
                         </label>
                       </div>
                       <div>
@@ -152,7 +144,9 @@ function TransferHistory({ dashboardLinks }) {
                           // onClick={() => {
                           //   dashboardLinks("HistoryDetails");
                           // }}
-                          onClick={toggleModal}
+                          onClick={() => {
+                            toggleModal();
+                          }}
                         >
                           View Details
                         </Button>
