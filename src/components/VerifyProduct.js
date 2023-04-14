@@ -15,6 +15,7 @@ import Footer from "../components/Footer";
 import { ForceGraph2D } from "react-force-graph";
 import { details } from "./verifyDetails";
 import { QRCodeCanvas } from "qrcode.react";
+import img from "../assets/ProvyLensLogo.png";
 
 function VerifyProduct() {
   const [age, setAge] = useState("");
@@ -41,135 +42,96 @@ function VerifyProduct() {
     setProductId(e.target.value);
   };
 
-  const qrcode = (
-    <QRCodeCanvas
-      style={{
-        marginLeft: "100px",
-        borderWidth: "10px",
-        borderStyle: "solid",
-        borderColor: "white",
-      }}
-      ref={canvasRef}
-      id="qrCode"
-      value={productId}
-      size={300}
-      bgColor={"#fff"}
-      level={"H"}
-    />
-  );
+  // const qrcode = (
+  //   <QRCodeCanvas
+  //     style={{
+  //       borderWidth: "10px",
+  //       borderStyle: "solid",
+  //       borderColor: "white",
+  //       width: "7rem",
+  //       height: "7rem",
+  //     }}
+  //     ref={canvasRef}
+  //     id={productId}
+  //     value={productId}
+  //     bgColor={"#ffffff"}
+  //     fgColor={"#000000"}
+  //     level={"H"}
+  //     imageSettings={{
+  //       src: img,
+  //       // borderWidth: 200,
+  //       // borderColor: "white",
+  //       x: undefined,
+  //       y: undefined,
+  //       height: 70,
+  //       width: 70,
+  //       excavate: true,
+  //     }}
+  //     size={400}
+  //   />
+  //     <QRCodeCanvas
+  //   value={"https://picturesofpeoplescanningqrcodes.tumblr.com/"}
+  //   size={128}
+  //   bgColor={"#ffffff"}
+  //   fgColor={"#000000"}
+  //   level={"H"}
+  //   includeMargin={false}
+  //   imageSettings={{
+  //     src: "https://static.zpao.com/favicon.png",
+  //     x: undefined,
+  //     y: undefined,
+  //     height: 24,
+  //     width: 24,
+  //     excavate: true,
+  //   }}
+  // />
+  // );
 
-  /* const saveImageToLocal = () => {
-    // let link = event.currentTarget;
-    const a = document.createElement("a");
-    // document.body.appendChild(a);
-    console.log(a);
-    const canvas = document.getElementById("qrCode");
-    var image = canvas.toDataURL("image/png");
-    a.download = "QR-Start";
-    a.href = image;
-    a.click();
-  }; */
-
-  /* const saveImageToLocal = () => {
-    const a = document.createElement("a");
-    const originalCanvas = document.getElementById("qrCode");
-    const tempCanvas = document.createElement("canvas");
-    tempCanvas.width = originalCanvas.width + 40; // add 40px to width for border
-    tempCanvas.height = originalCanvas.height + 40; // add 40px to height for border
-    const tempCtx = tempCanvas.getContext("2d");
-    tempCtx.strokeStyle = "white";
-    tempCtx.lineWidth = 30;
-    tempCtx.strokeRect(
-      30, // add 20px to x-coordinate for left border
-      30, // add 20px to y-coordinate for top border
-      originalCanvas.width, // use original width for QR code
-      originalCanvas.height // use original height for QR code
-    );
-    tempCtx.drawImage(originalCanvas, 30, 30); // draw original QR code onto temp canvas with 20px offset
-    const image = tempCanvas.toDataURL("image/png");
-    a.download = "QR-Start";
-    a.href = image;
-    a.click();
-  }; */
-
-  /* const saveImageToLocal = () => {
-    const a = document.createElement("a");
-    const originalCanvas = document.getElementById("qrCode");
-    const tempCanvas = document.createElement("canvas");
-    const textPadding = 20;
-    const textSize = 36;
-    const text = "✔ ProvyLens";
-    const textWidth = originalCanvas.width;
-    const textHeight = textSize + textPadding;
-    tempCanvas.width = originalCanvas.width + 40;
-    tempCanvas.height = originalCanvas.height + textHeight + 40;
-    const tempCtx = tempCanvas.getContext("2d");
-    tempCtx.fillStyle = "white";
-    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-    tempCtx.drawImage(originalCanvas, 20, 20);
-    tempCtx.strokeStyle = "white";
-    tempCtx.lineWidth = 20;
-    tempCtx.strokeRect(10, 10, tempCanvas.width - 20, tempCanvas.height - 20);
-    tempCtx.fillStyle = "black";
-    tempCtx.font = `bold ${textSize}px Arial`;
-    tempCtx.textAlign = "center";
-    tempCtx.textBaseline = "middle";
-    tempCtx.fillText(
-      text,
-      tempCanvas.width / 2,
-      tempCanvas.height - textPadding - textSize / 2
-    );
-    const image = tempCanvas.toDataURL("image/png");
-    a.download = "QR-Start";
-    a.href = image;
-    a.click();
-  }; */
-
-  const saveImageToLocal = () => {
-    const a = document.createElement("a");
-    const originalCanvas = document.getElementById("qrCode");
-    const tempCanvas = document.createElement("canvas");
-    const textPadding = 20;
-    const textSize = 36;
-    const textLine1 = "✔ ProvyLens";
-    const textLine2 = "Product Id: " + productId;
-    const textWidth = originalCanvas.width;
-    const textHeight = textSize + textPadding;
-    const smallTextSize = 20;
-    const smallTextPadding = 10;
-    tempCanvas.width = originalCanvas.width + 40;
-    tempCanvas.height = originalCanvas.height + textHeight + smallTextSize + 60;
-    const tempCtx = tempCanvas.getContext("2d");
-    tempCtx.fillStyle = "white";
-    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-    tempCtx.drawImage(originalCanvas, 20, 20);
-    tempCtx.strokeStyle = "white";
-    tempCtx.lineWidth = 20;
-    tempCtx.strokeRect(10, 10, tempCanvas.width - 20, tempCanvas.height - 20);
-    tempCtx.fillStyle = "black";
-    tempCtx.font = `bold ${textSize}px Arial`;
-    tempCtx.textAlign = "center";
-    tempCtx.textBaseline = "middle";
-    tempCtx.fillText(
-      textLine1,
-      tempCanvas.width / 2,
-      tempCanvas.height -
-        textPadding -
-        textSize / 2 -
-        smallTextSize -
-        smallTextPadding
-    );
-    tempCtx.font = `bold ${smallTextSize}px Arial`;
-    tempCtx.fillText(
-      textLine2,
-      tempCanvas.width / 2,
-      tempCanvas.height - smallTextPadding - smallTextSize / 2
-    );
-    const image = tempCanvas.toDataURL("image/png");
-    a.download = "QR-Start";
-    a.href = image;
-    a.click();
-  };
+  // const saveImageToLocal = () => {
+  //   const a = document.createElement("a");
+  //   const originalCanvas = document.getElementById(productId);
+  //   const tempCanvas = document.createElement("canvas");
+  //   const textPadding = 20;
+  //   const textSize = 36;
+  //   const textLine1 = "✔ ProvyLens";
+  //   const textLine2 = "Product Id: " + productId;
+  //   const textWidth = originalCanvas.width;
+  //   const textHeight = textSize + textPadding;
+  //   const smallTextSize = 20;
+  //   const smallTextPadding = 10;
+  //   tempCanvas.width = originalCanvas.width + 40;
+  //   tempCanvas.height = originalCanvas.height + textHeight + smallTextSize + 60;
+  //   const tempCtx = tempCanvas.getContext("2d");
+  //   tempCtx.fillStyle = "white";
+  //   tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+  //   tempCtx.drawImage(originalCanvas, 20, 20);
+  //   tempCtx.strokeStyle = "white";
+  //   tempCtx.lineWidth = 20;
+  //   tempCtx.strokeRect(10, 10, tempCanvas.width - 20, tempCanvas.height - 20);
+  //   tempCtx.fillStyle = "black";
+  //   tempCtx.font = `bold ${textSize}px Arial`;
+  //   tempCtx.textAlign = "center";
+  //   tempCtx.textBaseline = "middle";
+  //   tempCtx.fillText(
+  //     textLine1,
+  //     tempCanvas.width / 2,
+  //     tempCanvas.height -
+  //       textPadding -
+  //       textSize / 2 -
+  //       smallTextSize -
+  //       smallTextPadding
+  //   );
+  //   tempCtx.font = `bold ${smallTextSize}px Arial`;
+  //   tempCtx.fillText(
+  //     textLine2,
+  //     tempCanvas.width / 2,
+  //     tempCanvas.height - smallTextPadding - smallTextSize / 2
+  //   );
+  //   const image = tempCanvas.toDataURL("image/png");
+  //   a.download = "QR-Start";
+  //   a.href = image;
+  //   a.click();
+  // };
 
   // const textLine2 = `Product Id: ${productId} ` + productId;
 
@@ -578,18 +540,6 @@ function VerifyProduct() {
   return (
     <>
       <div className="verify-product-main-div">
-        <div>{qrcode}</div>
-        {/* <div><form onSubmit={downloadQRCode}></form></div> */}
-        <button
-          id="download_image_link"
-          className="browse-btn"
-          href="download_link"
-          onClick={() => {
-            saveImageToLocal();
-          }}
-        >
-          Download QR Code
-        </button>
         <div className="delete-product-main-div">
           <TextField
             helperText=" "
