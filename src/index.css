@@ -142,6 +142,9 @@ body::-webkit-scrollbar-thumb {
   fill: #ffffff !important;
 }
 .rd3t-label__attributes {
-  width: 200px !important;
+  width: 20px !important;
   word-break: break-all !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
