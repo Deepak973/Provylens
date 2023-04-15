@@ -1,0 +1,119 @@
+/* Default styles for React Treebeard */
+/* You can customize these styles as needed */
+
+/* Styles for tree nodes */
+.treebeard-node {
+  color: #f0f0f0;
+  margin-top: 300px;
+  position: relative;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.treebeard-node--leaf {
+  cursor: default;
+}
+
+.treebeard-node:hover > .treebeard-node-header {
+  background-color: #f0f0f0;
+}
+
+.treebeard-node--active > .treebeard-node-header {
+  background-color: #ddd;
+}
+
+/* Styles for tree node headers */
+.treebeard-node-header {
+  display: flex;
+  align-items: center;
+}
+
+.treebeard-node-header:before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.treebeard-node-header:after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid #333;
+  margin-left: 5px;
+}
+
+.treebeard-node--leaf .treebeard-node-header:after {
+  border-left: none;
+}
+
+.treebeard-node--loading .treebeard-node-header:after {
+  border-left-color: transparent;
+  animation: spin 1s infinite linear;
+}
+
+/* Styles for tree node toggles */
+.treebeard-node-toggle {
+  position: relative;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.treebeard-node-toggle:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 3px;
+  width: 4px;
+  height: 10px;
+  background-color: #333;
+}
+
+.treebeard-node--leaf .treebeard-node-toggle:before {
+  display: none;
+}
+
+.treebeard-node--loading .treebeard-node-toggle:before {
+  background-color: transparent;
+}
+
+/* Styles for tree node decorators */
+.treebeard-node-decorator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.treebeard-node-decorator:before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #333;
+  border-radius: 50%;
+}
+
+.treebeard-node--leaf .treebeard-node-decorator:before {
+  display: none;
+}
+
+/* Keyframes for loading spinner animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

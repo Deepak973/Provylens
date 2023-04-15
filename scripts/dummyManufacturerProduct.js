@@ -8,8 +8,8 @@ async function deploy() {
     "manufacturerProduct"
   );
   const manufacturerProduct = await ManufacturerProduct.deploy(
-    "0x30E198C8aa56985B534F01F935a938B646A7adf5",
-    "0x6cE2eAC2cE25BDd1f323C53d026c83363767C548"
+    "0x26844043EB9AD5BBD3390196Fe715E7F11b3aF37", //user details
+    "0x95651D7C5f9b1A42D0a891274FF9db31F6deCb7d" //supplier manufacturer
   ); //userdetails contract address
   await manufacturerProduct.deployed();
 
@@ -22,7 +22,7 @@ deploy();
 
 async function interact() {
   const encoder = new TextEncoder();
-  const contractAddress = "0x400966ec02C311FA37e7166fB545B323a6eeBf32";
+  const contractAddress = "0xBB4D305a16d0b7E9976c80d0b156E7eAbE8b562a";
   const manufacturerProductContract = await ethers.getContractAt(
     "manufacturerProduct",
     contractAddress

@@ -363,10 +363,10 @@ function VerifyProduct() {
         allData[0]["mp_date"]
       ).toDateString(),
       manufacturedProductExpiryDate: new Date(
-        allData[0]["mp_expiryDate"]
+        allData[0]["mp_expiryDate"] * 1000
       ).toDateString(),
       manufacturedProductDispatchDate: new Date(
-        allData[0]["dispatchTime"]
+        allData[0]["dispatchTime"] * 1000
       ).toDateString(),
       //manufacture details
       manufactureName: hexToString(allData[2]["userName"]),
@@ -381,24 +381,24 @@ function VerifyProduct() {
 
     const filteredDataOfSupplier = allData[1].map((val, index) => {
       return {
-        reqId: parseInt(val[0]["smId"]),
-        spId: parseInt(val[0]["spId"]),
-        // name: hexToString(val["userName"]),
-        status:
-          val[0]["status"] === 1
-            ? "Requested"
-            : val[0]["status"] === 2
-            ? "Approved"
-            : val[0]["status"] === 3
-            ? "Received"
-            : null,
-        manufacturerAddress: val[0]["manufacturerAddress"],
-        quantity: val[0]["quantity"],
-        productname: hexToString(val[1]["sp_name"]),
-        p_description: hexToString(val[1]["sp_description"]),
-        p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
-        p_date_created: new Date(val[1]["sp_date"]).toDateString(),
-        manufacturer_name: hexToString(val[2]["userName"]),
+        //supplier Product details
+        supplierProductName: hexToString(val[1]["sp_name"]),
+        supplierProductDescription: hexToString(val[1]["sp_description"]),
+        supplierProductExpiryDate: new Date(
+          val[1]["sp_expiryDate"]
+        ).toDateString(),
+        supplierProductCreatedDate: new Date(val[1]["sp_date"]).toDateString(),
+        supplierProductDispatchTime: new Date(
+          val[0]["dispatchTime"]
+        ).toDateString(),
+        supplierProductDispatchTime: new Date(
+          val[0]["arrivalTime"]
+        ).toDateString(),
+
+        //supplier details
+        supplierName: hexToString(val[2]["userName"]),
+        supplierAddress: hexToString(val[2]["userPhysicalAddress"]),
+        supplierLogo: hexToString(val[2]["userImage"]),
       };
     });
     console.log(filteredDataOfSupplier);
