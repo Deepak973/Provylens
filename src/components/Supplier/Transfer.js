@@ -37,11 +37,14 @@ import { transferProductToManufacturer } from "../../helper/supplierManufacturer
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#1a1156",
     color: theme.palette.common.white,
+    textAlign: "center",
+    letterSpacing: "2px",
+    fontFamily: "HammersmithOne-Regular",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 15,
   },
 }));
 
@@ -195,14 +198,14 @@ function Transfer() {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Request Id</StyledTableCell>
-                <StyledTableCell align="right">Product Name</StyledTableCell>
-                <StyledTableCell align="right">Quantity</StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">Request Id</StyledTableCell>
+                <StyledTableCell align="center">Product Name</StyledTableCell>
+                <StyledTableCell align="center">Quantity</StyledTableCell>
+                <StyledTableCell align="center">
                   Manufacturer Name
                 </StyledTableCell>
-                <StyledTableCell align="right">Status</StyledTableCell>
-                <StyledTableCell align="right"></StyledTableCell>
+                <StyledTableCell align="center">Status</StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
               </TableRow>
             </TableHead>
             {loading ? (
@@ -222,19 +225,23 @@ function Transfer() {
                     if (requestDetails.status === "Requested") {
                       return (
                         <StyledTableRow key={requestDetails.reqId}>
-                          <StyledTableCell component="th" scope="row">
+                          <StyledTableCell
+                            component="th"
+                            scope="row"
+                            align="center"
+                          >
                             {requestDetails.reqId}
                           </StyledTableCell>
-                          <StyledTableCell align="right">
+                          <StyledTableCell align="center">
                             {requestDetails.productname}
                           </StyledTableCell>
-                          <StyledTableCell align="right">
+                          <StyledTableCell align="center">
                             {requestDetails.quantity}
                           </StyledTableCell>
-                          <StyledTableCell align="right">
+                          <StyledTableCell align="center">
                             {requestDetails.manufacturer_name}
                           </StyledTableCell>
-                          <StyledTableCell align="right">
+                          <StyledTableCell align="center">
                             {requestDetails.status}
                           </StyledTableCell>
                           <div className="view-more-btn">

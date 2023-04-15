@@ -10,13 +10,14 @@
   min-height: 85vh;
   display: flex;
   flex-direction: row;
-  padding-top: 85px;
+  padding-top: 100px;
 
   .left-db {
     width: 250px;
     min-width: 250px;
     max-width: 250px;
     display: flex;
+    height: 100vh;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;

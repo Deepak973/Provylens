@@ -79,7 +79,7 @@ function ViewProduct() {
         }}
         ref={canvasRef}
         id={`${v}`}
-        value={`${v}`}
+        value={`http://localhost:3000/verify-product/${v}`}
         imageSettings={{
           src: img,
           // borderWidth: 20,
@@ -237,7 +237,7 @@ function ViewProduct() {
                 <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
                   Price per unit
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
+                <StyledTableCell align="center" sx={{ whiteSpace: "" }}>
                   date
                 </StyledTableCell>
                 <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
@@ -291,22 +291,42 @@ function ViewProduct() {
                           Download QR Code
                         </button>
                       </StyledTableCell>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                        sx={{ whiteSpace: "nowrap" }}
+                      >
                         {product.mpId}
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        align="center"
+                        sx={{ whiteSpace: "nowrap" }}
+                      >
                         {product.name}
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        align="center"
+                        sx={{ whiteSpace: "nowrap" }}
+                      >
                         {product.unit}
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        align="center"
+                        sx={{ whiteSpace: "nowrap" }}
+                      >
                         {product.price}
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        align="center"
+                        sx={{ whiteSpace: "nowrap" }}
+                      >
                         {product.date}
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        align="center"
+                        sx={{ whiteSpace: "nowrap" }}
+                      >
                         {product.expiryDate}
                       </StyledTableCell>
                       <StyledTableCell align="center">
@@ -319,6 +339,7 @@ function ViewProduct() {
                               setSelectedProduct(product);
                               toggleModal();
                             }}
+                            sx={{ whiteSpace: "nowrap" }}
                           >
                             View More
                           </Button>

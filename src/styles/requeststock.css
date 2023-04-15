@@ -1,12 +1,12 @@
 .datadao-details-main-div {
-  width: 30%;
+  width: 50%;
   padding: 20px;
   margin: 20px auto;
   max-width: 1240px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 35vh;
+  height: 40vh;
   justify-content: space-around;
   margin: 10% auto;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,

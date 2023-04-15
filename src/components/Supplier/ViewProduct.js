@@ -173,23 +173,42 @@ function ViewProduct() {
               <TableRow>
                 <StyledTableCell
                   align="center"
-                  sx={{ width: "130px", textAlign: "center" }}
+                  sx={{
+                    width: "130px",
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                  }}
                 >
                   Product Id
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "400px" }}>
+                <StyledTableCell
+                  align="center"
+                  sx={{ width: "400px", whiteSpace: "nowrap" }}
+                >
                   Product Name
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "130px" }}>
+                <StyledTableCell
+                  align="center"
+                  sx={{ width: "130px", whiteSpace: "nowrap" }}
+                >
                   Unit
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "170px" }}>
+                <StyledTableCell
+                  align="center"
+                  sx={{ width: "170px", whiteSpace: "nowrap" }}
+                >
                   Price per unit
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "300px" }}>
+                <StyledTableCell
+                  align="center"
+                  sx={{ width: "300px", whiteSpace: "nowrap" }}
+                >
                   Expiry Date
                 </StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: "300px" }}>
+                <StyledTableCell
+                  align="center"
+                  sx={{ width: "300px", whiteSpace: "nowrap" }}
+                >
                   Expiry Date
                 </StyledTableCell>
               </TableRow>
