@@ -16,14 +16,14 @@ import Register from "./components/Register";
 import SupplierDashboard from "./pages/SupplierDashboard";
 import ManufacturerDashboard from "./pages/ManufacturerDashboard";
 import DistributorDashboard from "./pages/DistributorDashboard";
-import VerifyProduct from "./components/VerifyProduct";
+import VerifyProduct from "./components/VerifyProducts";
 import Profile from "./components/Profile";
 // import TreeNode from "./components/Tree.js";
 import { Chat } from "@pushprotocol/uiweb";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { useAccount } from "wagmi";
 // import Tree from "./components/OrgChartTree.js";
-import OrgChartTree from "./components/OrgChartTree.js";
+import OrgChartTree from "./components/VerifyProduct.js";
 
 function App() {
   // const address = useAccount();
@@ -95,9 +95,9 @@ function App() {
                 path="/distributor-dashboard"
                 element={<DistributorDashboard />}
               />
-              <Route path="/extra" element={<OrgChartTree />} />
+              <Route path="/verify-product/:id?" element={<OrgChartTree />} />
               <Route path="/profile" element={<Profile />}></Route>
-              <Route path="/verify-product/:id?" element={<VerifyProduct />} />
+              {/* <Route path="/verify-product/:id?" element={<VerifyProducts />} /> */}
             </Routes>
           </Router>
         </div>
