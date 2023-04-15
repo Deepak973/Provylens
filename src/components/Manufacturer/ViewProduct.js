@@ -79,7 +79,7 @@ function ViewProduct() {
         }}
         ref={canvasRef}
         id={`${v}`}
-        value={`${v}`}
+        value={`http://localhost:3000/verify-product/${v}`}
         imageSettings={{
           src: img,
           // borderWidth: 20,
