@@ -69,7 +69,7 @@ function App() {
     chains,
   });
   const wagmiClient = createClient({
-    autoConnect: false,
+    autoConnect: true,
     connectors,
     provider,
   });
