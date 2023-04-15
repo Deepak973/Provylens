@@ -352,7 +352,82 @@ function VerifyProduct() {
 
   const getProductDetails = async (smId) => {
     console.log(smId);
-    const allData = getProductsOfManufacturer(smId);
+    const allData = await getProductsOfManufacturer(smId);
+    console.log(allData);
+    const filterData = {
+      //manufactureProduct details
+      manufacturedProductName: hexToString(allData[0]["mp_name"]),
+      manufacturedProductDesription: hexToString(allData[0]["mp_description"]),
+      manufacturedProductPrice: parseInt(allData[0]["mp_price"]),
+      manufacturedProductManufactureDate: new Date(
+        allData[0]["mp_date"]
+      ).toDateString(),
+      manufacturedProductExpiryDate: new Date(
+        allData[0]["mp_expiryDate"]
+      ).toDateString(),
+      manufacturedProductDispatchDate: new Date(
+        allData[0]["dispatchTime"]
+      ).toDateString(),
+      //manufacture details
+      manufactureName: hexToString(allData[2]["userName"]),
+      manufacturerAddress: hexToString(allData[2]["userPhysicalAddress"]),
+      manufactureLogo: hexToString(allData[2]["userImage"]),
+      //distributor details
+      distributorName: hexToString(allData[3]["userName"]),
+      distributorAddress: hexToString(allData[3]["userPhysicalAddress"]),
+      distributorLogo: hexToString(allData[3]["userImage"]),
+    };
+    console.log(filterData);
+
+    const filteredDataOfSupplier = allData[1].map((val, index) => {
+      return {
+        reqId: parseInt(val[0]["smId"]),
+        spId: parseInt(val[0]["spId"]),
+        // name: hexToString(val["userName"]),
+        status:
+          val[0]["status"] === 1
+            ? "Requested"
+            : val[0]["status"] === 2
+            ? "Approved"
+            : val[0]["status"] === 3
+            ? "Received"
+            : null,
+        manufacturerAddress: val[0]["manufacturerAddress"],
+        quantity: val[0]["quantity"],
+        productname: hexToString(val[1]["sp_name"]),
+        p_description: hexToString(val[1]["sp_description"]),
+        p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
+        p_date_created: new Date(val[1]["sp_date"]).toDateString(),
+        manufacturer_name: hexToString(val[2]["userName"]),
+      };
+    });
+    console.log(filteredDataOfSupplier);
+
+    // const filteredData = allData.map((val, index) => {
+    //   return {
+    //     //manufactured product details
+    //     manufacturedProductName: val["mp_name"],
+    //     // spId: parseInt(val[0]["spId"]),
+    //     // // name: hexToString(val["userName"]),
+    //     // status:
+    //     //   val[0]["status"] === 1
+    //     //     ? "Requested"
+    //     //     : val[0]["status"] === 2
+    //     //     ? "Approved"
+    //     //     : val[0]["status"] === 3
+    //     //     ? "Received"
+    //     //     : null,
+    //     // manufacturerAddress: val[0]["manufacturerAddress"],
+    //     // quantity: val[0]["quantity"],
+    //     // productname: hexToString(val[1]["sp_name"]),
+    //     // p_description: hexToString(val[1]["sp_description"]),
+    //     // p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
+    //     // p_date_created: new Date(val[1]["sp_date"]).toDateString(),
+    //     // manufacturer_name: hexToString(val[2]["userName"]),
+    //   };
+    // });
+
+    // console.log(filteredData);
   };
 
   const handleChange = (event) => {

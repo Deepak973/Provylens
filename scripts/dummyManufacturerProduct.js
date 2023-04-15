@@ -22,7 +22,7 @@ deploy();
 
 async function interact() {
   const encoder = new TextEncoder();
-  const contractAddress = "0x06eDF53bb9039F4Ad4fe651536dCd1663808CC8f";
+  const contractAddress = "0x400966ec02C311FA37e7166fB545B323a6eeBf32";
   const manufacturerProductContract = await ethers.getContractAt(
     "manufacturerProduct",
     contractAddress

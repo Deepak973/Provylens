@@ -37,7 +37,7 @@ export const getProductsOfManufacturer = async (id) => {
     const allProductsData = await connectedContract.getProductsOfManufacturer(
       id
     );
-    console.table(allProductsData);
+    // console.log(allProductsData);
 
     return allProductsData;
   } catch (err) {
