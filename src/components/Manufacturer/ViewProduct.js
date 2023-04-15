@@ -79,7 +79,7 @@ function ViewProduct() {
         }}
         ref={canvasRef}
         id={`${v}`}
-        value={`http://localhost:3000/verify-product/${v}`}
+        value={`https://provylens-virid.vercel.app/verify-product/${v}`}
         imageSettings={{
           src: img,
           // borderWidth: 20,
