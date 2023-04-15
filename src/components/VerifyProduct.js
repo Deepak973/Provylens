@@ -3,11 +3,30 @@ import Tree from "react-d3-tree";
 import hexToString from "../helper/HexToStringConverter";
 import { getProductsOfManufacturer } from "../helper/GetMpDetails";
 import { useParams } from "react-router-dom";
+import "../styles/deleteproduct.css";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import feature1 from "../assets/feature-1.png";
+import bubble4 from "../assets/fixed4.png";
+import feature2 from "../assets/header6_shape_5.png";
+import "../styles/viewproduct.css";
+import { createClient } from "urql";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Footer from "./Footer";
+// ...graph..........
+import { ForceGraph2D } from "react-force-graph";
+import { details } from "./verifyDetails";
+import { QRCodeCanvas } from "qrcode.react";
+import img from "../assets/ProvyLensLogo.png";
 
 const OrgChartTree = () => {
   const [dataDMMP, setdataDMMP] = useState();
   const [dataSSP, setdataSSP] = useState();
   const [loading, setLoading] = useState(false);
+  // const [productData, setProductData] = useState({});
+  const [productId, setProductId] = useState(false);
+
   let { id } = useParams();
   console.log(id);
 
@@ -176,25 +195,87 @@ const OrgChartTree = () => {
   }, []);
   return (
     // `<Tree />` will fill width/height of its container; in this case `#treeWrapper`.
-    <div
-      id="treeWrapper"
-      style={{
-        width: "100vw",
-        height: "100vh",
-        padding: "20px",
-        paddingTop: "100px",
-      }}
-    >
-      {loading ? (
-        <Tree
-          data={orgChart}
-          orientation="vertical"
-          translate={{ x: 400, y: 100 }}
-        />
-      ) : (
-        ""
-      )}
-    </div>
+    <>
+      {!id ? (
+        <div className="verify-product-main-div">
+          <div className="delete-product-main-div">
+            <TextField
+              helperText=" "
+              id="demo-helper-text-aligned-no-helper"
+              label="Product Id"
+              sx={{
+                ".MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+                "..MuiOutlinedInput-input.Mui-focused": {
+                  borderColor: "rgba(255, 255, 255, 0.5)",
+                },
+
+                ".MuiInputLabel-root ": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                  fontFamily: "HammersmithOne-Regular",
+                },
+                ".MuiInputLabel-root.Mui-focused ": {
+                  color: "rgba(255, 255, 255, 0.5)",
+                  fontFamily: "HammersmithOne-Regular",
+                },
+                ".MuiOutlinedInput-input": {
+                  color: "white",
+                  fontFamily: "HammersmithOne-Regular",
+                },
+              }}
+              onChange={(e) => {
+                setProductId(e.target.value);
+              }}
+            />
+
+            <Button
+              onClick={() => {
+                getProductDetails(productId);
+              }}
+              variant="contained"
+              size="large"
+              className="verify-btn"
+            >
+              Verify Product
+            </Button>
+
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </div>
+        </div>
+      ) : null}
+
+      <div
+        id="treeWrapper"
+        style={{
+          width: "100vw",
+          height: "100vh",
+          padding: "20px",
+          paddingTop: "100px",
+        }}
+      >
+        {loading ? (
+          <Tree
+            data={orgChart}
+            orientation="vertical"
+            translate={{ x: 400, y: 100 }}
+          />
+        ) : (
+          ""
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 

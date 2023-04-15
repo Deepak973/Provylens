@@ -165,15 +165,22 @@ function ViewProduct() {
         if (product["mp_status"]) {
           return {
             mpId: parseInt(allProductsData[1][index]["_hex"]),
-            name: hexToString(product["mp_name"]),
+            name: hexToString(product["mp_name"]).replace(/\0/g, ""),
             unit: parseInt(product["mp_unit"]),
             price: parseInt(product["mp_price"]),
             dispatchTime: parseInt(product["dispatchTime"]),
             arrivalTime: parseInt(product["arrivalTime"]),
-            date: new Date(product["mp_date"]).toDateString(),
-            expiryDate: new Date(product["mp_expiryDate"]).toDateString(),
-            description: hexToString(product["mp_description"]),
-            distributorAddress: hexToString(product["distributorAddress"]),
+            date: new Date(product["mp_date"] * 1000).toDateString(),
+            expiryDate: new Date(
+              product["mp_expiryDate"] * 1000
+            ).toDateString(),
+            description: hexToString(product["mp_description"]).replace(
+              /\0/g,
+              ""
+            ),
+            distributorAddress: hexToString(
+              product["distributorAddress"]
+            ).replace(/\0/g, ""),
             smId: Array.isArray(product["smId"])
               ? product["smId"].map((id) => parseInt(id, 16))
               : [parseInt(product["smId"], 16)],

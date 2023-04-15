@@ -81,12 +81,17 @@ function ViewProduct() {
         if (product["sp_status"]) {
           return {
             spId: parseInt(allProductsData[1][index]["_hex"]),
-            name: hexToString(product["sp_name"]),
+            name: hexToString(product["sp_name"]).replace(/\0/g, ""),
             unit: parseInt(product["sp_unit"]),
             price: parseInt(product["sp_price"]),
-            date: new Date(product["sp_date"]).toDateString(),
-            expiryDate: new Date(product["sp_expiryDate"]).toDateString(),
-            description: hexToString(product["sp_description"]),
+            date: new Date(product["sp_date"] * 1000).toDateString(),
+            expiryDate: new Date(
+              product["sp_expiryDate"] * 1000
+            ).toDateString(),
+            description: hexToString(product["sp_description"]).replace(
+              /\0/g,
+              ""
+            ),
           };
         } else {
           return null;
