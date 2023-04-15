@@ -98,11 +98,11 @@ function TransferHistory({ dashboardLinks }) {
             : null,
         manufacturerAddress: val[0]["manufacturerAddress"],
         quantity: val[0]["quantity"],
-        productname: hexToString(val[1]["sp_name"]),
-        p_description: hexToString(val[1]["sp_description"]),
-        p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
-        p_date_created: new Date(val[1]["sp_date"]).toDateString(),
-        manufacturer_name: hexToString(val[2]["userName"]),
+        productname: hexToString(val[1]["sp_name"]).replace(/\0/g, ""),
+        p_description: hexToString(val[1]["sp_description"]).replace(/\0/g, ""),
+        p_expiry_date: new Date(val[1]["sp_expiryDate"] * 1000).toDateString(),
+        p_date_created: new Date(val[1]["sp_date"] * 1000).toDateString(),
+        manufacturer_name: hexToString(val[2]["userName"]).replace(/\0/g, ""),
       };
     });
     setRequestDetails(filteredData);
