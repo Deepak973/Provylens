@@ -5,7 +5,7 @@ const { ethers } = require("hardhat");
 async function deploy() {
   const SupplierProduct = await ethers.getContractFactory("supplierProduct");
   const supplierProduct = await SupplierProduct.deploy(
-    "0x30E198C8aa56985B534F01F935a938B646A7adf5"
+    "0x26844043EB9AD5BBD3390196Fe715E7F11b3aF37"
   );
   console.log("Contract address:", supplierProduct.address);
 }
@@ -17,7 +17,7 @@ deploy();
 async function interact() {
   const encoder = new TextEncoder();
 
-  const contractAddress = "0xA9a824ACca86766821Ea125C180b22CA4E670f60";
+  const contractAddress = "0x780b083feb84D22C64a979f72A9032751b975287";
   const supplierProduct = await ethers.getContractAt(
     "supplierProduct",
     contractAddress

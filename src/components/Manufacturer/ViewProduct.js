@@ -219,7 +219,7 @@ function ViewProduct() {
       )}
       <div className="availabel-proposal-main-div">
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table sx={{ minWidth: 300 }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>

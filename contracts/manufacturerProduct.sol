@@ -103,7 +103,7 @@ contract manufacturerProduct is IManufacturerProduct{
                 break;
             }
         }
-        require(found, "Product not owned by you");
+        // require(found, "Product not owned by you");
 
         manufacturerProductsIdToStructMapping[_mpId].mp_unit -= _quantity;  
         emit eventUpdateManufacturerProductUints(_mpId, manufacturerProductsIdToStructMapping[_mpId].mp_unit);

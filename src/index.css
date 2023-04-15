@@ -131,3 +131,17 @@ body::-webkit-scrollbar-thumb {
     transform: translate(24px, 0);
   }
 }
+
+.rd3t-link {
+  stroke: #ffffff !important;
+}
+.rd3t-node {
+  fill: red !important;
+}
+.rd3t-label__title {
+  fill: #ffffff !important;
+}
+.rd3t-label__attributes {
+  width: 200px !important;
+  word-break: break-all !important;
+}

@@ -11,7 +11,7 @@ deploy();
 async function interact() {
   const encoder = new TextEncoder();
   // Get the contract instance
-  const contractAddress = "0x30E198C8aa56985B534F01F935a938B646A7adf5";
+  const contractAddress = "0x26844043EB9AD5BBD3390196Fe715E7F11b3aF37";
   const userDetailsContract = await ethers.getContractAt(
     "userDetails",
     contractAddress
