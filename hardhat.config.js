@@ -9,22 +9,24 @@ module.exports = {
     artifacts: "./src/artifacts",
   },
   networks: {
-    customChains: [
-      {
-        network: "bttc",
-        chainId: 1029,
-        urls: {
-          apiURL: "https://bttcscan.com",
-          browserURL: "https://testnet.bttcscan.com/",
-        },
-      },
-    ],
     bttc: {
       url: process.env.API_KEY_URL, //Your RPC URL
       accounts: [process.env.PRIVATE_KEY], //Your private key
     },
   },
   etherscan: {
-    apiKey: process.env.BTTCSCAN_API_KEY,
+    apiKey: {
+      bttc: "MV94FGXHCRD7Y3WQ3R7BM8SKSXCANAYG4D",
+    },
+    customChains: [
+      {
+        network: "bttc",
+        chainId: 1029,
+        urls: {
+          apiURL: "https://pre-rpc.bt.io/",
+          browserURL: "https://testnet.bttcscan.com/",
+        },
+      },
+    ],
   },
 };
