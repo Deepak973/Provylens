@@ -66,6 +66,7 @@ function App() {
 
   const { connectors } = getDefaultWallets({
     appName: "My RainbowKit App",
+    projectId: "4c1fb4009a66dfd6a5f0c2babec3254b",
     chains,
   });
   const wagmiClient = createClient({
