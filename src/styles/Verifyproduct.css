@@ -40,25 +40,8 @@
     height: 30vh;
     padding: 20px;
   }
-  .treeWrapper {
-    padding: 0px;
-  }
-
-  .force-graph-container {
-    height: 300px;
-  }
-
-  .org-chart {
-    font-size: 12px;
-  }
-
-  .org-chart .node {
-    width: 120px;
-    height: 120px;
-  }
-
-  .org-chart .node circle {
-    r: 50px;
+  g[rd3t-g] {
+    transform: translate(100, 180) scale(1, 1);
   }
 }
 @media only screen and (max-width: 768px) {
@@ -84,26 +67,6 @@
     height: 30vh;
     padding: 20px;
   }
-  .treeWrapper {
-    padding: 0px;
-  }
-
-  .force-graph-container {
-    height: 300px;
-  }
-
-  .org-chart {
-    font-size: 12px;
-  }
-
-  .org-chart .node {
-    width: 120px;
-    height: 120px;
-  }
-
-  .org-chart .node circle {
-    r: 50px;
-  }
 }
 @media only screen and (max-width: 1024px) {
   .tree-container {
@@ -127,25 +90,5 @@
     border-radius: 20px;
     height: 30vh;
     padding: 20px;
-  }
-  .treeWrapper {
-    padding: 0px;
-  }
-
-  .force-graph-container {
-    height: 300px;
-  }
-
-  .org-chart {
-    font-size: 12px;
-  }
-
-  .org-chart .node {
-    width: 120px;
-    height: 120px;
-  }
-
-  .org-chart .node circle {
-    r: 50px;
   }
 }

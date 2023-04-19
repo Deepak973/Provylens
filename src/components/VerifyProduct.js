@@ -265,7 +265,7 @@ const OrgChartTree = () => {
           <Tree
             data={orgChart}
             orientation="vertical"
-            translate={{ x: 400, y: 100 }}
+            translate={{ x: 100, y: 180 }}
           />
         ) : (
           ""
