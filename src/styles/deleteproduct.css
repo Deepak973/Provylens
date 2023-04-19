@@ -1,6 +1,5 @@
 .availabel-proposal-main-div {
   width: 80%;
-
   max-width: 1240px;
   margin: 3% auto;
 }
@@ -197,8 +196,4 @@ button.create-proposal-btn-popup {
 }
 .css-1ald77x.Mui.focused {
   color: rgba(255, 255, 255, 0.5) !important;
-}
-.verify-product-main-div {
-  width: 100%;
-  padding-top: 10%;
 }

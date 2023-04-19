@@ -1,0 +1,151 @@
+.verify-product-main {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+    rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+  background: #1a1156;
+  border-radius: 20px;
+  height: 25vh;
+  padding: 20px;
+}
+.verify-product-main-div {
+  position: relative;
+  top: 150px;
+}
+
+@media only screen and (max-width: 425px) {
+  .tree-container {
+    height: 300px;
+  }
+  .verify-product-main-div {
+    position: relative;
+    top: 150px;
+  }
+
+  .verify-product-main {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    margin: 0 auto;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+      rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+    background: #1a1156;
+    border-radius: 20px;
+    height: 30vh;
+    padding: 20px;
+  }
+  .treeWrapper {
+    padding: 0px;
+  }
+
+  .force-graph-container {
+    height: 300px;
+  }
+
+  .org-chart {
+    font-size: 12px;
+  }
+
+  .org-chart .node {
+    width: 120px;
+    height: 120px;
+  }
+
+  .org-chart .node circle {
+    r: 50px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .tree-container {
+    height: 300px;
+  }
+  .verify-product-main-div {
+    position: relative;
+    top: 150px;
+  }
+
+  .verify-product-main {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+      rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+    background: #1a1156;
+    border-radius: 20px;
+    height: 30vh;
+    padding: 20px;
+  }
+  .treeWrapper {
+    padding: 0px;
+  }
+
+  .force-graph-container {
+    height: 300px;
+  }
+
+  .org-chart {
+    font-size: 12px;
+  }
+
+  .org-chart .node {
+    width: 120px;
+    height: 120px;
+  }
+
+  .org-chart .node circle {
+    r: 50px;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .tree-container {
+    height: 300px;
+  }
+  .verify-product-main-div {
+    position: relative;
+    top: 150px;
+  }
+
+  .verify-product-main {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    margin: 0 auto;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px,
+      rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
+    background: #1a1156;
+    border-radius: 20px;
+    height: 30vh;
+    padding: 20px;
+  }
+  .treeWrapper {
+    padding: 0px;
+  }
+
+  .force-graph-container {
+    height: 300px;
+  }
+
+  .org-chart {
+    font-size: 12px;
+  }
+
+  .org-chart .node {
+    width: 120px;
+    height: 120px;
+  }
+
+  .org-chart .node circle {
+    r: 50px;
+  }
+}

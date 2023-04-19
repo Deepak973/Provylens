@@ -6,10 +6,8 @@ import { useParams } from "react-router-dom";
 import "../styles/deleteproduct.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import feature1 from "../assets/feature-1.png";
-import bubble4 from "../assets/fixed4.png";
-import feature2 from "../assets/header6_shape_5.png";
 import "../styles/viewproduct.css";
+import "../styles/Verifyproduct.css";
 import { createClient } from "urql";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -198,7 +196,7 @@ const OrgChartTree = () => {
     <>
       {!id ? (
         <div className="verify-product-main-div">
-          <div className="delete-product-main-div">
+          <div className="verify-product-main ">
             <TextField
               helperText=" "
               id="demo-helper-text-aligned-no-helper"
@@ -261,7 +259,6 @@ const OrgChartTree = () => {
           width: "100vw",
           height: "100vh",
           padding: "20px",
-          paddingTop: "100px",
         }}
       >
         {loading ? (
