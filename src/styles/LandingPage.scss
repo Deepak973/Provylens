@@ -293,7 +293,7 @@ div.push-box {
   margin: 10px !important;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 425px) {
   .hero {
     padding: 10px;
     h1 {
@@ -301,11 +301,12 @@ div.push-box {
       text-align: center;
       width: 100%;
       margin: 0px;
-      margin-top: 100px;
+      letter-spacing: 3px;
       padding: 10px;
     }
     p {
       text-align: center;
+      letter-spacing: 2px;
     }
 
     .hero-btns {
@@ -313,19 +314,19 @@ div.push-box {
       width: 100%;
       justify-content: center;
       align-items: center;
+      margin-top: 20px;
+
       button {
         padding: 10px 15px;
-        font-size: 1rem;
+        font-size: 10px;
         margin: 5px;
       }
     }
     img.hero-image {
-      top: 5%;
-      right: 0%;
-      width: 180%;
+      display: none;
     }
     .hero-img-overlay {
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: "none";
     }
   }
   .logo-div {
@@ -335,5 +336,25 @@ div.push-box {
       width: 150px;
       max-width: 150px;
     }
+  }
+  #footer .copyright p {
+    font-size: 10px;
+    margin: 0;
+    padding: 10px 0;
+    border-top: 1px solid #271e5f;
+    line-height: 14px;
+    text-align: center;
+    position: relative;
+    color: white;
+    letter-spacing: 1px;
+    font-family: "Carme-Regular";
+  }
+  #header-06 .shape4 {
+    top: 22%;
+    right: 5%;
+    z-index: -2;
+  }
+  #header-06 .shape4 img {
+    height: 65vh;
   }
 }
