@@ -168,7 +168,10 @@ function ViewProduct() {
             name: hexToString(product["mp_name"]).replace(/\0/g, ""),
             unit: parseInt(product["mp_unit"]),
             price: parseInt(product["mp_price"]),
-            dispatchTime: parseInt(product["dispatchTime"]),
+            dispatchTime:
+              product["dispatchTime"] != 0
+                ? new Date(product["dispatchTime"] * 1000).toDateString()
+                : "Not dispatched yet",
             arrivalTime: parseInt(product["arrivalTime"]),
             date: new Date(product["mp_date"] * 1000).toDateString(),
             expiryDate: new Date(
@@ -178,9 +181,7 @@ function ViewProduct() {
               /\0/g,
               ""
             ),
-            distributorAddress: hexToString(
-              product["distributorAddress"]
-            ).replace(/\0/g, ""),
+            distributorAddress: product["distributorAddress"],
             smId: Array.isArray(product["smId"])
               ? product["smId"].map((id) => parseInt(id, 16))
               : [parseInt(product["smId"], 16)],
@@ -245,13 +246,10 @@ function ViewProduct() {
                   Price per unit
                 </StyledTableCell>
                 <StyledTableCell align="center" sx={{ whiteSpace: "" }}>
-                  date
+                  Manufactured date
                 </StyledTableCell>
                 <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
                   Expiry Date
-                </StyledTableCell>
-                <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
-                  description
                 </StyledTableCell>
 
                 <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
@@ -267,7 +265,7 @@ function ViewProduct() {
                   Supplier Addresses
                 </StyledTableCell>
                 <StyledTableCell align="center" sx={{ whiteSpace: "nowrap" }}>
-                  Arrival time
+                  description
                 </StyledTableCell>
               </TableRow>
             </TableHead>
@@ -337,6 +335,18 @@ function ViewProduct() {
                         {product.expiryDate}
                       </StyledTableCell>
                       <StyledTableCell align="center">
+                        {product.distributorAddress}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {product.dispatchTime}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {product.smId.join(", ")}{" "}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {product.supplierAddress.join(", ")}{" "}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
                         <div className="view-more-btn">
                           <Button
                             variant="contained"
@@ -351,22 +361,6 @@ function ViewProduct() {
                             View More
                           </Button>
                         </div>
-                      </StyledTableCell>
-
-                      <StyledTableCell align="center">
-                        {product.distributorAddress}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {product.dispatchTime}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {product.smId.join(", ")}{" "}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {product.supplierAddress.join(", ")}{" "}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {product.arrivalTime}
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

@@ -1,7 +1,9 @@
 import userdetails from "../artifacts/contracts/userDetails.sol/userDetails.json";
 import supplierdetails from "../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import manufacturerproduct from "../artifacts/contracts/manufacturerProduct.sol/manufacturerProduct.json";
 import { USERDETAILS_CONTRACT_ADDRESS_BTTC } from "../config";
 import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
+import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../config";
 import { ethers } from "ethers";
 
 export const checkRegistration = async (add) => {

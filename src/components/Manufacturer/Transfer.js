@@ -1,158 +1,129 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/transfer.css";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
-import "react-toastify/dist/ReactToastify.css";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import { styled } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import "../../styles/Modal.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import history from "../TransferHistory.json";
 import { createClient } from "urql";
-import hexToString from "../../helper/HexToStringConverter";
 import { useAccount, useSigner } from "wagmi";
-import { TextField } from "@mui/material";
-import { ethers } from "ethers";
-// import { SUPPLIERMANUFACTURER_CONTRACT_ADDRESS_MUMBAI } from "../../config";
-import supplierManufacturer from "../../artifacts/contracts/supplierManufacturer.sol/supplierManufacturer.json";
-import { SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
-import addproduct from "../../artifacts/contracts/supplierProduct.sol/supplierProduct.json";
+import { requestHistoryOfDistributor } from "../../helper/manufacturerDistributorHelper";
+import { receiveProduct } from "../../helper/supplierManufacturerHelper";
+import { getSingleSupplierProduct } from "../../helper/supplierProductHelper";
+import hexToString from "../../helper/HexToStringConverter";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Table from "@mui/material/Table";
+import { transferProductToDistributor } from "../../helper/manufacturerDistributorHelper";
 
-function Transfer() {
-  const [allDataDaos, setDataDaos] = useState([]);
-  const [manufacturerDetails, setManufacturerDetails] = useState();
-  const [productDetails, setProductDetails] = useState();
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [amount, setAmount] = useState();
-  const [quantity, setQuantity] = useState();
-  const [selectedManufacturer, setSelectedManufacturer] = useState(null);
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+function Transfer({ dashboardLinks }) {
   const { address, isConnected } = useAccount();
+  const [modal, setModal] = useState(false);
+  const [requestDetails, setRequestDetails] = useState();
+  // const [spId, setSpId] = useState();
+
+  console.log(history);
+  const toggleModal = () => {
+    setModal(!modal);
+    // console.log(spId);
+  };
 
   useEffect(() => {
-    getManufacturerData();
-    getProductData();
+    getTransferData();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedProduct);
-  }, [selectedProduct]);
+  const getTransferData = async () => {
+    // const reqHistory = await requestHistoryOfManufacturer(address);
+    // console.log(reqHistory);
+    // const filteredData = reqHistory.map((val, index) => {
+    //   return {
+    //     reqId: parseInt(val[0]["smId"]),
+    //     spId: parseInt(val[0]["spId"]),
+    //     // name: hexToString(val["userName"]),
+    //     status:
+    //       val[0]["status"] === 1
+    //         ? "Requested"
+    //         : val[0]["status"] === 2
+    //         ? "Approved"
+    //         : val[0]["status"] === 3
+    //         ? "Received"
+    //         : null,
+    //     quantity: val[0]["quantity"],
+    //     productname: hexToString(val[1]["sp_name"]),
+    //     p_description: hexToString(val[1]["sp_description"]),
+    //     p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
+    //     p_date_created: new Date(val[1]["sp_date"]).toDateString(),
+    //     supplier_name: hexToString(val[2]["userName"]),
+    //   };
+    // });
 
-  const getProductData = async () => {
-    const data_ = `query MyQuery {
-      eventAddSupplierProducts(
-        where: {_address: "${address.toLowerCase()}"}
-      ) {
-        _address
-        _date
-        _description
-        _expiryDate
-        _name
-        _price
-        _spid
-        _timeAdded
-        _unit
-        blockNumber
-        blockTimestamp
-        id
-        transactionHash
-      }
-    }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    const filteredData = result1.data.eventAddSupplierProducts.map(
-      (product) => {
-        return {
-          spId: product["_spid"],
-          name: hexToString(product["_name"]),
-          unit: product["_unit"],
-          price: product["_price"],
-          date: new Date(product["_date"] * 1000).toDateString(),
-          expiryDate: new Date(product["_expiryDate"] * 1000).toDateString(),
-          description: hexToString(product["_description"]),
-        };
-      }
+    const reqHistory = await requestHistoryOfDistributor(
+      "0x279c45d4Aa669955406fee303fc54CfFC19EE80c"
     );
-
-    setProductDetails(filteredData);
-    console.log(filteredData);
-  };
-
-  const getManufacturerData = async () => {
-    const data_ = `query MyQuery {
-        eventUserDatas(where: {_type: 1}) {
-          _address
-          _image
-          _name
-          _physicalAddress
-          _timeUpdated
-          _type
-        }
-      }`;
-
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
-    });
-
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    const filteredData = result1.data.eventUserDatas.map((product) => {
+    console.log(reqHistory);
+    const filteredData = reqHistory.map((val, index) => {
       return {
-        address: product["_address"],
-        name: hexToString(product["_name"]),
-        physicalAddress: hexToString(product["_physicalAddress"]),
+        mdId: parseInt(val["mdId"]),
+        mpId: parseInt(val["mpId"]),
+        // name: hexToString(val["userName"]),
+        status:
+          val["status"] === 1
+            ? "Requested"
+            : val[0]["status"] === 2
+            ? "Approved"
+            : val[0]["status"] === 3
+            ? "Received"
+            : null,
+        quantity: val["quantity"],
+        // productname: hexToString(val["sp_name"]),
+        // p_description: hexToString(val["sp_description"]),
+        // p_expiry_date: new Date(val["sp_expiryDate"]).toDateString(),
+        // p_date_created: new Date(val["sp_date"]).toDateString(),
+        distributor_name: val["d_address"],
       };
     });
+    setRequestDetails(filteredData);
 
-    setManufacturerDetails(filteredData);
     console.log(filteredData);
+    // console.log(reqHistory);
   };
-  const encoder = new TextEncoder();
-  const addTransferData = async () => {
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      const transfer = new ethers.Contract(
-        SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
-        supplierManufacturer.abi,
-        signer
-      );
-
-      // console.log(
-      //   selectedProduct.product.spId,
-      //   address,
-      //   selectedManufacturer.manufacturer.address,
-      //   Math.trunc(new Date().getTime() / 1000)
-      // );
-      const tx = await transfer.transferProduct(
-        selectedProduct.product.spId,
-        address,
-        selectedManufacturer.manufacturer.address,
-        Math.trunc(new Date().getTime() / 1000)
-      );
-      await tx.wait();
-
-      const updateSupplierProductUints = new ethers.Contract(
-        SUPPLIERPRODUCT_CONTRACT_ADDRESS_BTTC,
-        addproduct.abi,
-        signer
-      );
-      // console.log(quantity);
-      const tx1 = await updateSupplierProductUints.updateSupplierProductUints(
-        selectedProduct.product.spId,
-        quantity
-      );
-      await tx1.wait();
-
-      toastInfo();
-    } catch (err) {
-      console.log(err);
-    }
+  const transferData = async (reqId, distributor_name, quantity) => {
+    console.log(reqId, distributor_name, quantity);
+    transferProductToDistributor(reqId, distributor_name, quantity);
   };
 
   const toastInfo = () =>
@@ -167,137 +138,174 @@ function Transfer() {
       theme: "light",
     });
 
+  if (modal) {
+    document.body.classList.add("active-modal");
+  } else {
+    document.body.classList.remove("active-modal");
+  }
   return (
     <>
-      <div className="transfer-main-div">
-        <div className="all-datadao-main-div">
-          <div className="first-row">
-            <FormControl
-              sx={{ m: 1, minWidth: 70 }}
-              size="small"
-              id="dropdown-formcontrol"
-              className="select-parent"
-            >
-              <InputLabel id="select-label-status">Product</InputLabel>
-              <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                // value={age}
-                label="Status"
-                onChange={(e) =>
-                  setSelectedProduct({
-                    ...selectedProduct,
-                    product: e.target.value,
-                  })
-                }
-              >
-                {productDetails &&
-                  productDetails.map((product) => (
-                    <MenuItem value={product}>{product.name} </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-            <div className="product-details">
-              <label className="manufacture-details-quality">
-                Name : {selectedProduct?.product.name}
+      {/* {modal && (
+        <div className=" modal ">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className=" modal-content">
+            <div className="first-row">
+              <label className="manufacture-details-quality-title font-color">
+                Product Details
               </label>
-              <label className="manufacture-details-quality">
-                Price : {selectedProduct?.product.price} Matic
-              </label>
-              <label className="manufacture-details-quality">
-                Unit : {selectedProduct?.product.unit}
-              </label>
-              <label className="manufacture-details-quality">
-                Description : {selectedProduct?.product.description}
-              </label>
+              <div className="product-details font-color">
+                <label className="manufacture-details-quality">
+                  Total Quality : {history.totalQuality}
+                </label>
+                <label className="manufacture-details-quality">
+                  Current Price : {history.price}
+                </label>
+              </div>
             </div>
-          </div>
-          <div className="second-row">
-            <FormControl
-              sx={{ m: 1, minWidth: 70 }}
-              size="small"
-              id="dropdown-formcontrol"
-              className="select-parent"
-            >
-              <InputLabel id="select-label-status">Manufacturer</InputLabel>
-              <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                // value={age}
-                onChange={(e) =>
-                  setSelectedManufacturer({
-                    ...selectedManufacturer,
-                    manufacturer: e.target.value,
-                  })
-                }
-                label="Status"
-              >
-                {manufacturerDetails &&
-                  manufacturerDetails.map((manufacturer) => (
-                    <MenuItem value={manufacturer}>
-                      {manufacturer.name}{" "}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-            <div className="manufacture-details">
-              <label className="manufacture-details-quality">
-                Manufacturer details
+            <div className="second-row">
+              <label className="manufacture-details-quality-title font-color">
+                Supplier Details
               </label>
-              <label className="manufacture-details-quality">
-                Name :{selectedManufacturer?.manufacturer.name}
-              </label>
-              <label className="manufacture-details-quality">
-                {selectedManufacturer?.manufacturer.physicalAddress}
-              </label>
+              <div className="manufacture-details font-color">
+                <label className="manufacture-details-quality">
+                  {history.name}
+                </label>
+                <label className="manufacture-details-quality">
+                  {history.address}
+                </label>
+                <label className="manufacture-details-quality"></label>
+              </div>
             </div>
-          </div>
-          <div className="third-row">
-            {" "}
-            <FormControl
-              sx={{ m: 1, minWidth: 70 }}
-              size="small"
-              id="dropdown-formcontrol"
-              className="select-parent"
-            >
-              <TextField
-                id="standard-basic"
-                label="Unit"
-                variant="standard"
-                onChange={(e) => {
-                  setAmount(e.target.value * selectedProduct?.product.price);
-                  setQuantity(e.target.value);
-                }}
-              />
-            </FormControl>
-            <div className="manufacture-details">
-              <label className="manufacture-details-quality">
-                Total Amount : {amount ? amount + " Matic" : "--"}
-              </label>
+            <div className="third-row">
+              <label className="manufacture-details-quality-title font-color">
+                Quantity
+              </label>{" "}
+              <div className="manufacture-details font-color">
+                <label className="manufacture-details-quality">25%</label>
+              </div>
             </div>
+            <button className="close-modal" onClick={toggleModal}>
+              CLOSE
+            </button>
           </div>
         </div>
-        <Button
-          variant="contained"
-          size="large"
-          className="transfer-btn"
-          onClick={() => addTransferData()}
-        >
-          Transfer
-        </Button>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+      )} */}
+      {/* <div className="all-history-main-div">
+        {requestDetails &&
+          requestDetails.map((data) => {
+            return (
+              <Box sx={{ width: "100%" }}>
+                <Grid
+                  container
+                  rowSpacing={1}
+                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                >
+                  <Grid item xs={8}>
+                    <Item>
+                      {" "}
+                      <div className="history-flex">
+                        <label className="transfer-history">
+                          Requeset Id:{data?.mdId}
+                        </label>
+                        <label className="transfer-history">
+                          product Id:{data?.spId}
+                        </label>
+                        <label className="transfer-history">
+                          Request Status:{data?.status}
+                        </label>
+                      </div>
+                      <div>
+                        <Button
+                          variant="contained"
+                          size="large"
+                          className="transfer-history-btn"
+                          // onClick={() => {
+                          //   dashboardLinks("HistoryDetails");
+                          // }}
+                          onClick={() => {
+                            toggleModal();
+                          }}
+                        >
+                          View Details
+                        </Button>
+                      </div>
+                    </Item>
+                  </Grid>
+                </Grid>
+              </Box>
+            );
+          })}
+      </div> */}
+
+      <div className="availabel-proposal-main-div">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Request Id</StyledTableCell>
+                <StyledTableCell align="right">Product Name</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">
+                  Manufacturer Name
+                </StyledTableCell>
+                <StyledTableCell align="right">Status</StyledTableCell>
+                <StyledTableCell align="right"></StyledTableCell>
+              </TableRow>
+            </TableHead>
+            {false ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <TableBody>
+                {requestDetails &&
+                  requestDetails.map((requestDetails) => (
+                    <StyledTableRow key={requestDetails.mdId}>
+                      <StyledTableCell component="th" scope="row">
+                        {requestDetails.mdId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.mpId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.quantity}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.distributor_name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.status}
+                      </StyledTableCell>
+                      <div className="view-more-btn">
+                        <Button
+                          variant="contained"
+                          size="large"
+                          className="view-More"
+                          onClick={() => {
+                            transferData(
+                              requestDetails.mpId,
+                              requestDetails.distributor_name,
+                              requestDetails.quantity
+                            );
+                          }}
+                        >
+                          Transfer Product
+                        </Button>
+                      </div>
+                    </StyledTableRow>
+                  ))}
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
       </div>
     </>
   );
 }
+
 export default Transfer;

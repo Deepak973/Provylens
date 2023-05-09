@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Button from "@mui/material/Button";
 import { ethers } from "ethers";
 import "../../styles/addproduct.css";
+import { useAccount, useSigner } from "wagmi";
 import { MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC } from "../../config";
 import addproduct from "../../artifacts/contracts/manufacturerProduct.sol/manufacturerProduct.json";
 import { Theme, useTheme } from "@mui/material/styles";
@@ -15,19 +16,21 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { getAllSupplierAddresses } from "../../helper/userDetailsHelper";
+import { requestHistoryOfManufacturer } from "../../helper/supplierManufacturerHelper";
+import hexToString from "../../helper/HexToStringConverter";
 import { getAllSmIdForManufacturer } from "../../helper/supplierManufacturerHelper";
 
 function AddProduct() {
   const [loading, setLoading] = useState(false);
-  const [supplierAddresses, setSupplierAddresses] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [personName, setPersonName] = useState([]);
+  const [product, setProduct] = useState(false);
+  // const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState([]);
+  const { address, isConnected } = useAccount();
   const [productDetails, setProductDetails] = useState({
     productName: "",
     productDescription: "",
     productPrice: "",
     productUnit: "",
-    startDate: null,
     expiryDate: null,
   });
   const ITEM_HEIGHT = 48;
@@ -42,18 +45,34 @@ function AddProduct() {
   };
 
   const getSupplierAddress = async () => {
-    const allSuppliersData = await getAllSupplierAddresses();
-    console.log(allSuppliersData);
-    setSupplierAddresses(allSuppliersData);
-
-    const allSmIdForManufacturer = await getAllSmIdForManufacturer();
-    console.log(allSmIdForManufacturer);
-  };
-
-  const getProductnames = async () => {
-    // const allProductsupplier = await supplierProduct.getAllProductsOfSupplier(
-    //   "0xe57f4c84539a6414C4Cf48f135210e01c477EFE0"
-    // );
+    const reqHistory = await requestHistoryOfManufacturer(address);
+    console.log(reqHistory);
+    const filteredData = reqHistory.map((val, index) => {
+      if (val[0]["status"] === 3) {
+        return {
+          reqId: parseInt(val[0]["smId"]),
+          spId: parseInt(val[0]["spId"]),
+          // name: hexToString(val["userName"]),
+          status:
+            val[0]["status"] === 1
+              ? "Requested"
+              : val[0]["status"] === 2
+              ? "Approved"
+              : val[0]["status"] === 3
+              ? "Received"
+              : null,
+          quantity: val[0]["quantity"],
+          productname: hexToString(val[1]["sp_name"]),
+          p_description: hexToString(val[1]["sp_description"]),
+          p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
+          p_date_created: new Date(val[1]["sp_date"]).toDateString(),
+          supplier_name: hexToString(val[2]["userName"]),
+          supplier_address: val[0]["supplierAddress"],
+        };
+      }
+    });
+    setProduct(filteredData);
+    console.log(filteredData);
   };
 
   useEffect(() => {
@@ -73,10 +92,10 @@ function AddProduct() {
     "Kelly Snyder",
   ];
   const theme = useTheme();
-  function getStyles(name, personName, theme) {
+  function getStyles(name, selectedProductId, theme) {
     return {
       fontWeight:
-        personName.indexOf(name) === -1
+        selectedProductId.indexOf(name) === -1
           ? theme.typography.fontWeightRegular
           : theme.typography.fontWeightMedium,
     };
@@ -95,7 +114,7 @@ function AddProduct() {
   const handleEndDateChange = (event) => {
     setProductDetails((prevProductDetails) => ({
       ...prevProductDetails,
-      endDate: event.target.value,
+      expiryDate: event.target.value,
     }));
   };
 
@@ -111,25 +130,27 @@ function AddProduct() {
       theme: "light",
     });
   const handleSubmit = async () => {
+    console.log(selectedProductId);
+    console.log(productDetails);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-
       setLoading(true);
       const registerUser = new ethers.Contract(
         MANUFACTURERPRODUCT_CONTRACT_ADDRESS_BTTC,
         addproduct.abi,
         signer
       );
-
       const encoder = new TextEncoder();
-      const tx = await registerUser.addSupplierProduct(
+      const tx = await registerUser.addManufacturerProduct(
+        ["0x67F6F0F5dc21ed04ac83D6308e3d644ADbC3714D"],
+        selectedProductId,
         encoder.encode(productDetails.productName),
         encoder.encode(productDetails.productDescription),
         productDetails.productUnit,
         productDetails.productPrice,
         Math.trunc(new Date().getTime() / 1000),
-        Math.trunc(new Date(productDetails.endDate).getTime() / 1000)
+        Math.trunc(new Date(productDetails.expiryDate).getTime() / 1000)
       );
       const receipt = await tx.wait();
       if (receipt) {
@@ -147,7 +168,7 @@ function AddProduct() {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setSelectedProductId(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
@@ -168,55 +189,29 @@ function AddProduct() {
           <FormControl
             sx={{ m: 1, width: "100%", paddingBottom: "10px", color: "white" }}
           >
-            <InputLabel id="demo-multiple-name-label">
-              Supplier Addresses
-            </InputLabel>
+            <InputLabel id="demo-multiple-name-label">Raw Products</InputLabel>
             <Select
               labelId="demo-multiple-name-label"
               id="demo-multiple-name"
               multiple
-              value={personName}
+              value={selectedProductId}
               onChange={handleChange}
               input={<OutlinedInput label="Name" />}
               MenuProps={MenuProps}
             >
-              {supplierAddresses &&
-                supplierAddresses.map((name) => (
+              {product &&
+                product.map((name) => (
                   <MenuItem
                     key={name}
-                    value={name}
-                    style={getStyles(name, personName, theme)}
+                    value={name.spId}
+                    style={getStyles(name, selectedProductId, theme)}
                   >
-                    {name}
+                    {name.productname.replace(/\0/g, "")}
                   </MenuItem>
                 ))}
             </Select>
           </FormControl>
-          <FormControl
-            sx={{ m: 1, width: "100%", paddingBottom: "10px", color: "white" }}
-          >
-            <InputLabel id="demo-multiple-name-label">SmId</InputLabel>
-            <Select
-              labelId="demo-multiple-name-label"
-              id="demo-multiple-name"
-              multiple
-              value={personName}
-              onChange={handleChange}
-              input={<OutlinedInput label="Name" />}
-              MenuProps={MenuProps}
-            >
-              {supplierAddresses &&
-                supplierAddresses.map((name) => (
-                  <MenuItem
-                    key={name}
-                    value={name}
-                    style={getStyles(name, personName, theme)}
-                  >
-                    {name}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
+
           <TextField
             helperText=" "
             id="productName"
@@ -251,11 +246,11 @@ function AddProduct() {
             onChange={handleInputChange}
           />
           <TextField
-            id="endDate"
-            name="endDate"
+            id="expiryDate"
+            name="expiryDate"
             label="Expiry Date"
             type="date"
-            value={productDetails.endDate}
+            value={productDetails.expiryDate}
             onChange={handleEndDateChange}
             InputLabelProps={{
               shrink: true,

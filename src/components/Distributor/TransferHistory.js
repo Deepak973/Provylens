@@ -9,6 +9,16 @@ import "../../styles/Modal.css";
 import history from "../TransferHistory.json";
 import { createClient } from "urql";
 import { useAccount, useSigner } from "wagmi";
+import { requestHistoryOfDistributor } from "../../helper/manufacturerDistributorHelper";
+import { receiveProduct } from "../../helper/manufacturerDistributorHelper";
+import { getSingleSupplierProduct } from "../../helper/supplierProductHelper";
+import hexToString from "../../helper/HexToStringConverter";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Table from "@mui/material/Table";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -18,54 +28,97 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
 function TransferHistory({ dashboardLinks }) {
   const { address, isConnected } = useAccount();
   const [modal, setModal] = useState(false);
-  const [transferDetails, setTransferDetails] = useState();
+  const [requestDetails, setRequestDetails] = useState();
+  // const [spId, setSpId] = useState();
 
   console.log(history);
   const toggleModal = () => {
     setModal(!modal);
+    // console.log(spId);
   };
 
   useEffect(() => {
     getTransferData();
   }, []);
+
+  const updateStatus = async (mpId, mdId) => {
+    receiveProduct(mpId, mdId);
+  };
   const getTransferData = async () => {
-    const data_ = `query MyQuery {
-      eventSupplierManufacturerTransfers(
-        where: {_supplierAddress: "${address.toLowerCase()}"}
-      ) {
-        _dispatchTime
-        _manufacturerAddress
-        _smId
-        _spId
-        _supplierAddress
-      }
-    }`;
+    // const reqHistory = await requestHistoryOfManufacturer(address);
+    // console.log(reqHistory);
+    // const filteredData = reqHistory.map((val, index) => {
+    //   return {
+    //     reqId: parseInt(val[0]["smId"]),
+    //     spId: parseInt(val[0]["spId"]),
+    //     // name: hexToString(val["userName"]),
+    //     status:
+    //       val[0]["status"] === 1
+    //         ? "Requested"
+    //         : val[0]["status"] === 2
+    //         ? "Approved"
+    //         : val[0]["status"] === 3
+    //         ? "Received"
+    //         : null,
+    //     quantity: val[0]["quantity"],
+    //     productname: hexToString(val[1]["sp_name"]),
+    //     p_description: hexToString(val[1]["sp_description"]),
+    //     p_expiry_date: new Date(val[1]["sp_expiryDate"]).toDateString(),
+    //     p_date_created: new Date(val[1]["sp_date"]).toDateString(),
+    //     supplier_name: hexToString(val[2]["userName"]),
+    //   };
+    // });
 
-    const c = createClient({
-      url: "https://api.studio.thegraph.com/query/40703/provylens-mumbai/v0.0.1",
+    const reqHistory = await requestHistoryOfDistributor(address);
+    console.log(reqHistory);
+    const filteredData = reqHistory.map((val, index) => {
+      return {
+        mdId: parseInt(val["mdId"]),
+        mpId: parseInt(val["mpId"]),
+        // name: hexToString(val["userName"]),
+        status:
+          val["status"] === 1
+            ? "Requested"
+            : val["status"] === 2
+            ? "Approved"
+            : val["status"] === 3
+            ? "Received"
+            : null,
+        quantity: val["quantity"],
+        // productname: hexToString(val["sp_name"]),
+        // p_description: hexToString(val["sp_description"]),
+        // p_expiry_date: new Date(val["sp_expiryDate"]).toDateString(),
+        // p_date_created: new Date(val["sp_date"]).toDateString(),
+        supplier_name: val["m_address"],
+      };
     });
+    setRequestDetails(filteredData);
 
-    const result1 = await c.query(data_).toPromise();
-    // console.log(hexToString(result1.data.eventUserDatas[0]["_name"]));
-    const filteredData = result1.data.eventSupplierManufacturerTransfers.map(
-      (product) => {
-        return {
-          dispatchTime: new Date(
-            product["_dispatchTime"] * 1000
-          ).toDateString(),
-          manufacturerAddress: product["_manufacturerAddress"],
-          smId: product["_smId"],
-          spId: product["_spId"],
-          supplierAddress: product["supplierAddress"],
-        };
-      }
-    );
-
-    setTransferDetails(filteredData);
     console.log(filteredData);
+    // console.log(reqHistory);
   };
 
   if (modal) {
@@ -75,13 +128,13 @@ function TransferHistory({ dashboardLinks }) {
   }
   return (
     <>
-      {modal && (
+      {/* {modal && (
         <div className=" modal ">
           <div onClick={toggleModal} className="overlay"></div>
           <div className=" modal-content">
             <div className="first-row">
               <label className="manufacture-details-quality-title font-color">
-                {history.Product}
+                Product Details
               </label>
               <div className="product-details font-color">
                 <label className="manufacture-details-quality">
@@ -94,7 +147,7 @@ function TransferHistory({ dashboardLinks }) {
             </div>
             <div className="second-row">
               <label className="manufacture-details-quality-title font-color">
-                {history.Manufacturer}
+                Supplier Details
               </label>
               <div className="manufacture-details font-color">
                 <label className="manufacture-details-quality">
@@ -108,7 +161,7 @@ function TransferHistory({ dashboardLinks }) {
             </div>
             <div className="third-row">
               <label className="manufacture-details-quality-title font-color">
-                {history.quality}
+                Quantity
               </label>{" "}
               <div className="manufacture-details font-color">
                 <label className="manufacture-details-quality">25%</label>
@@ -119,10 +172,10 @@ function TransferHistory({ dashboardLinks }) {
             </button>
           </div>
         </div>
-      )}
-      <div className="all-history-main-div">
-        {transferDetails &&
-          transferDetails.map((data) => {
+      )} */}
+      {/* <div className="all-history-main-div">
+        {requestDetails &&
+          requestDetails.map((data) => {
             return (
               <Box sx={{ width: "100%" }}>
                 <Grid
@@ -135,13 +188,13 @@ function TransferHistory({ dashboardLinks }) {
                       {" "}
                       <div className="history-flex">
                         <label className="transfer-history">
-                          Transfer Id:{data?.smId}
+                          Requeset Id:{data?.mdId}
                         </label>
                         <label className="transfer-history">
                           product Id:{data?.spId}
                         </label>
                         <label className="transfer-history">
-                          Dispatch Time:{data?.dispatchTime}
+                          Request Status:{data?.status}
                         </label>
                       </div>
                       <div>
@@ -152,7 +205,9 @@ function TransferHistory({ dashboardLinks }) {
                           // onClick={() => {
                           //   dashboardLinks("HistoryDetails");
                           // }}
-                          onClick={toggleModal}
+                          onClick={() => {
+                            toggleModal();
+                          }}
                         >
                           View Details
                         </Button>
@@ -163,6 +218,72 @@ function TransferHistory({ dashboardLinks }) {
               </Box>
             );
           })}
+      </div> */}
+
+      <div className="availabel-proposal-main-div">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Request Id</StyledTableCell>
+                <StyledTableCell align="right">Product Name</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">
+                  Manufacturer Name
+                </StyledTableCell>
+                <StyledTableCell align="right">Current Status</StyledTableCell>
+                <StyledTableCell align="right">Update Status</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            {false ? (
+              <>
+                <div class="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </>
+            ) : (
+              <TableBody>
+                {requestDetails &&
+                  requestDetails.map((requestDetails) => (
+                    <StyledTableRow key={requestDetails.mdId}>
+                      <StyledTableCell component="th" scope="row">
+                        {requestDetails.mdId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.mpId}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.quantity}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.supplier_name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {requestDetails.status}
+                      </StyledTableCell>
+                      {requestDetails.status === "Received" ||
+                      requestDetails.status === "Requested" ? null : (
+                        <div
+                          className="view-more-btn"
+                          onClick={() => {
+                            updateStatus(
+                              requestDetails.mpId,
+                              requestDetails.mdId
+                            );
+                          }}
+                        >
+                          Receive
+                        </div>
+                      )}
+                    </StyledTableRow>
+                  ))}
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
       </div>
     </>
   );
