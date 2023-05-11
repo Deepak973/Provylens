@@ -202,7 +202,7 @@ const OrgChartTree = () => {
   useEffect(() => {
     getProductDetails(id);
   }, []);
-
+  const translate = { x: 300, y: 200 };
   
   
   return (
@@ -275,11 +275,13 @@ const OrgChartTree = () => {
           padding: "20px",
         }}
       >
+        
         {loading ? (
           <Tree
             data={orgChart}
             // orientation="vertical"
-            translate={{ x: 100, y: 180 }}
+            // translate={{ x: 1000, y: 180 }}
+            translate={translate}
             {...orientationProps}
             separation={{ siblings: 2, nonSiblings: 2 }}
           />

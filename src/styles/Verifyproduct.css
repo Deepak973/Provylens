@@ -33,11 +33,20 @@
     left: 10%;
 }
 #treeWrapper{
-  width: 40vw !important;
+  width: 80% !important;
     height: 100vh ;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    max-width: 1000px;
+}
+.rd3t-tree-container {
+  width: 100%;
+  height: 100%;
+ 
+}
+.rd3t-grabbable {
+  margin-top: 20% !important;
 }
 @media only screen and (max-width: 425px) {
   .tree-container {
