@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Tree from "react-d3-tree";
 import hexToString from "../helper/HexToStringConverter";
 import { getProductsOfManufacturer } from "../helper/GetMpDetails";
@@ -6,13 +6,16 @@ import { useParams } from "react-router-dom";
 import "../styles/deleteproduct.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import feature1 from "../assets/feature-1.png";
+import bubble4 from "../assets/fixed4.png";
+import feature2 from "../assets/header6_shape_5.png";
 import "../styles/viewproduct.css";
 import "../styles/Verifyproduct.css";
 import { createClient } from "urql";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./Footer";
-// ...graph..........
+// ...graph.......... 
 import { ForceGraph2D } from "react-force-graph";
 import { details } from "./verifyDetails";
 import { QRCodeCanvas } from "qrcode.react";
@@ -25,6 +28,8 @@ const OrgChartTree = () => {
   // const [productData, setProductData] = useState({});
   const [productId, setProductId] = useState(false);
 
+
+  
   let { id } = useParams();
   console.log(id);
 
@@ -188,9 +193,18 @@ const OrgChartTree = () => {
       },
     ],
   };
+
+  const orientationProps = {
+    orientation: 'vertical',
+    translate: { x: 300, y: 50 },
+    nodeSize: { x: 150, y: 100 },
+  };
   useEffect(() => {
     getProductDetails(id);
   }, []);
+
+  
+  
   return (
     // `<Tree />` will fill width/height of its container; in this case `#treeWrapper`.
     <>
@@ -264,13 +278,19 @@ const OrgChartTree = () => {
         {loading ? (
           <Tree
             data={orgChart}
-            orientation="vertical"
+            // orientation="vertical"
             translate={{ x: 100, y: 180 }}
+            {...orientationProps}
+            separation={{ siblings: 2, nonSiblings: 2 }}
           />
         ) : (
           ""
         )}
       </div>
+      <span className="shape1-product header-shape-product">
+          <img src={feature1} className="verify-product-img"></img>
+        </span>
+        
       <Footer />
     </>
   );

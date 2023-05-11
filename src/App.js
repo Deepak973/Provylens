@@ -25,6 +25,7 @@ import { useAccount } from "wagmi";
 // import Tree from "./components/OrgChartTree.js";
 import OrgChartTree from "./components/VerifyProduct.js";
 
+
 function App() {
   // const address = useAccount();
   // const { address, isConnecting, isDisconnected } = useAccount();
@@ -98,7 +99,7 @@ function App() {
               />
               <Route path="/verify-product/:id?" element={<OrgChartTree />} />
               <Route path="/profile" element={<Profile />}></Route>
-              {/* <Route path="/verify-product/:id?" element={<VerifyProducts />} /> */}
+           
             </Routes>
           </Router>
         </div>

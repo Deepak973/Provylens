@@ -9,14 +9,36 @@
     rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
   background: #1a1156;
   border-radius: 20px;
-  height: 25vh;
+  height: 20vh;
   padding: 20px;
 }
 .verify-product-main-div {
-  position: relative;
-  top: 150px;
+ padding-top: 10%;
 }
-
+.shape1-product img {
+  width: 100%;
+  top: -24%;
+  z-index: -1;
+  position: absolute;
+}
+.bubble3 .header-shape-product{
+  position: absolute;
+    bottom: 0;
+    right: 20%;
+    top: 20%;
+}
+.bubble4 .header-shape-product{
+  position: absolute;
+    top: 20%;
+    left: 10%;
+}
+#treeWrapper{
+  width: 40vw !important;
+    height: 100vh ;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
 @media only screen and (max-width: 425px) {
   .tree-container {
     height: 300px;
