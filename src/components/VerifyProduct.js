@@ -10,7 +10,7 @@ import feature1 from "../assets/feature-1.png";
 import bubble4 from "../assets/fixed4.png";
 import feature2 from "../assets/header6_shape_5.png";
 import "../styles/viewproduct.css";
-import "../styles/Verifyproduct.css";
+import "../styles/Verifyproduct.scss";
 import { createClient } from "urql";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -202,7 +202,7 @@ const OrgChartTree = () => {
   useEffect(() => {
     getProductDetails(id);
   }, []);
-  const translate = { x: 300, y: 200 };
+
   
   
   return (
@@ -280,8 +280,8 @@ const OrgChartTree = () => {
           <Tree
             data={orgChart}
             // orientation="vertical"
-            // translate={{ x: 1000, y: 180 }}
-            translate={translate}
+            translate={{ x: 100, y: 480 }}
+         
             {...orientationProps}
             separation={{ siblings: 2, nonSiblings: 2 }}
           />
