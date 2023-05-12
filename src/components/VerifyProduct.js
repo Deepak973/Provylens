@@ -202,7 +202,9 @@ const OrgChartTree = () => {
   useEffect(() => {
     getProductDetails(id);
   }, []);
-
+  const NodeLabel = ({ nodeData }) => (
+    <div style={{ margin: '10%' }}>{nodeData.name}</div>
+  );
   
   
   return (
@@ -279,10 +281,14 @@ const OrgChartTree = () => {
           <Tree
             data={orgChart}
             // orientation="vertical"
-            
-         
             {...orientationProps}
             separation={{ siblings: 2, nonSiblings: 2 }}
+            nodeLabelComponent={{
+              render: <NodeLabel />,
+              foreignObjectWrapper: {
+                y: 24, // adjust this value to vertically center the node labels
+              },
+            }}
           />
         ) : (
           ""
