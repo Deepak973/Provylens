@@ -51,7 +51,9 @@ left: 0;
 right: 0;
 overflow: hidden;
 }
-
+// g.rd3t-g {
+//   transform: translate(300px, 50px) scale(1, 1) !important;
+// }
 @media only screen and (max-width: 1024px) {
   .tree-container {
     height: 300px;
@@ -75,6 +77,7 @@ overflow: hidden;
     height: 30vh;
     padding: 20px;
   }
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -100,7 +103,7 @@ overflow: hidden;
     height: 30vh;
     padding: 20px;
   }
-  
+
 }
 @media only screen and (max-width: 425px) {
   .tree-container {
@@ -126,7 +129,7 @@ overflow: hidden;
     padding: 20px;
   }
   g.rd3t-g {
-    transform: translate(100px, 50px) scale(1, 1) !important;
+    transform: translate(117.554px, 99.1062px) scale(0.574349, 0.574349) ;
   }
   #treeWrapper{
     width: 100% !important;
