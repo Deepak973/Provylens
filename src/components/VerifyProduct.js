@@ -196,7 +196,7 @@ const OrgChartTree = () => {
 
   const orientationProps = {
     orientation: 'vertical',
-    translate: { x: 300, y: 50 },
+    translate: { x: 100, y: 50 },
     nodeSize: { x: 150, y: 100 },
   };
   useEffect(() => {
@@ -271,7 +271,6 @@ const OrgChartTree = () => {
         id="treeWrapper"
         style={{
           width: "100vw",
-          height: "100vh",
           padding: "20px",
         }}
       >
@@ -280,7 +279,7 @@ const OrgChartTree = () => {
           <Tree
             data={orgChart}
             // orientation="vertical"
-            translate={{ x: 100, y: 480 }}
+            
          
             {...orientationProps}
             separation={{ siblings: 2, nonSiblings: 2 }}

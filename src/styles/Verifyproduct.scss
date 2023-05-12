@@ -9,7 +9,7 @@
     rgba(0, 0, 0, 0.23) 0px 0px 3px -2px, rgba(0, 0, 0, 0.17) 0px 0px 25px;
   background: #1a1156;
   border-radius: 20px;
-  height: 20vh;
+  height: 20vh; 
   padding: 20px;
 }
 .verify-product-main-div {
@@ -34,7 +34,7 @@
 }
 #treeWrapper{
   width: 80% !important;
-    height: 100vh ;
+    height: 93vh !important ;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
@@ -51,9 +51,7 @@ left: 0;
 right: 0;
 
 }
-// g.rd3t-g {
-//   transform: translate(300px, 50px) scale(1, 1) !important;
-// }
+
 @media only screen and (max-width: 1024px) {
   .tree-container {
     height: 300px;
@@ -128,16 +126,20 @@ right: 0;
     height: 30vh;
     padding: 20px;
   }
-  g.rd3t-g {
-    transform: translate(117.554px, 99.1062px) scale(0.574349, 0.574349) ;
-  }
+ 
   #treeWrapper{
     width: 100% !important;
-      height: 100vh ;
+      height: 95vh  !important;
       /* margin: 0 auto; */
       padding: 20px;
       text-align: center;
       max-width: 1000px;
   }
-
+  .rd3t-svg {
+    left: 0;
+    position: absolute;
+    right: 0;
+    height: 75vh;
+    top: 10%;
+}
 }
