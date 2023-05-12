@@ -196,7 +196,7 @@ const OrgChartTree = () => {
 
   const orientationProps = {
     orientation: 'vertical',
-    translate: { x: 100, y: 50 },
+    translate: { x: 200, y: 50 },
     nodeSize: { x: 150, y: 100 },
   };
   useEffect(() => {
