@@ -75,6 +75,10 @@ contract userDetails is IUserDetails{
         return userD;
     }
 
+     function getAllSupplierAddresses() public view returns(address[] memory) {
+        return suppliers;
+    }
+
     /// @notice function to return all the users registered as suppliers
     function getAllSuppliers() public view returns(address[] memory, userDetails[] memory) {
         address[] memory suppAddresses = new address[](suppliers.length);
@@ -91,29 +95,35 @@ contract userDetails is IUserDetails{
     }
 
     
-    function getAllSupplierAddresses() public view returns(address[] memory) {
-        return suppliers;
-    }
 
     /// @notice function to return all the users registered as manufacturers
-    function getAllManufacturers() public view returns(userDetails[] memory){
-        userDetails[] memory manuD = new userDetails[](manufacturers.length);
+    function getAllManufacturers() public view returns(address[] memory,userDetails[] memory){
+        address[] memory manuAddresses = new address[](manufacturers.length);
+        userDetails[] memory manuDetails = new userDetails[](manufacturers.length);
         for(uint i=0;i<manufacturers.length;i++)
         {
-            manuD[i] = userDetailsMapping[manufacturers[i]];
+            address manuAddress = manufacturers[i];
+            userDetails memory details =  userDetailsMapping[manuAddress];
+            manuAddresses[i] = manuAddress;
+            manuDetails[i] =details;
         }
-        return manuD;
+        return (manuAddresses, manuDetails);
 
     }
 
     /// @notice function to return all the users registered as distributors
-    function getAllDistributors() public view returns(userDetails[] memory){
-        userDetails[] memory distD = new userDetails[](distributors.length);
+    function getAllDistributors() public view returns(address[] memory,userDetails[] memory){
+        address[] memory distAddresses = new address[](distributors.length);
+        userDetails[] memory distDetails = new userDetails[](distributors.length);
         for(uint i=0;i<distributors.length;i++)
         {
-            distD[i] = userDetailsMapping[distributors[i]];
+            address distAddress = distributors[i];
+            userDetails memory details =  userDetailsMapping[distAddress];
+            
+            distAddresses[i] = distAddress;
+            distDetails[i] = details;
         }
-        return distD;
+        return (distAddresses,distDetails);
 
     }
 

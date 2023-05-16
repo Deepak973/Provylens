@@ -246,7 +246,7 @@ function Transfer({ dashboardLinks }) {
                 <StyledTableCell align="right">Product Name</StyledTableCell>
                 <StyledTableCell align="right">Quantity</StyledTableCell>
                 <StyledTableCell align="right">
-                  Manufacturer Name
+                  Distributor Name
                 </StyledTableCell>
                 <StyledTableCell align="right">Status</StyledTableCell>
                 <StyledTableCell align="right"></StyledTableCell>

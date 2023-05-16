@@ -21,6 +21,12 @@ contract manufacturerDistributor is IManufacturerDistributor{
 
     }
 
+    struct manufacturerDistributorWithDetails {
+    manufacturerDistributor mdDetails;
+    manufacturerProduct.manufacturerProduct mpDetails;
+    userDetails.userDetails uDetails;
+    }
+
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
         _;
@@ -58,19 +64,19 @@ contract manufacturerDistributor is IManufacturerDistributor{
     mapping(address => uint[]) public manufacturerTosmIdMapping;
 
     /// @notice function to transfer product from supplier to manufacturer
-    function transferProduct(uint _mpId,address _distributorAddress,uint32 _quantity)external override{
+    function transferProduct(uint _mdId,uint _mpId,address _distributorAddress,uint32 _quantity)external override{
         userDetails.userDetails memory user = udInstance.getSingleUser(msg.sender);
         require(uint8(user.userType)== 1,"Only manufacturer can Transfer product"); 
 
         mpInstance.updateManufactureProductTransfer(_mpId,_distributorAddress);
-        mdIdToStructMapping[mdId].status = transferStatus.Approved;
+        mdIdToStructMapping[_mdId].status = transferStatus.Approved;
         // mdIdToStructMapping[mdId].mpId = _mpId;
         // mdIdToStructMapping[mdId].m_address = msg.sender;
         // mdIdToStructMapping[mdId].dispatchTime = uint32(block.timestamp);
         // mdIdToStructMapping[mdId].currentQuantity = _currentQuantity;
         // mdIdToStructMapping[mdId].status = transferStatus.Approved;
         
-        emit eventManufacturerDistributorTransfer(mdId,_mpId,msg.sender,_distributorAddress,uint32(block.timestamp));
+        emit eventManufacturerDistributorTransfer(_mdId,_mpId,msg.sender,_distributorAddress,uint32(block.timestamp));
         mpInstance.updateManufacturerProductUints(_mpId,_quantity);
     }
 
@@ -101,13 +107,29 @@ contract manufacturerDistributor is IManufacturerDistributor{
     }
 
     /// @notice function to get all trasnfers distributor has received
-    function getAllmdIdForDistributor(address _distributorAddress) public view returns(manufacturerDistributor[] memory){  
+    function getAllmdIdForDistributor(address _distributorAddress) public view returns(manufacturerDistributorWithDetails[] memory){  
         uint[] memory mdIdData = distributorTomdIdMapping[_distributorAddress];
-        manufacturerDistributor[] memory mdIdDetails = new manufacturerDistributor[](mdIdData.length);
+        manufacturerDistributorWithDetails[] memory mdIdDetails = new manufacturerDistributorWithDetails[](mdIdData.length);
         for(uint i=0;i<mdIdData.length;i++)
         {
-            mdIdDetails[i] = mdIdToStructMapping[mdIdData[i]];
+            mdIdDetails[i].mdDetails = mdIdToStructMapping[mdIdData[i]];
+            mdIdDetails[i].mpDetails = mpInstance.getSingleManufacturerProduct(mdIdDetails[i].mdDetails.mpId);
+            mdIdDetails[i].uDetails = udInstance.getSingleUser(mdIdDetails[i].mdDetails.d_address);
+
         }
         return mdIdDetails;
     }
-}
+
+     function getAllmdIdForManufacturer(address _manufacturerAddress) public view returns(manufacturerDistributorWithDetails[] memory){  
+        uint[] memory mdIdData = distributorTomdIdMapping[_manufacturerAddress];
+        manufacturerDistributorWithDetails[] memory mdIdDetails = new manufacturerDistributorWithDetails[](mdIdData.length);
+        for(uint i=0;i<mdIdData.length;i++)
+        {
+            mdIdDetails[i].mdDetails = mdIdToStructMapping[mdIdData[i]];
+            mdIdDetails[i].mpDetails = mpInstance.getSingleManufacturerProduct(mdIdDetails[i].mdDetails.mpId);
+            mdIdDetails[i].uDetails = udInstance.getSingleUser(mdIdDetails[i].mdDetails.m_address);
+
+        }
+        return mdIdDetails;
+    }
+}   

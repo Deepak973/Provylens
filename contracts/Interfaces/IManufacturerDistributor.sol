@@ -23,7 +23,7 @@ interface IManufacturerDistributor {
   event eventManufacturerDistributorTransfer(uint indexed _mdId,uint indexed _mpId, address _manufacturerAddress,address _distributorAddress,uint32 _dispatchTime);
   event eventArrivalTime(uint32 _arrivalTime);
   
-  function transferProduct(uint _mpId,address _distributorAddress,uint32 _quantity)external;
+  function transferProduct(uint _mdId,uint _mpId,address _distributorAddress,uint32 _quantity)external;
   function requestProduct(uint _mpId,uint32 _quantity, address _supplierAddress)external;
   function receiveProduct(uint _mpId, uint _mdId)external;
 }
