@@ -34,12 +34,15 @@ contract userDetails is IUserDetails{
 
     /// @notice Function to delete the user
     function deleteUser()public override {
+        require((userDetailsMapping[msg.sender].userName).length != 0, "User not registered");
         userDetailsMapping[msg.sender].userStatus = false;
         emit eventDeleteUser(msg.sender);
     }
 
     /// @notice function to edit the name of the user
     function editName(bytes memory _name)public override {
+        require((userDetailsMapping[msg.sender].userName).length != 0, "User not registered");
+
         userDetailsMapping[msg.sender].userName = _name;
         userDetails memory u = userDetailsMapping[msg.sender];
         emit eventUserData(msg.sender,u.userType,_name,u.userPhysicalAddress,u.userImage,block.timestamp);
@@ -47,6 +50,7 @@ contract userDetails is IUserDetails{
 
     /// @notice function to edit the physical address of the user
     function editPhysicalAddress(bytes memory _physicalAddress)public override{
+        require((userDetailsMapping[msg.sender].userName).length != 0, "User not registered");
         userDetailsMapping[msg.sender].userPhysicalAddress = _physicalAddress;
         userDetails memory u = userDetailsMapping[msg.sender];
         emit eventUserData(msg.sender,u.userType,u.userName,_physicalAddress,u.userImage,block.timestamp);
@@ -55,6 +59,7 @@ contract userDetails is IUserDetails{
 
     /// @notice function to edit the Image of the user
     function editImage(bytes memory _image)public override {
+        require((userDetailsMapping[msg.sender].userName).length != 0, "User not registered");
         userDetailsMapping[msg.sender].userImage = _image;
         userDetails memory u = userDetailsMapping[msg.sender];
         emit eventUserData(msg.sender,u.userType,u.userName,u.userImage,_image,block.timestamp);
@@ -75,10 +80,6 @@ contract userDetails is IUserDetails{
         return userD;
     }
 
-     function getAllSupplierAddresses() public view returns(address[] memory) {
-        return suppliers;
-    }
-
     /// @notice function to return all the users registered as suppliers
     function getAllSuppliers() public view returns(address[] memory, userDetails[] memory) {
         address[] memory suppAddresses = new address[](suppliers.length);
@@ -97,34 +98,42 @@ contract userDetails is IUserDetails{
     
 
     /// @notice function to return all the users registered as manufacturers
-    function getAllManufacturers() public view returns(address[] memory,userDetails[] memory){
+    function getAllManufacturers() public view returns (address[] memory, userDetails[] memory) {
         address[] memory manuAddresses = new address[](manufacturers.length);
         userDetails[] memory manuDetails = new userDetails[](manufacturers.length);
-        for(uint i=0;i<manufacturers.length;i++)
-        {
-            address manuAddress = manufacturers[i];
-            userDetails memory details =  userDetailsMapping[manuAddress];
-            manuAddresses[i] = manuAddress;
-            manuDetails[i] =details;
-        }
-        return (manuAddresses, manuDetails);
 
+        for (uint i = 0; i < manufacturers.length; i++) {
+            address manuAddress = manufacturers[i];
+            userDetails memory details = userDetailsMapping[manuAddress];
+            manuAddresses[i] = manuAddress;
+            manuDetails[i] = details;
+        }
+
+        return (manuAddresses, manuDetails);
     }
 
     /// @notice function to return all the users registered as distributors
-    function getAllDistributors() public view returns(address[] memory,userDetails[] memory){
+    function getAllDistributors() public view returns (address[] memory, userDetails[] memory) {
         address[] memory distAddresses = new address[](distributors.length);
         userDetails[] memory distDetails = new userDetails[](distributors.length);
-        for(uint i=0;i<distributors.length;i++)
-        {
+
+        for (uint i = 0; i < distributors.length; i++) {
             address distAddress = distributors[i];
-            userDetails memory details =  userDetailsMapping[distAddress];
-            
+            userDetails memory details = userDetailsMapping[distAddress];
             distAddresses[i] = distAddress;
             distDetails[i] = details;
         }
-        return (distAddresses,distDetails);
 
+        return (distAddresses, distDetails);
     }
 
+    function getAllSupplierAddresses() public view returns(address[] memory) {
+        return suppliers;
+    }
+    function getAllManufacturerAddresses() public view returns(address[] memory) {
+        return manufacturers;
+    }
+    function getAllDistributorAddresses() public view returns(address[] memory) {
+        return distributors;
+    }
 }
