@@ -140,7 +140,6 @@ contract supplierProduct is ISupplierProduct{
 
     /// @notice function to delete supplier product (making the product Inactive)
     function deleteSupplierProduct(uint _spId)public override {
-
         uint256[] memory supplierAddresses = getSupplierProductIds();
         bool found = false;
         for (uint i = 0; i < supplierAddresses.length; i++) {
@@ -149,7 +148,7 @@ contract supplierProduct is ISupplierProduct{
                 break;
             }
         }
-        require(found, "Product not owned by you");
+        require(found, "Product not owned by you"); 
 
         supplierProductsIdToStructMapping[_spId].sp_status=false;
         emit eventDeleteSupplierProduct(_spId);
