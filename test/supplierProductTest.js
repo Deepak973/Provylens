@@ -2,7 +2,7 @@ const {
   supplierProduct,
   manufacturerProduct,
   distributorProduct,
-} = require("../src/DummyData/supplierProductData");
+} = require("../src/DummyData/productData");
 const {
   supplierData,
   manufacturerData,
