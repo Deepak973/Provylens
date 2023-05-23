@@ -2,7 +2,7 @@ const {
   supplierProduct,
   manufacturerProduct,
   distributorProduct,
-} = require("../src/DummyData/supplierProductData");
+} = require("../src/DummyData/productData");
 const {
   supplierData,
   manufacturerData,
@@ -178,16 +178,43 @@ describe("supplierProduct", function () {
     expect(productIds.map((id) => id.toString()).length).to.equal(1);
   });
 
-  it("should be equal", async function () {
-    expect(3).to.equal(3);
+  // it("should be equal", async function () {
+  //   expect(3).to.equal(3);
+  // });
+
+  it("should Request stock from supplier", async function () {
+    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
+
+    const requests =
+      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
+        supplierAddress
+      );
+
+    expect(requests[0]["smDetails"]["status"]).to.equal(1);
   });
 
-  it("should Request stock", async function () {
-    const res = await signerManufacturerT.requestProduct(
-      1,
-      30,
-      supplierAddress
-    );
-    console.log(res);
+  it("should transfer the product to manufacturer", async function () {
+    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
+    await signerSupplierT.transferProduct(1, manufacturerAddress, 30, 30);
+
+    const transfer =
+      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
+        supplierAddress
+      );
+
+    expect(transfer[0]["smDetails"]["status"]).to.equal(2);
+  });
+
+  it("should show status received product for manufacturer", async function () {
+    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
+    await signerSupplierT.transferProduct(1, manufacturerAddress, 30, 30);
+    await signerManufacturerT.receiveProduct(1);
+
+    const transfer =
+      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
+        supplierAddress
+      );
+
+    expect(transfer[0]["smDetails"]["status"]).to.equal(3);
   });
 });
