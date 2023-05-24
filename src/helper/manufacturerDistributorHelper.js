@@ -72,10 +72,10 @@ export const requestHistoryOfManufacturer = async (add) => {
 };
 
 export const transferProductToDistributor = async (
+  mdId,
   mpId,
   distributorAddress,
-  quantity,
-  currentQuantity
+  quantity
 ) => {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -88,6 +88,7 @@ export const transferProductToDistributor = async (
     );
 
     const tx = await connectedContract.transferProduct(
+      mdId,
       mpId,
       distributorAddress,
       quantity
