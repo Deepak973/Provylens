@@ -1,7 +1,6 @@
 const {
   supplierProduct,
   manufacturerProduct,
-  distributorProduct,
 } = require("../src/DummyData/productData");
 const {
   supplierData,
@@ -12,10 +11,12 @@ const { ethers } = require("hardhat");
 const { expect } = require("chai");
 const encoder = new TextEncoder();
 
-describe("supplierManufacturerTest", function () {
+describe("manufacturerDistributorTest", function () {
   let userDetailsInstance;
   let supplierProductInstance;
   let supplierManufacturerInstance;
+  let manufacturerProductInstance;
+  let manufacturerDistributorInstance;
   let supplierAddress;
   let manufacturerAddress;
   let distributorAddress;
@@ -27,6 +28,9 @@ describe("supplierManufacturerTest", function () {
   let signerManufacturer;
   let signerManufacturerP;
   let signerManufacturerT;
+  let signerManufacturerT2;
+  let signerDistributorT2;
+  let signerManufacturerM;
   let signerDistributor;
 
   function byteArrayToHexString(byteArray) {
@@ -61,6 +65,26 @@ describe("supplierManufacturerTest", function () {
     );
     await supplierManufacturerInstance.deployed();
 
+    // Manufacturer Product Instance
+    const manufacturerProduct = await ethers.getContractFactory(
+      "manufacturerProduct"
+    );
+    manufacturerProductInstance = await manufacturerProduct.deploy(
+      userDetailsInstance.address,
+      supplierManufacturerInstance.address
+    );
+    await manufacturerProductInstance.deployed();
+
+    // ManufacturerDistributor Instance
+    const manufacturerDistributor = await ethers.getContractFactory(
+      "manufacturerDistributor"
+    );
+    manufacturerDistributorInstance = await manufacturerDistributor.deploy(
+      userDetailsInstance.address,
+      manufacturerProductInstance.address
+    );
+    await manufacturerDistributorInstance.deployed();
+
     // Signers
     const signers = await ethers.getSigners();
 
@@ -87,12 +111,25 @@ describe("supplierManufacturerTest", function () {
       ethers.provider.getSigner(manufacturerAddress)
     );
 
-    //
+    // supplierManufacturer signers
     signerSupplierT = await supplierManufacturerInstance.connect(
       ethers.provider.getSigner(supplierAddress)
     );
     signerManufacturerT = await supplierManufacturerInstance.connect(
       ethers.provider.getSigner(manufacturerAddress)
+    );
+
+    // manufacturerProduct signers
+    signerManufacturerM = await manufacturerProductInstance.connect(
+      ethers.provider.getSigner(manufacturerAddress)
+    );
+
+    // manufacturerDistributor Signers
+    signerManufacturerT2 = await manufacturerDistributorInstance.connect(
+      ethers.provider.getSigner(manufacturerAddress)
+    );
+    signerDistributorT2 = await manufacturerDistributorInstance.connect(
+      ethers.provider.getSigner(distributorAddress)
     );
   });
 
@@ -136,6 +173,31 @@ describe("supplierManufacturerTest", function () {
     const [productDetails, productIds] =
       await signerSupplierP.getAllActiveProductsOfSupplier(supplierAddress);
 
+    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
+    await signerSupplierT.transferProduct(1, manufacturerAddress, 30, 30);
+    await signerManufacturerT.receiveProduct(1);
+
+    const transfer =
+      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
+        supplierAddress
+      );
+
+    await signerManufacturerM.addManufacturerProduct(
+      [supplierAddress],
+      [1],
+      manufacturerProduct.name,
+      manufacturerProduct.desc,
+      manufacturerProduct.unit,
+      manufacturerProduct.price,
+      manufacturerProduct.date,
+      manufacturerProduct.expiryDate
+    );
+
+    const [mProductDetails, mProductIds] =
+      await signerManufacturerM.getAllProductsOfManufacturer(
+        manufacturerAddress
+      );
+
     // Expect for supplier
     expect(supplierUser.userType).to.equal(0);
     expect(supplierUser.userName).to.equal(
@@ -176,45 +238,52 @@ describe("supplierManufacturerTest", function () {
       byteArrayToHexString(supplierProduct.name)
     );
     expect(productIds.map((id) => id.toString()).length).to.equal(1);
-  });
 
-  // it("should be equal", async function () {
-  //   expect(3).to.equal(3);
-  // });
-
-  it("should Request stock from supplier", async function () {
-    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
-
-    const requests =
-      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
-        supplierAddress
-      );
-
-    expect(requests[0]["smDetails"]["status"]).to.equal(1);
-  });
-
-  it("should transfer the product to manufacturer", async function () {
-    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
-    await signerSupplierT.transferProduct(1, manufacturerAddress, 30, 30);
-
-    const transfer =
-      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
-        supplierAddress
-      );
-
-    expect(transfer[0]["smDetails"]["status"]).to.equal(2);
-  });
-
-  it("should show status received product for manufacturer", async function () {
-    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
-    await signerSupplierT.transferProduct(1, manufacturerAddress, 30, 30);
-    await signerManufacturerT.receiveProduct(1);
-
-    const transfer =
-      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
-        supplierAddress
-      );
-
+    // transfer
     expect(transfer[0]["smDetails"]["status"]).to.equal(3);
+
+    // manufacturerProduct
+
+    expect(mProductDetails[0].mp_name).to.equal(
+      byteArrayToHexString(manufacturerProduct.name)
+    );
+    expect(mProductIds.map((id) => id.toString()).length).to.equal(1);
+    expect(mProductDetails[0].mp_status).to.equal(true);
+  });
+
+  it("should be equal", async function () {
+    expect(3).to.equal(3);
+  });
+
+  it("should request stock from distributor to manufacturer", async function () {
+    await signerDistributorT2.requestProduct(1, 20, manufacturerAddress);
+    const requests = await signerManufacturerT2.getAllmdIdForManufacturer(
+      manufacturerAddress
+    );
+    expect(requests[0]["mdDetails"]["status"]).to.equal(1);
+  });
+
+  it("should transfer stock from manufacturer to distributor", async function () {
+    await signerDistributorT2.requestProduct(1, 20, manufacturerAddress);
+
+    await signerManufacturerT2.transferProduct(1, 1, distributorAddress, 20);
+    const transfers = await signerManufacturerT2.getAllmdIdForManufacturer(
+      manufacturerAddress
+    );
+
+    expect(transfers[0]["mdDetails"]["status"]).to.equal(2);
+  });
+
+  it("should acknowledge product received", async function () {
+    await signerDistributorT2.requestProduct(1, 20, manufacturerAddress);
+
+    await signerManufacturerT2.transferProduct(1, 1, distributorAddress, 20);
+
+    await signerDistributorT2.receiveProduct(1, 1);
+    const transfers = await signerManufacturerT2.getAllmdIdForManufacturer(
+      manufacturerAddress
+    );
+
+    expect(transfers[0]["mdDetails"]["status"]).to.equal(3);
   });
 });

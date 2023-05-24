@@ -1,7 +1,6 @@
 const {
   supplierProduct,
   manufacturerProduct,
-  distributorProduct,
 } = require("../src/DummyData/productData");
 const {
   supplierData,
@@ -12,10 +11,11 @@ const { ethers } = require("hardhat");
 const { expect } = require("chai");
 const encoder = new TextEncoder();
 
-describe("supplierManufacturerTest", function () {
+describe("manufacturerProductTest", function () {
   let userDetailsInstance;
   let supplierProductInstance;
   let supplierManufacturerInstance;
+  let manufacturerProductInstance;
   let supplierAddress;
   let manufacturerAddress;
   let distributorAddress;
@@ -27,6 +27,7 @@ describe("supplierManufacturerTest", function () {
   let signerManufacturer;
   let signerManufacturerP;
   let signerManufacturerT;
+  let signerManufacturerM;
   let signerDistributor;
 
   function byteArrayToHexString(byteArray) {
@@ -61,6 +62,16 @@ describe("supplierManufacturerTest", function () {
     );
     await supplierManufacturerInstance.deployed();
 
+    // Manufacturer Product
+    const manufacturerProduct = await ethers.getContractFactory(
+      "manufacturerProduct"
+    );
+    manufacturerProductInstance = await manufacturerProduct.deploy(
+      userDetailsInstance.address,
+      supplierManufacturerInstance.address
+    );
+    await manufacturerProductInstance.deployed();
+
     // Signers
     const signers = await ethers.getSigners();
 
@@ -87,11 +98,16 @@ describe("supplierManufacturerTest", function () {
       ethers.provider.getSigner(manufacturerAddress)
     );
 
-    //
+    // supplierManufacturer signers
     signerSupplierT = await supplierManufacturerInstance.connect(
       ethers.provider.getSigner(supplierAddress)
     );
     signerManufacturerT = await supplierManufacturerInstance.connect(
+      ethers.provider.getSigner(manufacturerAddress)
+    );
+
+    // manufacturerProduct signers
+    signerManufacturerM = await manufacturerProductInstance.connect(
       ethers.provider.getSigner(manufacturerAddress)
     );
   });
@@ -136,6 +152,15 @@ describe("supplierManufacturerTest", function () {
     const [productDetails, productIds] =
       await signerSupplierP.getAllActiveProductsOfSupplier(supplierAddress);
 
+    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
+    await signerSupplierT.transferProduct(1, manufacturerAddress, 30, 30);
+    await signerManufacturerT.receiveProduct(1);
+
+    const transfer =
+      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
+        supplierAddress
+      );
+
     // Expect for supplier
     expect(supplierUser.userType).to.equal(0);
     expect(supplierUser.userName).to.equal(
@@ -176,45 +201,88 @@ describe("supplierManufacturerTest", function () {
       byteArrayToHexString(supplierProduct.name)
     );
     expect(productIds.map((id) => id.toString()).length).to.equal(1);
-  });
 
-  // it("should be equal", async function () {
-  //   expect(3).to.equal(3);
-  // });
-
-  it("should Request stock from supplier", async function () {
-    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
-
-    const requests =
-      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
-        supplierAddress
-      );
-
-    expect(requests[0]["smDetails"]["status"]).to.equal(1);
-  });
-
-  it("should transfer the product to manufacturer", async function () {
-    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
-    await signerSupplierT.transferProduct(1, manufacturerAddress, 30, 30);
-
-    const transfer =
-      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
-        supplierAddress
-      );
-
-    expect(transfer[0]["smDetails"]["status"]).to.equal(2);
-  });
-
-  it("should show status received product for manufacturer", async function () {
-    await signerManufacturerT.requestProduct(1, 30, supplierAddress);
-    await signerSupplierT.transferProduct(1, manufacturerAddress, 30, 30);
-    await signerManufacturerT.receiveProduct(1);
-
-    const transfer =
-      await signerSupplierT.getAllSmIdForSupplierWithproductDetails(
-        supplierAddress
-      );
-
+    // transfer
     expect(transfer[0]["smDetails"]["status"]).to.equal(3);
+  });
+
+  it("should add a manufacturer Product", async function () {
+    await signerManufacturerM.addManufacturerProduct(
+      [supplierAddress],
+      [1],
+      manufacturerProduct.name,
+      manufacturerProduct.desc,
+      manufacturerProduct.unit,
+      manufacturerProduct.price,
+      manufacturerProduct.date,
+      manufacturerProduct.expiryDate
+    );
+
+    const [mProductDetails, mProductIds] =
+      await signerManufacturerM.getAllProductsOfManufacturer(
+        manufacturerAddress
+      );
+
+    expect(mProductDetails[0].mp_name).to.equal(
+      byteArrayToHexString(manufacturerProduct.name)
+    );
+    expect(mProductIds.map((id) => id.toString()).length).to.equal(1);
+    expect(mProductDetails[0].mp_status).to.equal(true);
+  });
+
+  it("should delete a manufacturer Product", async function () {
+    await signerManufacturerM.addManufacturerProduct(
+      [supplierAddress],
+      [1],
+      manufacturerProduct.name,
+      manufacturerProduct.desc,
+      manufacturerProduct.unit,
+      manufacturerProduct.price,
+      manufacturerProduct.date,
+      manufacturerProduct.expiryDate
+    );
+
+    await signerManufacturerM.deleteManufacturerProduct(1);
+
+    const [mProductDetails, mProductIds] =
+      await signerManufacturerM.getAllProductsOfManufacturer(
+        manufacturerAddress
+      );
+
+    expect(mProductDetails[0].mp_name).to.equal(
+      byteArrayToHexString(manufacturerProduct.name)
+    );
+    expect(mProductDetails[0].mp_status).to.equal(false);
+    expect(mProductIds.map((id) => id.toString()).length).to.equal(1);
+  });
+
+  it("should not allow any other entity to addManufacturerProduct except maufacturer", async function () {
+    expect(
+      manufacturerProductInstance.addManufacturerProduct(
+        [supplierAddress],
+        [1],
+        manufacturerProduct.name,
+        manufacturerProduct.desc,
+        manufacturerProduct.unit,
+        manufacturerProduct.price,
+        manufacturerProduct.date,
+        manufacturerProduct.expiryDate
+      )
+    ).to.be.revertedWith("Only Manufacturer can add product");
+  });
+  it("should not allow any other entity to deleteManufacturerProduct except owner of the product", async function () {
+    await signerManufacturerM.addManufacturerProduct(
+      [supplierAddress],
+      [1],
+      manufacturerProduct.name,
+      manufacturerProduct.desc,
+      manufacturerProduct.unit,
+      manufacturerProduct.price,
+      manufacturerProduct.date,
+      manufacturerProduct.expiryDate
+    );
+    expect(
+      manufacturerProductInstance.deleteManufacturerProduct(1)
+    ).to.be.revertedWith("Product not owned by you");
   });
 });
