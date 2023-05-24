@@ -1,13 +1,9 @@
 const encoder = new TextEncoder();
 
 module.exports = {
-  supplierProduct: {
-    name: encoder.encode("Potatoes"),
-    desc: encoder.encode("famous potatoes from north Dakota"),
-    unit: 100,
-    price: 30,
-    date: 1654363454,
-    expiryDate: 1654592220,
+  manufacturerRequest: {
+    smId: 1,
+    quantity: 30,
   },
   manufacturerProduct: {
     userType: 1,

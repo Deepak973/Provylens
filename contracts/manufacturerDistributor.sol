@@ -86,7 +86,7 @@ contract manufacturerDistributor is IManufacturerDistributor{
 
         mdIdToStructMapping[mdId] = manufacturerDistributor(mdId,_mpId,_manufacturerAddress,msg.sender,0,0,_quantity,0,transferStatus.Requested);
         distributorTomdIdMapping[msg.sender].push(mdId);
-        manufacturerTosmIdMapping[msg.sender].push(mdId);
+        manufacturerTosmIdMapping[_manufacturerAddress].push(mdId);
         mdId++;
     }
     
@@ -121,7 +121,7 @@ contract manufacturerDistributor is IManufacturerDistributor{
     }
 
      function getAllmdIdForManufacturer(address _manufacturerAddress) public view returns(manufacturerDistributorWithDetails[] memory){  
-        uint[] memory mdIdData = distributorTomdIdMapping[_manufacturerAddress];
+        uint[] memory mdIdData = manufacturerTosmIdMapping[_manufacturerAddress];
         manufacturerDistributorWithDetails[] memory mdIdDetails = new manufacturerDistributorWithDetails[](mdIdData.length);
         for(uint i=0;i<mdIdData.length;i++)
         {
