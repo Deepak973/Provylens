@@ -251,7 +251,7 @@ function Transfer() {
                               className="view-More"
                               onClick={() => {
                                 transferData(
-                                  requestDetails.spId,
+                                  requestDetails.reqId,
                                   requestDetails.manufacturerAddress,
                                   requestDetails.quantity
                                 );
