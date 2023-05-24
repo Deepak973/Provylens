@@ -124,9 +124,9 @@ function Transfer({ dashboardLinks }) {
     // console.log(filteredData);
     // console.log(reqHistory);
   };
-  const transferData = async (reqId, distributor_name, quantity) => {
-    console.log(reqId, distributor_name, quantity);
-    transferProductToDistributor(reqId, distributor_name, quantity);
+  const transferData = async (reqId, mpId, distributor_address, quantity) => {
+    console.log(reqId, distributor_address, quantity);
+    transferProductToDistributor(reqId, mpId, distributor_address, quantity);
   };
 
   const toastInfo = () =>
@@ -267,41 +267,46 @@ function Transfer({ dashboardLinks }) {
             ) : (
               <TableBody>
                 {requestDetails &&
-                  requestDetails.map((requestDetails) => (
-                    <StyledTableRow key={requestDetails.mdId}>
-                      <StyledTableCell component="th" scope="row">
-                        {requestDetails.mdId}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {requestDetails.productname}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {requestDetails.quantity}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {requestDetails.distributor_name}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {requestDetails.status}
-                      </StyledTableCell>
-                      <div className="view-more-btn">
-                        <Button
-                          variant="contained"
-                          size="large"
-                          className="view-More"
-                          onClick={() => {
-                            transferData(
-                              requestDetails.mpId,
-                              requestDetails.distributor_address,
-                              requestDetails.quantity
-                            );
-                          }}
-                        >
-                          Transfer Product
-                        </Button>
-                      </div>
-                    </StyledTableRow>
-                  ))}
+                  requestDetails.map((requestDetails) => {
+                    if (requestDetails.status === "Requested") {
+                      return (
+                        <StyledTableRow key={requestDetails.mdId}>
+                          <StyledTableCell component="th" scope="row">
+                            {requestDetails.mdId}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {requestDetails.productname}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {requestDetails.quantity}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {requestDetails.distributor_name}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {requestDetails.status}
+                          </StyledTableCell>
+                          <div className="view-more-btn">
+                            <Button
+                              variant="contained"
+                              size="large"
+                              className="view-More"
+                              onClick={() => {
+                                transferData(
+                                  requestDetails.mdId,
+                                  requestDetails.mpId,
+                                  requestDetails.distributor_address,
+                                  requestDetails.quantity
+                                );
+                              }}
+                            >
+                              Transfer Product
+                            </Button>
+                          </div>
+                        </StyledTableRow>
+                      );
+                    }
+                  })}
               </TableBody>
             )}
           </Table>

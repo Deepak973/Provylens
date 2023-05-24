@@ -643,7 +643,7 @@ c62 30 115 83 150 149 l23 43 3 611 c3 600 2 613 -18 668 -27 70 -93 139 -168
                       />
                     </g>
                   </svg>
-                  Request History - Supplier
+                  Requests To Supplier - History
                 </li>
 
                 <li
@@ -713,7 +713,7 @@ c62 30 115 83 150 149 l23 43 3 611 c3 600 2 613 -18 668 -27 70 -93 139 -168
                       />
                     </g>
                   </svg>
-                  Request History - Distributor
+                  Requests From Distributor -History
                 </li>
               </>
             )}
