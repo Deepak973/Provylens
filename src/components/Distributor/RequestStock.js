@@ -44,10 +44,10 @@ function RequestStock({ dashboardLinks }) {
     const allManufacturerData = await getAllManufacturers();
     console.log(allManufacturerData);
     // const filteredData = allManufacturerData.[1]map((val, index) => {
-    const filteredData = allManufacturerData.map((val, index) => {
+    const filteredData = allManufacturerData[1].map((val, index) => {
       return {
-        // address: allManufacturerData[0][index],
-        address: "0x9b4716573622751e7F6a56da251D054b6BBa4B00",
+        address: allManufacturerData[0][index],
+        // address: "0x9b4716573622751e7F6a56da251D054b6BBa4B00",
         name: hexToString(val["userName"]),
       };
     });

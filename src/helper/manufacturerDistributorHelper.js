@@ -10,6 +10,7 @@ export const requestProductfromDistributor = async (
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
+    console.log(await signer.getAddress());
 
     const connectedContract = new ethers.Contract(
       MANUFACTURERDISTRIBUTOR_CONTRACT_ADDRESS_BTTC,
