@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/transfer.css";
+import "../../styles/viewproduct.css";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
@@ -96,23 +97,24 @@ function TransferHistory({ dashboardLinks }) {
     console.log(reqHistory);
     const filteredData = reqHistory.map((val, index) => {
       return {
-        mdId: parseInt(val["mdId"]),
-        mpId: parseInt(val["mpId"]),
-        // name: hexToString(val["userName"]),
+        mdId: parseInt(val[0]["mdId"]),
+        mpId: parseInt(val[0]["mpId"]),
+        p_name: hexToString(val[1]["mp_name"]),
         status:
-          val["status"] === 1
+          val[0]["status"] === 1
             ? "Requested"
-            : val["status"] === 2
+            : val[0]["status"] === 2
             ? "Approved"
-            : val["status"] === 3
+            : val[0]["status"] === 3
             ? "Received"
             : null,
-        quantity: val["quantity"],
+        quantity: val[0]["quantity"],
         // productname: hexToString(val["sp_name"]),
         // p_description: hexToString(val["sp_description"]),
         // p_expiry_date: new Date(val["sp_expiryDate"]).toDateString(),
         // p_date_created: new Date(val["sp_date"]).toDateString(),
-        supplier_name: val["m_address"],
+        // supplier_name: val["m_address"],
+        manufacturer_name: hexToString(val[2]["userName"]),
       };
     });
     setRequestDetails(filteredData);
@@ -253,29 +255,31 @@ function TransferHistory({ dashboardLinks }) {
                         {requestDetails.mdId}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                        {requestDetails.mpId}
+                        {requestDetails.p_name}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {requestDetails.quantity}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                        {requestDetails.supplier_name}
+                        {requestDetails.manufacturer_name}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {requestDetails.status}
                       </StyledTableCell>
                       {requestDetails.status === "Received" ||
                       requestDetails.status === "Requested" ? null : (
-                        <div
-                          className="view-more-btn"
-                          onClick={() => {
-                            updateStatus(
-                              requestDetails.mpId,
-                              requestDetails.mdId
-                            );
-                          }}
-                        >
-                          Receive
+                        <div className="view-more-btn">
+                          <button
+                            className="view-More"
+                            onClick={() => {
+                              updateStatus(
+                                requestDetails.mpId,
+                                requestDetails.mdId
+                              );
+                            }}
+                          >
+                            Receive
+                          </button>
                         </div>
                       )}
                     </StyledTableRow>
