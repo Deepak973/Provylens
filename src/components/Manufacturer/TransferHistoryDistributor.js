@@ -51,7 +51,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function Transfer({ dashboardLinks }) {
+function TransferHistoryd({ dashboardLinks }) {
   const { address, isConnected } = useAccount();
   const [modal, setModal] = useState(false);
   const [requestDetails, setRequestDetails] = useState();
@@ -252,7 +252,6 @@ function Transfer({ dashboardLinks }) {
                   Distributor Name
                 </StyledTableCell>
                 <StyledTableCell align="right">Status</StyledTableCell>
-                <StyledTableCell align="right"></StyledTableCell>
               </TableRow>
             </TableHead>
             {false ? (
@@ -284,22 +283,6 @@ function Transfer({ dashboardLinks }) {
                       <StyledTableCell align="right">
                         {requestDetails.status}
                       </StyledTableCell>
-                      <div className="view-more-btn">
-                        <Button
-                          variant="contained"
-                          size="large"
-                          className="view-More"
-                          onClick={() => {
-                            transferData(
-                              requestDetails.mpId,
-                              requestDetails.distributor_address,
-                              requestDetails.quantity
-                            );
-                          }}
-                        >
-                          Transfer Product
-                        </Button>
-                      </div>
                     </StyledTableRow>
                   ))}
               </TableBody>
@@ -311,4 +294,4 @@ function Transfer({ dashboardLinks }) {
   );
 }
 
-export default Transfer;
+export default TransferHistoryd;

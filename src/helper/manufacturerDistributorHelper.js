@@ -51,6 +51,26 @@ export const requestHistoryOfDistributor = async (add) => {
   }
 };
 
+export const requestHistoryOfManufacturer = async (add) => {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    const connectedContract = new ethers.Contract(
+      MANUFACTURERDISTRIBUTOR_CONTRACT_ADDRESS_BTTC,
+      manufacturerdistributor.abi,
+      signer
+    );
+
+    const tx = await connectedContract.getAllmdIdForManufacturer(add);
+
+    // await tx.wait();
+    return tx;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const transferProductToDistributor = async (
   mpId,
   distributorAddress,

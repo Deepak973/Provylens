@@ -6,6 +6,7 @@ import "../styles/Dashboard.scss";
 import Transfer from "../components/Manufacturer/Transfer";
 import DeleteProduct from "../components/Manufacturer/DeleteProduct";
 import TransferHistory from "../components/Manufacturer/TransferHistory";
+import TransferHistoryd from "../components/Manufacturer/TransferHistoryDistributor";
 import RequestStock from "../components/Manufacturer/RequestStock";
 import { ToastContainer, toast } from "react-toastify";
 import ViewProduct from "../components/Manufacturer/ViewProduct";
@@ -35,6 +36,8 @@ function Dashboard() {
   const [deleteProduct, setDeleteProduct] = useState(false);
   const [transfer, setTransfer] = useState(true);
   const [transferHistory, setTransferHistory] = useState(false);
+  const [transferHistoryd, setTransferHistoryd] = useState(false);
+
   const [stock, setStock] = useState(false);
   const [product, setProduct] = useState(true);
   const [chain, setChain] = useState();
@@ -75,6 +78,7 @@ function Dashboard() {
       setViewProduct(false);
       setTransfer(false);
       setTransferHistory(false);
+      setTransferHistoryd(false);
     }
     if (a === "ViewProduct") {
       setAddProduct(false);
@@ -82,6 +86,7 @@ function Dashboard() {
       setViewProduct(true);
       setTransfer(false);
       setTransferHistory(false);
+      setTransferHistoryd(false);
     }
     if (a === "DeleteProduct") {
       setAddProduct(false);
@@ -89,6 +94,7 @@ function Dashboard() {
       setViewProduct(false);
       setTransfer(false);
       setTransferHistory(false);
+      setTransferHistoryd(false);
       setStock(false);
     } else if (a === "Transfer") {
       setAddProduct(false);
@@ -96,6 +102,7 @@ function Dashboard() {
       setViewProduct(false);
       setTransfer(true);
       setTransferHistory(false);
+      setTransferHistoryd(false);
       setStock(false);
     } else if (a === "TransferHistory") {
       setAddProduct(false);
@@ -103,6 +110,15 @@ function Dashboard() {
       setViewProduct(false);
       setTransfer(false);
       setTransferHistory(true);
+      setTransferHistoryd(false);
+      setStock(false);
+    } else if (a === "TransferHistoryd") {
+      setAddProduct(false);
+      setDeleteProduct(false);
+      setViewProduct(false);
+      setTransfer(false);
+      setTransferHistory(false);
+      setTransferHistoryd(true);
       setStock(false);
     } else if (a === "HistoryDetails") {
       setAddProduct(false);
@@ -110,6 +126,7 @@ function Dashboard() {
       setViewProduct(false);
       setTransfer(false);
       setTransferHistory(false);
+      setTransferHistoryd(false);
       setStock(false);
       setTransferHistoryDetails(true);
     } else if (a === "RequestStock") {
@@ -118,6 +135,8 @@ function Dashboard() {
       setViewProduct(false);
       setTransfer(false);
       setTransferHistory(false);
+      setTransferHistoryd(false);
+
       setStock(true);
       setTransferHistoryDetails(false);
     }
@@ -624,7 +643,77 @@ c62 30 115 83 150 149 l23 43 3 611 c3 600 2 613 -18 668 -27 70 -93 139 -168
                       />
                     </g>
                   </svg>
-                  Request History
+                  Request History - Supplier
+                </li>
+
+                <li
+                  className={transferHistoryd ? "active" : ""}
+                  onClick={() => {
+                    dashboardLinks("TransferHistoryd");
+                  }}
+                >
+                  <svg
+                    version="1.0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 512.000000 512.000000"
+                    preserveAspectRatio="xMidYMid meet"
+                    fill="#ffffff"
+                  >
+                    <g
+                      transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                      stroke="none"
+                    >
+                      <path
+                        d="M1048 4790 c-302 -52 -557 -304 -608 -600 -7 -46 -10 -582 -8 -1855
+l3 -1790 23 -43 c35 -66 88 -119 150 -149 l57 -28 1470 0 1470 0 63 34 c70 38
+100 69 140 145 l27 51 3 842 3 843 385 0 c422 0 430 1 454 59 7 18 10 347 8
+1056 l-3 1030 -22 58 c-59 156 -178 274 -333 329 l-65 23 -1585 1 c-872 1
+-1606 -2 -1632 -6z m2682 -205 c0 -3 -11 -23 -25 -43 -47 -72 -67 -148 -77
+-297 -5 -83 -6 -852 -2 -1876 6 -1620 5 -1738 -11 -1772 -34 -72 74 -67 -1479
+-67 -1530 0 -1448 -3 -1480 59 -15 28 -16 203 -14 1803 l3 1773 25 65 c33 85
+90 170 148 221 62 55 191 117 267 128 63 9 2645 15 2645 6z m591 -43 c53 -32
+106 -92 131 -147 l23 -50 3 -947 2 -948 -320 0 -320 0 2 948 3 947 23 50 c27
+59 80 117 139 152 81 47 234 45 314 -5z"
+                      />
+                      <path
+                        d="M1427 4259 c-103 -24 -179 -87 -224 -184 l-28 -60 -3 -565 c-3 -601
+0 -650 43 -726 33 -57 103 -118 161 -140 47 -18 85 -19 764 -19 l715 0 57 28
+c62 30 115 83 150 149 l23 43 3 611 c3 600 2 613 -18 668 -27 70 -93 139 -168
+174 l-57 27 -690 2 c-382 1 -707 -3 -728 -8z m283 -493 c0 -269 1 -285 20
+-309 11 -14 36 -31 54 -37 31 -10 51 -6 192 41 l158 52 161 -53 c157 -51 162
+-52 197 -37 65 27 68 42 68 352 l0 275 120 0 c130 0 158 -8 183 -50 15 -25 17
+-83 17 -585 0 -617 1 -603 -65 -631 -50 -21 -1309 -21 -1359 0 -69 29 -66 -2
+-66 634 l0 574 29 29 29 29 131 0 131 0 0 -284z m640 94 c0 -104 -1 -190 -3
+-190 -2 0 -43 14 -92 30 -49 17 -103 30 -120 30 -17 0 -71 -13 -120 -30 -49
+-16 -90 -30 -92 -30 -2 0 -3 86 -3 190 l0 190 215 0 215 0 0 -190z"
+                      />
+                      <path
+                        d="M1030 2233 c-81 -31 -90 -157 -14 -192 34 -15 494 -15 528 0 60 28
+71 122 20 170 -25 24 -27 24 -272 26 -136 1 -254 -1 -262 -4z"
+                      />
+                      <path
+                        d="M1758 2223 c-56 -35 -66 -117 -19 -164 l29 -29 735 0 c721 0 735 0
+760 20 38 30 52 80 33 123 -29 70 5 67 -793 67 -651 -1 -720 -2 -745 -17z"
+                      />
+                      <path
+                        d="M1023 1695 c-33 -14 -63 -59 -63 -95 0 -37 30 -81 65 -96 29 -12 203
+-14 1111 -14 1193 0 1126 -4 1158 65 20 41 20 49 0 90 -32 69 35 65 -1161 65
+-896 -1 -1083 -3 -1110 -15z"
+                      />
+                      <path
+                        d="M1013 1158 c-57 -28 -67 -122 -17 -169 l26 -24 459 -3 c513 -3 507
+-4 535 65 19 43 5 93 -33 123 -25 19 -39 20 -487 19 -298 0 -469 -4 -483 -11z"
+                      />
+                      <path
+                        d="M2177 1150 c-38 -30 -52 -80 -33 -123 28 -68 18 -67 576 -67 558 0
+548 -1 576 67 19 43 5 93 -33 123 -25 19 -40 20 -543 20 -503 0 -518 -1 -543
+-20z"
+                      />
+                    </g>
+                  </svg>
+                  Request History - Distributor
                 </li>
               </>
             )}
@@ -642,6 +731,7 @@ c62 30 115 83 150 149 l23 43 3 611 c3 600 2 613 -18 668 -27 70 -93 139 -168
                 setDeleteProduct(false);
                 setTransfer(false);
                 setTransferHistory(false);
+                setTransferHistoryd(false);
               }}
               for="first_name"
               className={product ? "active" : ""}
@@ -660,6 +750,8 @@ c62 30 115 83 150 149 l23 43 3 611 c3 600 2 613 -18 668 -27 70 -93 139 -168
                 setDeleteProduct(false);
                 setTransfer(true);
                 setTransferHistory(false);
+                setTransferHistoryd(false);
+
                 // showAvailableTests();
               }}
               for="first_name"
@@ -682,6 +774,8 @@ c62 30 115 83 150 149 l23 43 3 611 c3 600 2 613 -18 668 -27 70 -93 139 -168
               <Transfer />
             ) : transferHistory ? (
               <TransferHistory dashboardLinks={dashboardLinks} />
+            ) : transferHistoryd ? (
+              <TransferHistoryd dashboardLinks={dashboardLinks} />
             ) : transferHistoryDetails ? (
               <HistoryDetails
                 setTransferHistoryDetails={setTransferHistoryDetails}
