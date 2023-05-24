@@ -47,8 +47,9 @@ function AddProduct() {
   const getSupplierAddress = async () => {
     const reqHistory = await requestHistoryOfManufacturer(address);
     console.log(reqHistory);
-    const filteredData = reqHistory.map((val, index) => {
-      if (val[0]["status"] === 3) {
+    const filteredData = reqHistory
+      .filter((val) => val[0]["status"] === 3)
+      .map((val, index) => {
         return {
           reqId: parseInt(val[0]["smId"]),
           spId: parseInt(val[0]["spId"]),
@@ -69,8 +70,7 @@ function AddProduct() {
           supplier_name: hexToString(val[2]["userName"]),
           supplier_address: val[0]["supplierAddress"],
         };
-      }
-    });
+      });
     setProduct(filteredData);
     console.log(filteredData);
   };
