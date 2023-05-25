@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  // UserDetails Instance
+  /* // UserDetails Instance
   const UserDetails = await ethers.getContractFactory("userDetails");
   userDetailsInstance = await UserDetails.deploy();
   console.log(
@@ -35,15 +35,15 @@ async function main() {
     supplierManufacturerInstance.address
   );
 
-  await supplierManufacturerInstance.deployed();
+  await supplierManufacturerInstance.deployed(); */
 
   // Manufacturer Product Instance
   const manufacturerProduct = await ethers.getContractFactory(
     "manufacturerProduct"
   );
   manufacturerProductInstance = await manufacturerProduct.deploy(
-    userDetailsInstance.address,
-    supplierManufacturerInstance.address
+    "0xA69CBda23D5796B7d5dF7f4c1b29b2Ca246E0600",
+    "0xeA511E67f6783b850769b26D8Fd28314e0C045B9"
   );
   console.log(
     "manufacturerProductInstance deployed to address:",
@@ -57,7 +57,7 @@ async function main() {
     "manufacturerDistributor"
   );
   manufacturerDistributorInstance = await manufacturerDistributor.deploy(
-    userDetailsInstance.address,
+    "0xA69CBda23D5796B7d5dF7f4c1b29b2Ca246E0600",
     manufacturerProductInstance.address
   );
   console.log(

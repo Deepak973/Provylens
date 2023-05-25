@@ -9,6 +9,10 @@ module.exports = {
     artifacts: "./src/artifacts",
   },
   networks: {
+    // bttctestnet: {
+    //   url: process.env.API_KEY_URL_TESTNET, //Your RPC URL
+    //   accounts: [process.env.PRIVATE_KEY], //Your private key
+    // },
     bttc: {
       url: process.env.API_KEY_URL, //Your RPC URL
       accounts: [process.env.PRIVATE_KEY], //Your private key
@@ -21,10 +25,10 @@ module.exports = {
     customChains: [
       {
         network: "bttc",
-        chainId: 1029,
+        chainId: 199,
         urls: {
-          apiURL: "https://pre-rpc.bt.io/",
-          browserURL: "https://testnet.bttcscan.com/",
+          apiURL: "https://api.bttcscan.com/MV94FGXHCRD7Y3WQ3R7BM8SKSXCANAYG4D",
+          browserURL: "https://bttcscan.com",
         },
       },
     ],
