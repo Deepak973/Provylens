@@ -30,7 +30,7 @@ function App() {
   // const { address, isConnecting, isDisconnected } = useAccount();
   let address = "";
 
-  const BTTChain = {
+  /* const BTTChain = {
     id: 1029,
     name: "BitTorrent Chain Donau",
     network: "BitTorrent Chain Donau",
@@ -51,6 +51,28 @@ function App() {
       },
     },
     testnet: true,
+  }; */
+  const BTTChain = {
+    id: 199,
+    name: "BitTorrent Chain Donau",
+    network: "BitTorrent Chain Donau",
+    iconUrl: "https://testscan.bt.io/static/media/BTT.e13a6c4e.svg",
+    iconBackground: "#fff",
+    nativeCurrency: {
+      decimals: 18,
+      name: "BitTorrent Chain Donau",
+      symbol: "BTT",
+    },
+    rpcUrls: {
+      default: "https://rpc.bt.io/",
+    },
+    blockExplorers: {
+      default: {
+        name: "BitTorrent Chain Donau",
+        url: "https://bttcscan.com",
+      },
+    },
+    testnet: false,
   };
 
   const { chains, provider } = configureChains(
