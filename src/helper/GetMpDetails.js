@@ -6,7 +6,8 @@ export const getAllProductsOfManufacturer = async (address) => {
   try {
     // const provider = new ethers.providers.Web3Provider(window.ethereum);
     const provider = ethers.providers.getDefaultProvider(
-      "https://pre-rpc.bittorrentchain.io/"
+      // "https://pre-rpc.bittorrentchain.io/"
+      "https://rpc.bt.io/"
     );
     // const signer = provider.getSigner();
 
@@ -30,7 +31,8 @@ export const getProductsOfManufacturer = async (id) => {
   try {
     // const provider = new ethers.providers.Web3Provider(window.ethereum);
     const provider = ethers.providers.getDefaultProvider(
-      "https://pre-rpc.bittorrentchain.io/"
+      // "https://pre-rpc.bittorrentchain.io/"
+      "https://rpc.bt.io/"
     );
 
     // const signer = provider.getSigner();
